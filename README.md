@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# Moss Ecosystem
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The landing page for the **Moss Laboratories** ecosystem — a suite of open-source, privacy-first Android applications. Built with React, TypeScript, and Vite, deployed on Vercel.
 
-Currently, two official plugins are available:
+**[moss-laboratories.vercel.app](https://moss-laboratories.vercel.app)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Apps
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### [Flick Player](https://github.com/moss-apps/Flick)
+Audiophile-grade music player for Android. UAC 2.0 USB DAC support, lossless playback (FLAC, ALAC, WAV, DSD), gapless transitions, and a focused listening interface.
 
-## Expanding the ESLint configuration
+- **Status**: Live on [Google Play](https://play.google.com/store/apps/details?id=com.mossapps.flick)
+- **Version**: v0.16.0-beta.1
+- **Site**: [flick-player.site](https://www.flick-player.site/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### [Latch Secure Vault](https://github.com/moss-apps/Latch)
+Encrypted media vault with AES-256, biometric unlock, decoy vault (plausible deniability), folder-based passcodes, and auto-kill triggers. Shares files to Flick via in-memory handoff.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Status**: Closed beta — [request access](mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access)
+- **Version**: v0.14.0-beta.1
+- **Releases**: [GitHub](https://github.com/moss-apps/Latch/releases)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | React 19, TypeScript 6 |
+| Build | Vite 8 |
+| Styling | Tailwind CSS v4, shadcn/ui |
+| Animation | Framer Motion, GSAP + ScrollTrigger |
+| 3D / Shaders | Three.js (R3F, Drei), custom GLSL fragment shaders |
+| State | Zustand (localStorage-persisted) |
+| Icons | Lucide React |
+| Deployment | Vercel |
+
+---
+
+## Getting Started
+
+```bash
+pnpm install
+pnpm dev        # Start dev server at localhost:5173
+pnpm build      # Type-check and production build
+pnpm preview    # Serve the production build locally
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Vite dev server with HMR |
+| `pnpm build` | `tsc -b && vite build` |
+| `pnpm preview` | Preview production build |
+| `pnpm lint` | ESLint across the project |
+| `pnpm test` | Vitest unit tests |
+| `pnpm test:e2e` | Playwright end-to-end tests |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Project Structure
+
 ```
+src/
+  App.tsx                    # Root component, assembles all sections
+  index.css                  # Tailwind + custom brutalist/glass styles
+  main.tsx                   # React mount point
+  components/
+    AsciiFlashlight.tsx      # Mouse-driven ASCII canvas
+    BrokenGridIntegration.tsx # Cross-app handoff section
+    DiagonalMockupShowcase.tsx # Scroll-pinned mockup carousel
+    Ecosystem.tsx            # Apps overview section
+    Ethos.tsx                # Design principles + manifesto
+    Footer.tsx               # Site footer
+    Hero.tsx                 # Full-viewport hero
+    LoadingScreen.tsx        # Animated boot screen
+    Navigation.tsx           # Sticky nav + theme picker
+    ShaderBackground.tsx     # Three.js animated dot-field background
+    ui/                      # shadcn/ui primitives
+  hooks/                     # Custom React hooks
+  lib/                       # Utilities (cn(), etc.)
+  shaders/                   # GLSL fragment shaders
+  stores/                    # Zustand stores
+public/
+  assets/                    # Logos, banners, mockups
+```
+
+See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for a detailed breakdown.
+
+---
+
+## Design
+
+Brutalist aesthetic with glassmorphism panels, monospace labels, hairline borders, and a metallic accent system. Interactive features include:
+
+- **ASCII flashlight** — mouse movement reveals characters on a canvas layer
+- **Shader background** — animated dot grid responding to mouse position and accent color
+- **Accent color picker** — 8-color theme switcher with persistence
+- **Performance mode** — toggle to disable all heavy effects for accessibility
+- **Reduced motion** — respects `prefers-reduced-motion`
+
+---
+
+## Deployment
+
+Deployed on Vercel with SPA rewrite rules (all routes → `index.html` except `/assets/`). The `vercel.json` handles this. Push to the connected branch to deploy automatically.
+
+---
+
+## Contact
+
+**Moss Laboratories** — [moss_apps@proton.me](mailto:moss_apps@proton.me)
+
+GitHub: [moss-apps](https://github.com/moss-apps)
