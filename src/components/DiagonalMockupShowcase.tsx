@@ -1,9 +1,10 @@
-import { useRef, useLayoutEffect, useCallback } from "react"
-import { motion } from "framer-motion"
+import { useRef, useLayoutEffect, useCallback, useState } from "react"
+import { motion, AnimatePresence, wrap } from "framer-motion"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -216,7 +217,22 @@ export function DiagonalMockupShowcase({
   const positions = POSITIONS
 
   /* ---------------------------------------------------------------- */
-  /*  Mobile / reduced-motion render                                   */
+  /*  Mobile carousel helper state                                     */
+  /* ---------------------------------------------------------------- */
+  const [page, setPage] = useState(0)
+  const carouselIndex = wrap(0, mockups.length, page)
+  const prevIndexRef = useRef(carouselIndex)
+
+  const swipeThreshold = 50
+  const swipePower = (offset: number, velocity: number) =>
+    Math.abs(offset) * velocity
+
+  const direction = carouselIndex >= prevIndexRef.current ? 1 : -1
+  // Update ref AFTER computing direction
+  prevIndexRef.current = carouselIndex
+
+  /* ---------------------------------------------------------------- */
+  /*  Mobile carousel render                                           */
   /* ---------------------------------------------------------------- */
   if (isMobile) {
     return (
@@ -240,40 +256,98 @@ export function DiagonalMockupShowcase({
             />
           </motion.div>
 
-          {/* Vertical stack with alternating offset */}
-          <div className="space-y-20">
-            {mockups.map((src, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: 0.05 }}
-                className={i % 2 === 1 ? "ml-10" : ""}
-              >
-                <div className="text-label text-[#8A8A90] mb-2">
-                  // {String(i + 1).padStart(2, "0")} —{" "}
-                  {screenNames[i]?.toUpperCase()}
-                </div>
-                <img
-                  src={src}
-                  alt={`${appName} screen ${i + 1}`}
-                  className="w-full max-w-[240px] rounded-[2px] border border-[rgba(255,255,255,0.12)]"
-                  loading="lazy"
-                />
-                {callouts[i] && (
-                  <div className="mt-4 max-w-[240px]">
-                    <h4 className="font-display text-sm text-[#F5F5F5] mb-1">
-                      // {String(i + 1).padStart(2, "0")} — {callouts[i].title}
-                    </h4>
-                    <p className="text-xs text-[#8A8A90] leading-relaxed">
-                      {callouts[i].description}
-                    </p>
+          {/* Carousel */}
+          <div className="relative">
+            {/* Slides viewport */}
+            <div className="relative overflow-hidden">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  key={carouselIndex}
+                  initial={{ opacity: 0, x: direction * 80 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -direction * 80 }}
+                  transition={{ duration: 0.35, ease: [0.25, 0.15, 0.0, 1.0] }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.15}
+                  onDragEnd={(_, { offset, velocity }) => {
+                    const swipe = swipePower(offset.x, velocity.x)
+                    if (swipe < -swipeThreshold) setPage((p) => p + 1)
+                    else if (swipe > swipeThreshold) setPage((p) => p - 1)
+                  }}
+                  className="flex flex-col items-center gap-3 touch-pan-y"
+                >
+                  <div className="text-label text-[#8A8A90]">
+                    // {String(carouselIndex + 1).padStart(2, "0")} —{" "}
+                    {screenNames[carouselIndex]?.toUpperCase()}
                   </div>
-                )}
-              </motion.div>
-            ))}
+                  <img
+                    src={mockups[carouselIndex]}
+                    alt={`${appName} screen ${carouselIndex + 1}`}
+                    className="w-full max-w-[220px] rounded-[2px] border border-[rgba(255,255,255,0.12)] select-none"
+                    draggable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Nav arrows */}
+            {mockups.length > 1 && (
+              <>
+                <button
+                  onClick={() => setPage((p) => p - 1)}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
+                  aria-label="Previous screen"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
+                  aria-label="Next screen"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </>
+            )}
+
+            {/* Dot indicator */}
+            {mockups.length > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-6">
+                {mockups.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setPage(i)}
+                    className={`rounded-full transition-all ${
+                      i === carouselIndex
+                        ? "w-5 h-1.5 bg-[var(--accent)]"
+                        : "w-1.5 h-1.5 bg-white/20 hover:bg-white/35"
+                    }`}
+                    aria-label={`Go to screen ${i + 1}`}
+                    aria-current={i === carouselIndex ? "true" : undefined}
+                  />
+                ))}
+              </div>
+            )}
           </div>
+
+          {/* Text description below carousel */}
+          {callouts[carouselIndex] && (
+            <motion.div
+              key={`desc-${carouselIndex}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-8 text-center max-w-[260px] mx-auto"
+            >
+              <h4 className="font-display text-sm text-[#F5F5F5] mb-1.5">
+                // {String(carouselIndex + 1).padStart(2, "0")} — {callouts[carouselIndex].title}
+              </h4>
+              <p className="text-xs text-[#8A8A90] leading-relaxed">
+                {callouts[carouselIndex].description}
+              </p>
+            </motion.div>
+          )}
 
           {/* Info block */}
           <div className="mt-16 pt-6 border-t border-[rgba(255,255,255,0.08)]">
