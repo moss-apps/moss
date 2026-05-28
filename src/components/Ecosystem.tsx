@@ -16,7 +16,7 @@ const item = {
 
 export function Ecosystem() {
   return (
-    <section id="ecosystem" className="relative py-32 px-6">
+    <section id="ecosystem" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -119,18 +119,17 @@ export function Ecosystem() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-20 flex items-center justify-center"
+          className="mt-12 md:mt-20 flex items-center justify-center"
         >
-          <div className="relative flex items-center gap-8 md:gap-16">
-            {/* Latch node */}
+          {/* Desktop: horizontal layout */}
+          <div className="hidden md:flex items-center gap-16">
             <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
               <Shield className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
               <div className="font-display text-[#F5F5F5]">Latch</div>
               <div className="text-label mt-1">Vault</div>
             </div>
 
-            {/* Connection line with dots */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="flex items-center gap-1">
               {Array.from({ length: 8 }).map((_, i) => (
                 <motion.div
                   key={i}
@@ -146,11 +145,41 @@ export function Ecosystem() {
               <ArrowRightLeft className="w-4 h-4 text-[#8A8A90] ml-2" />
             </div>
 
-            {/* Flick node */}
             <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
               <Music className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
               <div className="font-display text-[#F5F5F5]">Flick</div>
               <div className="text-label mt-1">Player</div>
+            </div>
+          </div>
+
+          {/* Mobile: vertical layout with connecting dots */}
+          <div className="md:hidden flex flex-col items-center gap-4">
+            <div className="glass rounded-xl px-6 py-4 text-center w-full max-w-[200px]">
+              <Shield className="w-5 h-5 text-[var(--accent)] mx-auto mb-2" />
+              <div className="font-display text-[#F5F5F5] text-sm">Latch</div>
+              <div className="text-label mt-0.5">Vault</div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1.5 py-1">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
+                  animate={{ opacity: [0.2, 1, 0.2] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                  }}
+                />
+              ))}
+              <ArrowRightLeft className="w-3.5 h-3.5 text-[#8A8A90] rotate-90" />
+            </div>
+
+            <div className="glass rounded-xl px-6 py-4 text-center w-full max-w-[200px]">
+              <Music className="w-5 h-5 text-[var(--accent)] mx-auto mb-2" />
+              <div className="font-display text-[#F5F5F5] text-sm">Flick</div>
+              <div className="text-label mt-0.5">Player</div>
             </div>
           </div>
         </motion.div>

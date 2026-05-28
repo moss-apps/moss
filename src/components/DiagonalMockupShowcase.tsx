@@ -1,8 +1,9 @@
-import { useRef, useLayoutEffect, useState, useEffect, useCallback } from "react"
+import { useRef, useLayoutEffect, useCallback } from "react"
 import { motion } from "framer-motion"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useMossStore } from "@/stores/useMossStore"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -87,7 +88,7 @@ export function DiagonalMockupShowcase({
   const calloutRefs = useRef<(HTMLDivElement | null)[]>([])
   const logoRef = useRef<HTMLDivElement | null>(null)
 
-  const [isMobile, setIsMobile] = useState(false)
+  const isMobile = useIsMobile()
   const performanceMode = useMossStore((s) => s.performanceMode)
   const reducedMotion = useMossStore((s) => s.reducedMotion)
 
@@ -95,14 +96,6 @@ export function DiagonalMockupShowcase({
 
   /* Extract section number from headerLabel e.g. "// 01 — LATCH ..." */
   const sectionNumber = headerLabel.match(/\/\/\s*(\d+)/)?.[1] ?? ""
-
-  /* Mobile detection */
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener("resize", check)
-    return () => window.removeEventListener("resize", check)
-  }, [])
 
   /* GSAP pin + scrub (desktop only, motion enabled) */
   useLayoutEffect(() => {
