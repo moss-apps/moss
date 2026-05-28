@@ -28,7 +28,7 @@ const flickFeatures = [
 
 export function AppShowcase() {
   return (
-    <section id="apps" className="relative py-32 px-6">
+    <section id="apps" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -59,7 +59,7 @@ export function AppShowcase() {
           >
             <div className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/30">
               {/* Brutalist header */}
-              <div className="px-6 py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
                   <span className="text-label text-[var(--accent)]">// 01</span>
                   <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
@@ -72,7 +72,7 @@ export function AppShowcase() {
                 </div>
               </div>
 
-              <div className="p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">
                   Latch Secure Vault
                 </h3>
@@ -130,7 +130,7 @@ export function AppShowcase() {
           >
             <div className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/30">
               {/* Brutalist header */}
-              <div className="px-6 py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
                   <span className="text-label text-[var(--accent)]">// 02</span>
                   <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
@@ -143,7 +143,7 @@ export function AppShowcase() {
                 </div>
               </div>
 
-              <div className="p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">
                   Flick Player
                 </h3>

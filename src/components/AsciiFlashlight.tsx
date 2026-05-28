@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from "react"
 import { useMossStore } from "@/stores/useMossStore"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*+=-~?/\\|<>[]{}()"
 
@@ -8,6 +9,7 @@ export function AsciiFlashlight() {
   const mouseRef = useRef({ x: -9999, y: -9999 })
   const rafRef = useRef<number>(0)
   const gridRef = useRef<{ char: string; x: number; y: number; brightness: number }[]>([])
+  const isMobile = useIsMobile()
   const performanceMode = useMossStore((s) => s.performanceMode)
   const reducedMotion = useMossStore((s) => s.reducedMotion)
 
@@ -56,7 +58,7 @@ export function AsciiFlashlight() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || performanceMode || reducedMotion) return
+    if (!canvas || isMobile || performanceMode || reducedMotion) return
 
     initGrid(canvas)
 
@@ -147,9 +149,9 @@ export function AsciiFlashlight() {
       window.removeEventListener("touchmove", handleTouch)
       window.removeEventListener("resize", handleResize)
     }
-  }, [initGrid, performanceMode, reducedMotion])
+  }, [initGrid, isMobile, performanceMode, reducedMotion])
 
-  if (performanceMode || reducedMotion) {
+  if (isMobile || performanceMode || reducedMotion) {
     return (
       <div
         className="absolute inset-0 dot-pattern opacity-40"
