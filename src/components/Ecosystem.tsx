@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Shield, Music, ArrowRightLeft } from "lucide-react"
+import { Shield, Music, ArrowRightLeft, ArrowRight, Download } from "lucide-react"
 
 const container = {
   hidden: { opacity: 0 },
@@ -52,6 +52,23 @@ export function Ecosystem() {
               A secure media vault with AES-256 encryption, decoy mode, auto-kill
               triggers, and folder-based organization. Your files stay yours.
             </p>
+            <div className="flex flex-wrap items-center gap-4 mt-6">
+              <a
+                href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+              >
+                Join Closed Beta <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://github.com/moss-apps/Latch/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                <Download className="w-4 h-4" />
+                GitHub Releases
+              </a>
+            </div>
           </motion.div>
 
           <motion.div variants={item} className="glass glass-hover rounded-xl p-8 transition-all duration-300">
@@ -63,6 +80,25 @@ export function Ecosystem() {
               An audiophile-grade music player with UAC 2.0 support, lossless
               playback, and a tactile interface designed for focused listening.
             </p>
+            <div className="flex flex-wrap items-center gap-4 mt-6">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+              >
+                Get on Google Play <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://github.com/moss-apps/Flick/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                <Download className="w-4 h-4" />
+                GitHub Releases
+              </a>
+            </div>
           </motion.div>
 
           <motion.div variants={item} className="glass glass-hover rounded-xl p-8 transition-all duration-300">
