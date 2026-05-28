@@ -33,13 +33,51 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#spine" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <a href="#apps" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Apps
                 </a>
               </li>
               <li>
                 <a href="#integration" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Integration
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Get Flick
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Join Latch Beta
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/moss-apps/Flick/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Flick Releases
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/moss-apps/Latch/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Latch Releases
                 </a>
               </li>
             </ul>
