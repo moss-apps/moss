@@ -82,12 +82,20 @@ export function Ecosystem() {
             </p>
             <div className="flex flex-wrap items-center gap-4 mt-6">
               <a
-                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                href="https://www.flick-player.site/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
               >
-                Get on Google Play <ArrowRight className="w-4 h-4" />
+                Visit Site <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                Google Play
               </a>
               <a
                 href="https://github.com/moss-apps/Flick/releases"
@@ -129,20 +137,22 @@ export function Ecosystem() {
               <div className="text-label mt-1">Vault</div>
             </div>
 
-            <div className="flex items-center gap-1">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
-                  animate={{ opacity: [0.2, 1, 0.2] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                  }}
-                />
-              ))}
-              <ArrowRightLeft className="w-4 h-4 text-[#8A8A90] ml-2" />
+            <div className="flex flex-col items-center gap-1">
+              <ArrowRightLeft className="w-4 h-4 text-[#8A8A90] mb-2" />
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
 
             <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
@@ -161,6 +171,7 @@ export function Ecosystem() {
             </div>
 
             <div className="flex flex-col items-center gap-1.5 py-1">
+              <ArrowRightLeft className="w-3.5 h-3.5 text-[#8A8A90] rotate-90 mb-1" />
               {Array.from({ length: 3 }).map((_, i) => (
                 <motion.div
                   key={i}
@@ -173,7 +184,6 @@ export function Ecosystem() {
                   }}
                 />
               ))}
-              <ArrowRightLeft className="w-3.5 h-3.5 text-[#8A8A90] rotate-90" />
             </div>
 
             <div className="glass rounded-xl px-6 py-4 text-center w-full max-w-[200px]">
