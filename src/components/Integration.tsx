@@ -3,7 +3,7 @@ import { Play, Lock, ArrowRight, Zap } from "lucide-react"
 
 export function Integration() {
   return (
-    <section id="integration" className="relative py-32 px-6">
+    <section id="integration" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,7 +32,7 @@ export function Integration() {
             transition={{ duration: 0.7 }}
             className="relative"
           >
-            <div className="glass rounded-xl p-8 md:p-10">
+            <div className="glass rounded-xl p-4 sm:p-6 md:p-8 lg:p-10">
               <div className="flex flex-col items-center gap-6">
                 {/* Latch bubble */}
                 <motion.div

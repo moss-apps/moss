@@ -9,6 +9,7 @@ import {
   HardDrive,
   Radio,
   ArrowRight,
+  Download,
 } from "lucide-react"
 
 const latchFeatures = [
@@ -27,7 +28,7 @@ const flickFeatures = [
 
 export function AppShowcase() {
   return (
-    <section id="apps" className="relative py-32 px-6">
+    <section id="apps" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,7 +59,7 @@ export function AppShowcase() {
           >
             <div className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/30">
               {/* Brutalist header */}
-              <div className="px-6 py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
                   <span className="text-label text-[var(--accent)]">// 01</span>
                   <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
@@ -66,12 +67,12 @@ export function AppShowcase() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">v2.1.0</span>
-                  <span className="text-label text-[#8A8A90]">Android / iOS</span>
+                  <span className="text-label">v0.14.0-beta.1</span>
+                  <span className="text-label text-[#8A8A90]">Closed Beta</span>
                 </div>
               </div>
 
-              <div className="p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">
                   Latch Secure Vault
                 </h3>
@@ -98,12 +99,23 @@ export function AppShowcase() {
                   ))}
                 </div>
 
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
-                >
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                    className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                  >
+                    Join Closed Beta <ArrowRight className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/moss-apps/Latch/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                  >
+                    <Download className="w-4 h-4" />
+                    GitHub Releases
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -118,7 +130,7 @@ export function AppShowcase() {
           >
             <div className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--accent)]/30">
               {/* Brutalist header */}
-              <div className="px-6 py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
                   <span className="text-label text-[var(--accent)]">// 02</span>
                   <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
@@ -126,12 +138,12 @@ export function AppShowcase() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">v1.3.2</span>
-                  <span className="text-label text-[#8A8A90]">Android / iOS</span>
+                  <span className="text-label">v0.16.0-beta.1</span>
+                  <span className="text-label text-[#8A8A90]">Google Play</span>
                 </div>
               </div>
 
-              <div className="p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">
                   Flick Player
                 </h3>
@@ -158,12 +170,25 @@ export function AppShowcase() {
                   ))}
                 </div>
 
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
-                >
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                  >
+                    Get on Google Play <ArrowRight className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/moss-apps/Flick/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                  >
+                    <Download className="w-4 h-4" />
+                    GitHub Releases
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>

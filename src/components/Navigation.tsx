@@ -23,13 +23,15 @@ export function Navigation() {
   const setPerformanceMode = useMossStore((s) => s.setPerformanceMode)
 
   const navLinks = [
-    { label: "Ecosystem", href: "#spine" },
+    { label: "Ecosystem", href: "#ecosystem" },
+    { label: "Latch", href: "#latch" },
+    { label: "Flick", href: "#flick" },
     { label: "Integration", href: "#integration" },
     { label: "Ethos", href: "#ethos" },
   ]
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
       <div className="glass rounded-full px-4 sm:px-5 h-12 flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group shrink-0">
@@ -163,7 +165,7 @@ export function Navigation() {
                   {link.label}
                 </a>
               ))}
-              <div className="pt-3 flex gap-2">
+              <div className="pt-3 flex flex-col gap-3">
                 <button
                   onClick={() => setPerformanceMode(!performanceMode)}
                   className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-full border transition-all ${
@@ -175,6 +177,39 @@ export function Navigation() {
                   <Gauge className="w-3.5 h-3.5" />
                   <span className="font-mono uppercase">Perf</span>
                 </button>
+                <div className="flex items-center gap-1.5 px-3 py-2">
+                  <Zap className="w-3.5 h-3.5" style={{ color: `var(--accent)` }} />
+                  <span className="font-mono uppercase text-xs text-[#8A8A90] tracking-wider mr-2">Theme</span>
+                  {accentOptions.map((opt) => (
+                    <button
+                      key={opt.key}
+                      onClick={() => setAccent(opt.key)}
+                      className={`w-5 h-5 rounded-full border-2 transition-all ${
+                        accent === opt.key
+                          ? "border-white/50 scale-110"
+                          : "border-transparent hover:border-white/20"
+                      }`}
+                      style={{
+                        backgroundColor:
+                          opt.key === "teal"
+                            ? "#14B8A6"
+                            : opt.key === "blue"
+                            ? "#4F8CFF"
+                            : opt.key === "purple"
+                            ? "#A855F7"
+                            : opt.key === "pink"
+                            ? "#EC4899"
+                            : opt.key === "red"
+                            ? "#EF4444"
+                            : opt.key === "orange"
+                            ? "#F97316"
+                            : opt.key === "green"
+                            ? "#22C55E"
+                            : "#6B7280",
+                      }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

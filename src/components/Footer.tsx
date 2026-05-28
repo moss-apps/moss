@@ -2,7 +2,7 @@ import { Mail } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="relative py-12 md:py-16 px-4 sm:px-6 brutal-border-t">
+    <footer className="relative py-12 md:py-16 px-4 sm:px-6 brutal-border-t" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 lg:gap-12 mb-16">
           {/* Brand */}
@@ -28,18 +28,61 @@ export function Footer() {
             <div className="text-label">Ecosystem</div>
             <ul className="space-y-2">
               <li>
-                <a href="#spine" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <a href="#ecosystem" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Overview
                 </a>
               </li>
               <li>
-                <a href="#spine" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
-                  Apps
+                <a href="#latch" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                  Latch
+                </a>
+              </li>
+              <li>
+                <a href="#flick" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                  Flick
                 </a>
               </li>
               <li>
                 <a href="#integration" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Integration
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Get Flick
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Join Latch Beta
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/moss-apps/Flick/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Flick Releases
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/moss-apps/Latch/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Latch Releases
                 </a>
               </li>
             </ul>

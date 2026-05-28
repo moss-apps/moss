@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Shield, ArrowRightLeft, Lock, EyeOff, Timer, FolderOpen, AudioWaveform, HardDrive, Headphones, Radio } from "lucide-react"
+import { Shield, ArrowRightLeft, ArrowRight, Download, Lock, EyeOff, Timer, FolderOpen, AudioWaveform, HardDrive, Headphones, Radio } from "lucide-react"
 
 const container = {
   hidden: { opacity: 0 },
@@ -83,6 +83,23 @@ export function BentoSpine() {
               <p className="text-sm text-[#8A8A90] max-w-sm">
                 Hide, encrypt, and organize sensitive media. Decoy mode and auto-kill triggers included.
               </p>
+              <div className="flex flex-wrap items-center gap-4 mt-4">
+                <a
+                  href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                >
+                  Join Closed Beta <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://github.com/moss-apps/Latch/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  GitHub Releases
+                </a>
+              </div>
             </div>
           </motion.div>
 
@@ -103,6 +120,25 @@ export function BentoSpine() {
               <p className="text-sm text-[#8A8A90] max-w-sm">
                 Audiophile-grade playback with UAC 2.0 DAC support. Gapless, lossless, focused.
               </p>
+              <div className="flex flex-wrap items-center gap-4 mt-4">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                >
+                  Get on Google Play <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://github.com/moss-apps/Flick/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  GitHub Releases
+                </a>
+              </div>
             </div>
           </motion.div>
 

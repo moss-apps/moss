@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Shield, Music, ArrowRightLeft } from "lucide-react"
+import { Shield, Music, ArrowRightLeft, ArrowRight, Download } from "lucide-react"
 
 const container = {
   hidden: { opacity: 0 },
@@ -16,7 +16,7 @@ const item = {
 
 export function Ecosystem() {
   return (
-    <section id="ecosystem" className="relative py-32 px-6">
+    <section id="ecosystem" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,6 +52,23 @@ export function Ecosystem() {
               A secure media vault with AES-256 encryption, decoy mode, auto-kill
               triggers, and folder-based organization. Your files stay yours.
             </p>
+            <div className="flex flex-wrap items-center gap-4 mt-6">
+              <a
+                href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+              >
+                Join Closed Beta <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://github.com/moss-apps/Latch/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                <Download className="w-4 h-4" />
+                GitHub Releases
+              </a>
+            </div>
           </motion.div>
 
           <motion.div variants={item} className="glass glass-hover rounded-xl p-8 transition-all duration-300">
@@ -63,6 +80,33 @@ export function Ecosystem() {
               An audiophile-grade music player with UAC 2.0 support, lossless
               playback, and a tactile interface designed for focused listening.
             </p>
+            <div className="flex flex-wrap items-center gap-4 mt-6">
+              <a
+                href="https://www.flick-player.site/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+              >
+                Visit Site <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                Google Play
+              </a>
+              <a
+                href="https://github.com/moss-apps/Flick/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              >
+                <Download className="w-4 h-4" />
+                GitHub Releases
+              </a>
+            </div>
           </motion.div>
 
           <motion.div variants={item} className="glass glass-hover rounded-xl p-8 transition-all duration-300">
@@ -83,19 +127,52 @@ export function Ecosystem() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-20 flex items-center justify-center"
+          className="mt-12 md:mt-20 flex items-center justify-center"
         >
-          <div className="relative flex items-center gap-8 md:gap-16">
-            {/* Latch node */}
+          {/* Desktop: horizontal layout */}
+          <div className="hidden md:flex items-center gap-16">
             <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
               <Shield className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
               <div className="font-display text-[#F5F5F5]">Latch</div>
               <div className="text-label mt-1">Vault</div>
             </div>
 
-            {/* Connection line with dots */}
-            <div className="hidden md:flex items-center gap-1">
-              {Array.from({ length: 8 }).map((_, i) => (
+            <div className="flex flex-col items-center gap-1">
+              <ArrowRightLeft className="w-4 h-4 text-[#8A8A90] mb-2" />
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
+                    animate={{ opacity: [0.2, 1, 0.2] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
+              <Music className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
+              <div className="font-display text-[#F5F5F5]">Flick</div>
+              <div className="text-label mt-1">Player</div>
+            </div>
+          </div>
+
+          {/* Mobile: vertical layout with connecting dots */}
+          <div className="md:hidden flex flex-col items-center gap-4">
+            <div className="glass rounded-xl px-6 py-4 text-center w-full max-w-[200px]">
+              <Shield className="w-5 h-5 text-[var(--accent)] mx-auto mb-2" />
+              <div className="font-display text-[#F5F5F5] text-sm">Latch</div>
+              <div className="text-label mt-0.5">Vault</div>
+            </div>
+
+            <div className="flex flex-col items-center gap-1.5 py-1">
+              <ArrowRightLeft className="w-3.5 h-3.5 text-[#8A8A90] rotate-90 mb-1" />
+              {Array.from({ length: 3 }).map((_, i) => (
                 <motion.div
                   key={i}
                   className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"
@@ -107,14 +184,12 @@ export function Ecosystem() {
                   }}
                 />
               ))}
-              <ArrowRightLeft className="w-4 h-4 text-[#8A8A90] ml-2" />
             </div>
 
-            {/* Flick node */}
-            <div className="glass rounded-xl px-8 py-6 text-center min-w-[140px]">
-              <Music className="w-6 h-6 text-[var(--accent)] mx-auto mb-2" />
-              <div className="font-display text-[#F5F5F5]">Flick</div>
-              <div className="text-label mt-1">Player</div>
+            <div className="glass rounded-xl px-6 py-4 text-center w-full max-w-[200px]">
+              <Music className="w-5 h-5 text-[var(--accent)] mx-auto mb-2" />
+              <div className="font-display text-[#F5F5F5] text-sm">Flick</div>
+              <div className="text-label mt-0.5">Player</div>
             </div>
           </div>
         </motion.div>
