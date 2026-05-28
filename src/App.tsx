@@ -85,7 +85,7 @@ function App() {
           appName="Latch"
           logoSrc="/assets/logos/latch_logo.svg"
           headerLabel="// 01 — LATCH / SECURE MEDIA VAULT"
-          infoText="LATCH v0.14.0-beta.1 / ANDROID 6+ / OPEN SOURCE"
+          infoText="LATCH v0.14.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
           mockups={latchMockups}
           screenNames={latchScreenNames}
           callouts={latchCallouts}
@@ -95,7 +95,7 @@ function App() {
           appName="Flick"
           logoSrc="/assets/logos/flick_logo.svg"
           headerLabel="// 02 — FLICK / AUDIOPHILE PLAYER"
-          infoText="FLICK v0.16.0-beta.1 / ANDROID 6+ / OPEN SOURCE"
+          infoText="FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
           mockups={flickMockups}
           screenNames={flickScreenNames}
           callouts={flickCallouts}
