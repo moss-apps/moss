@@ -23,7 +23,9 @@ export function Navigation() {
   const setPerformanceMode = useMossStore((s) => s.setPerformanceMode)
 
   const navLinks = [
-    { label: "Ecosystem", href: "#spine" },
+    { label: "Ecosystem", href: "#ecosystem" },
+    { label: "Latch", href: "#latch" },
+    { label: "Flick", href: "#flick" },
     { label: "Integration", href: "#integration" },
     { label: "Ethos", href: "#ethos" },
   ]

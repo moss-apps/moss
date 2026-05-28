@@ -84,7 +84,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.95 }}
           className="mt-12 flex items-center gap-4 sm:gap-6 text-label"
         >
-          <span>v1.0.4</span>
+          <span>v0.14.0-beta.1</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
           <span>2 Apps</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
