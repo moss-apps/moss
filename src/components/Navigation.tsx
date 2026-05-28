@@ -30,7 +30,7 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4">
-      <div className="glass rounded-full px-5 h-12 flex items-center gap-6">
+      <div className="glass rounded-full px-4 sm:px-5 h-12 flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group shrink-0">
           <img

@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react"
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center px-6 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden">
       {/* Full-bleed centered content */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
         {/* Logo mark */}
@@ -11,7 +11,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8 -ml-3 md:-ml-6"
+          className="mb-8 -ml-2 sm:-ml-3 md:-ml-6"
         >
           <img
             src="/assets/moss_logo.svg"
@@ -63,13 +63,13 @@ export function Hero() {
         >
           <a
             href="#spine"
-            className="px-7 py-3 bg-[var(--accent)] text-[#0A0A0B] font-medium text-sm rounded-md hover:brightness-110 transition-all"
+            className="w-full sm:w-auto text-center px-7 py-3 bg-[var(--accent)] text-[#0A0A0B] font-medium text-sm rounded-md hover:brightness-110 transition-all"
           >
             Explore the Ecosystem
           </a>
           <a
             href="mailto:moss_apps@proton.me"
-            className="px-7 py-3 border border-white/15 text-[#F5F5F5] font-medium text-sm rounded-md hover:bg-white/5 transition-all"
+            className="w-full sm:w-auto text-center px-7 py-3 border border-white/15 text-[#F5F5F5] font-medium text-sm rounded-md hover:bg-white/5 transition-all"
           >
             Join Closed Beta
           </a>
@@ -80,7 +80,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.95 }}
-          className="mt-12 flex items-center gap-6 text-label"
+          className="mt-12 flex items-center gap-4 sm:gap-6 text-label"
         >
           <span>v1.0.4</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
