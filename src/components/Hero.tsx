@@ -62,16 +62,18 @@ export function Hero() {
           className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
           <a
-            href="#spine"
+            href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto text-center px-7 py-3 bg-[var(--accent)] text-[#0A0A0B] font-medium text-sm rounded-md hover:brightness-110 transition-all"
           >
-            Explore the Ecosystem
+            Get Flick
           </a>
           <a
-            href="mailto:moss_apps@proton.me"
+            href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
             className="w-full sm:w-auto text-center px-7 py-3 border border-white/15 text-[#F5F5F5] font-medium text-sm rounded-md hover:bg-white/5 transition-all"
           >
-            Join Closed Beta
+            Join Latch Beta
           </a>
         </motion.div>
 
