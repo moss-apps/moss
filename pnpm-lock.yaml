@@ -20,6 +20,9 @@ importers:
       '@fontsource-variable/space-grotesk':
         specifier: ^5.2.10
         version: 5.2.10
+      '@gsap/react':
+        specifier: ^2.1.2
+        version: 2.1.2(gsap@3.15.0)(react@19.2.6)
       '@hookform/resolvers':
         specifier: ^5.4.0
         version: 5.4.0(react-hook-form@7.76.1(react@19.2.6))
@@ -41,6 +44,9 @@ importers:
       framer-motion:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      gsap:
+        specifier: ^3.15.0
+        version: 3.15.0
       lucide-react:
         specifier: ^1.16.0
         version: 1.16.0(react@19.2.6)
@@ -452,6 +458,12 @@ packages:
 
   '@fontsource-variable/space-grotesk@5.2.10':
     resolution: {integrity: sha512-yJQO/o35/hAP3CFnpdFTwQku2yzJOae2HIpBmqkOVoxhhXJaQP3g+b6Jrz7u+eI7A5ZdCIf88uMWpBJdFiGr5w==}
+
+  '@gsap/react@2.1.2':
+    resolution: {integrity: sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw==}
+    peerDependencies:
+      gsap: ^3.12.5
+      react: '>=17'
 
   '@hono/node-server@1.19.14':
     resolution: {integrity: sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw==}
@@ -1683,6 +1695,9 @@ packages:
   graphql@16.14.0:
     resolution: {integrity: sha512-BBvQ/406p+4CZbTpCbVPSxfzrZrbnuWSP1ELYgyS6B+hNeKzgrdB4JczCa5VZUBQrDa9hUngm0KnexY6pJRN5Q==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
+  gsap@3.15.0:
+    resolution: {integrity: sha512-dMW4CWBTUK1AEEDeZc1g4xpPGIrSf9fJF960qbTZmN/QwZIWY5wgliS6JWl9/25fpTGJrMRtSjGtOmPnfjZB+A==}
 
   has-symbols@1.1.0:
     resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
@@ -3384,6 +3399,11 @@ snapshots:
 
   '@fontsource-variable/space-grotesk@5.2.10': {}
 
+  '@gsap/react@2.1.2(gsap@3.15.0)(react@19.2.6)':
+    dependencies:
+      gsap: 3.15.0
+      react: 19.2.6
+
   '@hono/node-server@1.19.14(hono@4.12.23)':
     dependencies:
       hono: 4.12.23
@@ -4580,6 +4600,8 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   graphql@16.14.0: {}
+
+  gsap@3.15.0: {}
 
   has-symbols@1.1.0: {}
 
