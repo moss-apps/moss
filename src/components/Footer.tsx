@@ -28,13 +28,18 @@ export function Footer() {
             <div className="text-label">Ecosystem</div>
             <ul className="space-y-2">
               <li>
-                <a href="#spine" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <a href="#ecosystem" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Overview
                 </a>
               </li>
               <li>
-                <a href="#apps" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
-                  Apps
+                <a href="#latch" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                  Latch
+                </a>
+              </li>
+              <li>
+                <a href="#flick" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                  Flick
                 </a>
               </li>
               <li>
