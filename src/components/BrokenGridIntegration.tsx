@@ -3,9 +3,9 @@ import { Play, Lock, Zap, ArrowRight, Fingerprint, Cpu } from "lucide-react"
 
 export function BrokenGridIntegration() {
   return (
-    <section id="integration" className="relative py-24 md:py-32 overflow-hidden">
+    <section id="integration" className="relative py-16 md:py-20 lg:py-32 overflow-hidden">
       {/* Section label — offset left, brutalist */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-12 md:mb-16 lg:mb-24">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -24,7 +24,7 @@ export function BrokenGridIntegration() {
       </div>
 
       {/* Broken Grid Moment 1: Latch → Flick handoff flow */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-20 md:mb-28">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
           {/* Image block — breaks left on desktop */}
           <motion.div
@@ -60,7 +60,7 @@ export function BrokenGridIntegration() {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="lg:col-span-4 lg:-ml-6 relative z-10"
           >
-            <div className="glass rounded-2xl p-4 md:p-5 brutal-border">
+            <div className="glass rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 brutal-border">
               <div className="text-label text-[var(--accent)] mb-3">STEP_01 — SELECT</div>
               <h3 className="font-display text-lg md:text-xl text-[#F5F5F5] mb-2">
                 Choose media in Latch
@@ -92,7 +92,7 @@ export function BrokenGridIntegration() {
       </div>
 
       {/* Broken Grid Moment 2: Flick receives — reversed asymmetry */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-20 md:mb-28">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
           {/* Text block — offset left, comes first on mobile but reordered on desktop */}
           <motion.div
@@ -102,7 +102,7 @@ export function BrokenGridIntegration() {
             transition={{ duration: 0.7 }}
             className="lg:col-span-4 lg:col-start-1 lg:-mr-6 relative z-10 order-2 lg:order-1"
           >
-            <div className="glass rounded-2xl p-4 md:p-5 brutal-border">
+            <div className="glass rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 brutal-border">
               <div className="text-label text-[var(--accent)] mb-3">STEP_02 — PLAY</div>
               <h3 className="font-display text-lg md:text-xl text-[#F5F5F5] mb-2">
                 Flick takes the baton
@@ -160,7 +160,7 @@ export function BrokenGridIntegration() {
       </div>
 
       {/* Connection line — decorative, spans full width */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mt-16 md:mt-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mt-12 md:mt-16 lg:mt-24">
         <motion.div
           initial={{ opacity: 0, scaleX: 0 }}
           whileInView={{ opacity: 1, scaleX: 1 }}

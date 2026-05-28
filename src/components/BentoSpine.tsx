@@ -16,7 +16,7 @@ const tile = {
 
 export function BentoSpine() {
   return (
-    <section id="spine" className="relative py-24 md:py-32 px-4 md:px-6">
+    <section id="spine" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section head */}
         <motion.div
@@ -47,7 +47,7 @@ export function BentoSpine() {
           {/* Tile 1: Ecosystem manifesto — spans 2 cols */}
           <motion.div
             variants={tile}
-            className="md:col-span-2 lg:col-span-2 glass rounded-2xl p-6 md:p-8 flex flex-col justify-between min-h-[220px]"
+            className="md:col-span-2 lg:col-span-2 glass rounded-2xl p-4 sm:p-6 md:p-6 lg:p-8 flex flex-col justify-between min-h-[220px]"
           >
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
@@ -77,7 +77,7 @@ export function BentoSpine() {
               className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />
-            <div className="relative p-6 md:p-8 h-full flex flex-col justify-end">
+            <div className="relative p-4 sm:p-6 md:p-6 lg:p-8 h-full flex flex-col justify-end">
               <div className="text-label text-[var(--accent)] mb-2">// 01 — LATCH</div>
               <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">Latch Secure Vault</h3>
               <p className="text-sm text-[#8A8A90] max-w-sm">
@@ -97,7 +97,7 @@ export function BentoSpine() {
               className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />
-            <div className="relative p-6 md:p-8 h-full flex flex-col justify-end">
+            <div className="relative p-4 sm:p-6 md:p-6 lg:p-8 h-full flex flex-col justify-end">
               <div className="text-label text-[var(--accent)] mb-2">// 02 — FLICK</div>
               <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">Flick Player</h3>
               <p className="text-sm text-[#8A8A90] max-w-sm">
@@ -107,7 +107,7 @@ export function BentoSpine() {
           </motion.div>
 
           {/* Tile 4: Latch features */}
-          <motion.div variants={tile} className="glass rounded-2xl p-5 space-y-3">
+          <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-5 space-y-3">
             <div className="text-label text-[#8A8A90] mb-1">Latch Features</div>
             <FeatureRow icon={Lock} label="AES-256 Encryption" />
             <FeatureRow icon={EyeOff} label="Decoy Mode" />
@@ -116,7 +116,7 @@ export function BentoSpine() {
           </motion.div>
 
           {/* Tile 5: Flick features */}
-          <motion.div variants={tile} className="glass rounded-2xl p-5 space-y-3">
+          <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-5 space-y-3">
             <div className="text-label text-[#8A8A90] mb-1">Flick Features</div>
             <FeatureRow icon={AudioWaveform} label="Lossless Playback" />
             <FeatureRow icon={HardDrive} label="UAC 2.0 DAC" />
@@ -127,7 +127,7 @@ export function BentoSpine() {
           {/* Tile 6: Handoff teaser — spans 2 cols on desktop */}
           <motion.div
             variants={tile}
-            className="md:col-span-1 lg:col-span-2 glass rounded-2xl p-6 md:p-8 flex flex-col justify-center min-h-[180px]"
+            className="md:col-span-1 lg:col-span-2 glass rounded-2xl p-4 sm:p-6 md:p-6 lg:p-8 flex flex-col justify-center min-h-[180px]"
           >
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center">
@@ -141,13 +141,13 @@ export function BentoSpine() {
           </motion.div>
 
           {/* Tile 7: Stats tile */}
-          <motion.div variants={tile} className="glass rounded-2xl p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
+          <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-6 md:p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
             <div className="font-display text-4xl text-[var(--accent)] mb-1">2</div>
             <div className="text-label">Apps Live</div>
           </motion.div>
 
           {/* Tile 8: OSS badge */}
-          <motion.div variants={tile} className="glass rounded-2xl p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
+          <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-6 md:p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
             <div className="font-display text-4xl text-[var(--accent)] mb-1">0</div>
             <div className="text-label">Lines of tracking code</div>
           </motion.div>
