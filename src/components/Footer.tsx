@@ -2,9 +2,9 @@ import { Mail } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="relative py-16 px-6 brutal-border-t">
+    <footer className="relative py-12 md:py-16 px-4 sm:px-6 brutal-border-t">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
+        <div className="grid md:grid-cols-4 gap-8 lg:gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">

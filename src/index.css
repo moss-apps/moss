@@ -82,6 +82,11 @@ body {
   overflow-x: clip;
 }
 
+/* Mobile-friendly tap targets */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
 /* Brutalist type scale */
 .text-display {
   font-family: var(--font-display);
@@ -131,6 +136,14 @@ body {
 .dot-pattern {
   background-image: radial-gradient(circle, rgba(237,237,237,0.15) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Landscape phones — compact vertical padding */
+@media (orientation: landscape) and (max-height: 500px) {
+  section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
 }
 
 /* Reduced motion */
