@@ -9,6 +9,7 @@ import {
   HardDrive,
   Radio,
   ArrowRight,
+  Download,
 } from "lucide-react"
 
 const latchFeatures = [
@@ -67,7 +68,7 @@ export function AppShowcase() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-label">v2.1.0</span>
-                  <span className="text-label text-[#8A8A90]">Android / iOS</span>
+                  <span className="text-label text-[#8A8A90]">Closed Beta</span>
                 </div>
               </div>
 
@@ -98,12 +99,23 @@ export function AppShowcase() {
                   ))}
                 </div>
 
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
-                >
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                    className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                  >
+                    Join Closed Beta <ArrowRight className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/moss-apps/Latch/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                  >
+                    <Download className="w-4 h-4" />
+                    GitHub Releases
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -127,7 +139,7 @@ export function AppShowcase() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-label">v1.3.2</span>
-                  <span className="text-label text-[#8A8A90]">Android / iOS</span>
+                  <span className="text-label text-[#8A8A90]">Google Play</span>
                 </div>
               </div>
 
@@ -158,12 +170,25 @@ export function AppShowcase() {
                   ))}
                 </div>
 
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
-                >
-                  Learn more <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
+                  >
+                    Get on Google Play <ArrowRight className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://github.com/moss-apps/Flick/releases"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+                  >
+                    <Download className="w-4 h-4" />
+                    GitHub Releases
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
