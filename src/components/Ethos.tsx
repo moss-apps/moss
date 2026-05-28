@@ -3,7 +3,7 @@ import { Code2, Heart, Globe, Mail } from "lucide-react"
 
 export function Ethos() {
   return (
-    <section id="ethos" className="relative py-24 md:py-32 px-4 md:px-6">
+    <section id="ethos" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -28,7 +28,7 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="glass rounded-2xl p-6 md:p-8"
+            className="glass rounded-2xl p-4 sm:p-6 md:p-6 lg:p-8"
           >
             <Code2 className="w-6 h-6 text-[var(--accent)] mb-4" />
             <h3 className="font-display text-lg text-[#F5F5F5] mb-2">Open Source</h3>
@@ -43,7 +43,7 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="glass rounded-2xl p-6 md:p-8"
+            className="glass rounded-2xl p-4 sm:p-6 md:p-6 lg:p-8"
           >
             <Heart className="w-6 h-6 text-[var(--accent)] mb-4" />
             <h3 className="font-display text-lg text-[#F5F5F5] mb-2">User First</h3>
@@ -58,7 +58,7 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="glass rounded-2xl p-6 md:p-8"
+            className="glass rounded-2xl p-4 sm:p-6 md:p-6 lg:p-8"
           >
             <Globe className="w-6 h-6 text-[var(--accent)] mb-4" />
             <h3 className="font-display text-lg text-[#F5F5F5] mb-2">Accessible</h3>
@@ -75,7 +75,7 @@ export function Ethos() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="glass rounded-2xl p-6 md:p-10 lg:p-12 relative overflow-hidden"
+          className="glass rounded-2xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-48 h-48 dot-pattern opacity-[0.07]" />
           <div className="relative max-w-2xl">
