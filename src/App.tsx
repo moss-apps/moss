@@ -85,7 +85,7 @@ function App() {
           appName="Latch"
           logoSrc="/assets/logos/latch_logo.svg"
           headerLabel="// 01 — LATCH / SECURE MEDIA VAULT"
-          infoText="LATCH v0.14.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
+          infoText="LATCH all free / ANDROID 8+ / OPEN SOURCE"
           mockups={latchMockups}
           screenNames={latchScreenNames}
           callouts={latchCallouts}
