@@ -67,7 +67,7 @@ export function AppShowcase() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">v0.14.0-beta.1</span>
+                  <span className="text-label">all free</span>
                   <span className="text-label text-[#8A8A90]">Closed Beta</span>
                 </div>
               </div>

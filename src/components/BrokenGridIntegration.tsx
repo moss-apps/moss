@@ -25,14 +25,14 @@ export function BrokenGridIntegration() {
 
       {/* Broken Grid Moment 1: Latch → Flick handoff flow */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
+        <div className="grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center md:mx-4 lg:mx-0">
           {/* Image block — breaks left on desktop */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-8 lg:-ml-12 xl:-ml-20 relative"
+            className="md:col-span-7 lg:col-span-8 lg:-ml-12 xl:-ml-20 relative"
           >
             <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
               <img
@@ -43,10 +43,10 @@ export function BrokenGridIntegration() {
               <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B]/80 via-transparent to-transparent" />
               
               {/* Floating glass badge — breaks out of image */}
-              <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 glass rounded-xl px-4 py-3">
+              <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
                 <div className="flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-[var(--accent)]" />
-                  <span className="text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
+                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)]" />
+                  <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="lg:col-span-4 lg:-ml-6 relative z-10"
+            className="md:col-span-5 lg:col-span-4 lg:-ml-6 relative z-10"
           >
             <div className="glass rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 brutal-border">
               <div className="text-label text-[var(--accent)] mb-3">STEP_01 — SELECT</div>
@@ -93,18 +93,18 @@ export function BrokenGridIntegration() {
 
       {/* Broken Grid Moment 2: Flick receives — reversed asymmetry */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
-          {/* Text block — offset left, comes first on mobile but reordered on desktop */}
+        <div className="grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center md:mx-4 lg:mx-0">
+          {/* Text block — offset left, comes first on mobile but reordered on desktop/tablet */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-4 lg:col-start-1 lg:-mr-6 relative z-10 order-2 lg:order-1"
+            className="md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-1 lg:-mr-6 relative z-10 order-2 md:order-1"
           >
-            <div className="glass rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 brutal-border">
-              <div className="text-label text-[var(--accent)] mb-3">STEP_02 — PLAY</div>
-              <h3 className="font-display text-lg md:text-xl text-[#F5F5F5] mb-2">
+            <div className="glass rounded-2xl p-3 sm:p-4 md:p-3 lg:p-5 brutal-border">
+              <div className="text-label text-[var(--accent)] mb-2 md:mb-3">STEP_02 — PLAY</div>
+              <h3 className="font-display text-lg md:text-base lg:text-xl text-[#F5F5F5] mb-2">
                 Flick takes the baton
               </h3>
               <p className="text-sm text-[#8A8A90] leading-relaxed mb-4">
@@ -113,15 +113,15 @@ export function BrokenGridIntegration() {
               </p>
 
               <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <Zap className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
+                <div className="flex items-start gap-2.5 md:gap-3">
+                  <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)] mt-0.5 shrink-0" />
                   <div>
                     <div className="text-sm text-[#F5F5F5]">Instant resume</div>
                     <div className="text-xs text-[#8A8A90]">Playback starts in &lt;200ms</div>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Play className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
+                <div className="flex items-start gap-2.5 md:gap-3">
+                  <Play className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)] mt-0.5 shrink-0" />
                   <div>
                     <div className="text-sm text-[#F5F5F5]">Gapless continuation</div>
                     <div className="text-xs text-[#8A8A90]">Album playback uninterrupted</div>
@@ -137,7 +137,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="lg:col-span-8 lg:col-start-5 lg:-mr-12 xl:-mr-20 relative order-1 lg:order-2"
+            className="md:col-span-7 md:col-start-6 lg:col-span-8 lg:col-start-5 lg:-mr-12 xl:-mr-20 relative order-1 md:order-2"
           >
             <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
               <img
@@ -148,9 +148,9 @@ export function BrokenGridIntegration() {
               <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0B]/80 via-transparent to-transparent" />
               
               {/* Floating glass badge — breaks out */}
-              <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 glass rounded-xl px-4 py-3">
+              <div className="absolute bottom-4 right-4 md:bottom-5 md:right-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
+                  <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
                 </div>
               </div>

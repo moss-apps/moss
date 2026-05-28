@@ -118,6 +118,12 @@ button, a, [role="button"] {
   border: 1px solid rgba(255,255,255,0.12);
 }
 
+@media (max-width: 767px) {
+  .glass {
+    background: rgba(255,255,255,0.08);
+  }
+}
+
 .glass-hover:hover {
   background: rgba(255,255,255,0.08);
   border-color: rgba(255,255,255,0.18);
