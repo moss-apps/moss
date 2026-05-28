@@ -2,6 +2,7 @@ import { useRef, useMemo, useEffect } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
 import { useMossStore } from "@/stores/useMossStore"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 import dotFieldFrag from "@/shaders/dotField.frag"
 
@@ -42,8 +43,18 @@ function ShaderPlane() {
       mouseRef.current.x = e.clientX
       mouseRef.current.y = size.height - e.clientY
     }
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        mouseRef.current.x = e.touches[0].clientX
+        mouseRef.current.y = size.height - e.touches[0].clientY
+      }
+    }
     window.addEventListener("mousemove", onMove)
-    return () => window.removeEventListener("mousemove", onMove)
+    window.addEventListener("touchmove", onTouch, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", onMove)
+      window.removeEventListener("touchmove", onTouch)
+    }
   }, [size.height])
 
   useFrame((state) => {
@@ -80,10 +91,11 @@ function StaticDotGrid() {
 }
 
 export function ShaderBackground() {
+  const isMobile = useIsMobile()
   const performanceMode = useMossStore((s) => s.performanceMode)
   const reducedMotion = useMossStore((s) => s.reducedMotion)
 
-  const showShader = !performanceMode && !reducedMotion
+  const showShader = !isMobile && !performanceMode && !reducedMotion
 
   return (
     <div className="fixed inset-0 -z-10">

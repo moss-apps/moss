@@ -71,6 +71,9 @@ html {
   color: #F5F5F5;
   overflow-x: clip;
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) #0A0A0B;
 }
 
 body {
@@ -80,6 +83,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  overscroll-behavior: none;
 }
 
 /* Mobile-friendly tap targets */
