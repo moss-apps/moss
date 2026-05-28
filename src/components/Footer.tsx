@@ -2,7 +2,7 @@ import { Mail } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="relative py-12 md:py-16 px-4 sm:px-6 brutal-border-t">
+    <footer className="relative py-12 md:py-16 px-4 sm:px-6 brutal-border-t" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 lg:gap-12 mb-16">
           {/* Brand */}
