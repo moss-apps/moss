@@ -22,11 +22,11 @@ export function Ethos() {
           transition={{ duration: 0.5 }}
           className="mb-12 md:mb-16"
         >
-          <div className="text-label mb-3 flex items-center gap-3">
+          <div className="text-label mb-3 flex items-center gap-3 justify-center md:justify-start">
             <span className="w-6 h-px bg-[var(--accent)]" />
             <span>Design Ethos</span>
           </div>
-          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-2xl">
+          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
             Open source. Free forever.
             <span className="text-[#8A8A90]"> No ads, no tracking, no compromise.</span>
           </h2>
@@ -40,7 +40,7 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="relative py-12 px-10"
+            className="relative py-12 px-10 text-center md:text-left"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -59,11 +59,13 @@ export function Ethos() {
               }}
             />
 
-            <Code2
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Code2
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Open Source
             </h3>
@@ -79,7 +81,7 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative py-12 px-10"
+            className="relative py-12 px-10 text-center md:text-left"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -98,11 +100,13 @@ export function Ethos() {
               }}
             />
 
-            <Heart
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Heart
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               User First
             </h3>
@@ -118,16 +122,18 @@ export function Ethos() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative py-12 px-10"
+            className="relative py-12 px-10 text-center md:text-left"
           >
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <Globe
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Globe
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Accessible
             </h3>
@@ -162,7 +168,7 @@ export function Ethos() {
                 beautiful, secure, and free — all at once.
               </p>
             </blockquote>
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
               <div className="w-8 h-8 rounded-full bg-[var(--accent)]/10 flex items-center justify-center">
                 <Mail className="w-4 h-4 text-[var(--accent)]" />
               </div>
