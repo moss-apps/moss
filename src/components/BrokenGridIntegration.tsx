@@ -23,138 +23,222 @@ export function BrokenGridIntegration() {
         </motion.div>
       </div>
 
-      {/* Broken Grid Moment 1: Latch → Flick handoff flow */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
-        <div className="grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center md:mx-4 lg:mx-0">
-          {/* Image block — breaks left on desktop */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="md:col-span-7 lg:col-span-8 lg:-ml-12 xl:-ml-20 relative"
-          >
-            <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
-              <img
-                src="/assets/latch_banner.png"
-                alt="Latch interface"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B]/80 via-transparent to-transparent" />
-              
-              {/* Floating glass badge — breaks out of image */}
-              <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
-                <div className="flex items-center gap-2">
-                  <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)]" />
-                  <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
-                </div>
+      {/* Moment 1: Latch → Flick handoff flow */}
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
+        {/* Title block */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 text-center"
+        >
+          <div className="text-label text-[var(--accent)] mb-3">STEP_01 — SELECT</div>
+          <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
+            Choose media in Latch
+          </h3>
+          <p className="text-sm text-[#8A8A90] leading-relaxed">
+            Browse your encrypted vault. Tap any audio file. The handoff protocol 
+            prepares a secure in-memory buffer — the file never touches unencrypted disk.
+          </p>
+        </motion.div>
+
+        {/* Image block */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7 }}
+          className="mb-8"
+        >
+          <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
+            <img
+              src="/assets/latch_banner.png"
+              alt="Latch interface"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B]/80 via-transparent to-transparent" />
+
+            {/* Floating glass badge */}
+            <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
+              <div className="flex items-center gap-2">
+                <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)]" />
+                <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
               </div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Description grid — ecosystem/ethos divider style */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="relative py-10 px-8 md:px-10"
+          >
+            {/* Vertical divider — desktop */}
+            <div
+              className="hidden md:block absolute right-0 top-0 bottom-0 w-px"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%)",
+              }}
+            />
+            {/* Horizontal divider — mobile */}
+            <div
+              className="md:hidden absolute left-0 right-0 bottom-0 h-px"
+              style={{
+                background:
+                  "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%)",
+              }}
+            />
+
+            <Fingerprint
+              size={24}
+              strokeWidth={1.5}
+              className="text-[var(--accent)] mb-6"
+            />
+            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
+              Biometric unlock
+            </h3>
+            <p className="text-sm text-[#8A8A90] leading-relaxed">
+              Face or fingerprint required
+            </p>
           </motion.div>
 
-          {/* Text block — offset right, overlapping feel */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="md:col-span-5 lg:col-span-4 lg:-ml-6 relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative py-10 px-8 md:px-10"
           >
-            <div className="glass rounded-2xl p-3 sm:p-4 md:p-4 lg:p-5 brutal-border">
-              <div className="text-label text-[var(--accent)] mb-3">STEP_01 — SELECT</div>
-              <h3 className="font-display text-lg md:text-xl text-[#F5F5F5] mb-2">
-                Choose media in Latch
-              </h3>
-              <p className="text-sm text-[#8A8A90] leading-relaxed mb-4">
-                Browse your encrypted vault. Tap any audio file. The handoff protocol 
-                prepares a secure in-memory buffer — the file never touches unencrypted disk.
-              </p>
+            {/* No right divider — last column */}
+            {/* No bottom divider — last row */}
 
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <Fingerprint className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
-                  <div>
-                    <div className="text-sm text-[#F5F5F5]">Biometric unlock</div>
-                    <div className="text-xs text-[#8A8A90]">Face or fingerprint required</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Cpu className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
-                  <div>
-                    <div className="text-sm text-[#F5F5F5]">Memory-only decode</div>
-                    <div className="text-xs text-[#8A8A90]">Zero temp file writes</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Cpu
+              size={24}
+              strokeWidth={1.5}
+              className="text-[var(--accent)] mb-6"
+            />
+            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
+              Memory-only decode
+            </h3>
+            <p className="text-sm text-[#8A8A90] leading-relaxed">
+              Zero temp file writes
+            </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Broken Grid Moment 2: Flick receives — reversed asymmetry */}
-      <div className="max-w-7xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
-        <div className="grid md:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center md:mx-4 lg:mx-0">
-          {/* Text block — offset left, comes first on mobile but reordered on desktop/tablet */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-            className="md:col-span-5 md:col-start-1 lg:col-span-4 lg:col-start-1 lg:-mr-6 relative z-10 order-2 md:order-1"
-          >
-            <div className="glass rounded-2xl p-3 sm:p-4 md:p-3 lg:p-5 brutal-border">
-              <div className="text-label text-[var(--accent)] mb-2 md:mb-3">STEP_02 — PLAY</div>
-              <h3 className="font-display text-lg md:text-base lg:text-xl text-[#F5F5F5] mb-2">
-                Flick takes the baton
-              </h3>
-              <p className="text-sm text-[#8A8A90] leading-relaxed mb-4">
-                Flick receives the decrypted buffer and begins playback instantly. 
-                UAC 2.0 DAC routes the cleanest possible signal to your headphones.
-              </p>
+      {/* Moment 2: Flick receives */}
+      <div className="max-w-5xl mx-auto px-4 md:px-6 mb-16 md:mb-24 lg:mb-28">
+        {/* Title block */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 text-center"
+        >
+          <div className="text-label text-[var(--accent)] mb-3">STEP_02 — PLAY</div>
+          <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
+            Flick takes the baton
+          </h3>
+          <p className="text-sm text-[#8A8A90] leading-relaxed">
+            Flick receives the decrypted buffer and begins playback instantly. 
+            UAC 2.0 DAC routes the cleanest possible signal to your headphones.
+          </p>
+        </motion.div>
 
-              <div className="space-y-3">
-                <div className="flex items-start gap-2.5 md:gap-3">
-                  <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)] mt-0.5 shrink-0" />
-                  <div>
-                    <div className="text-sm text-[#F5F5F5]">Instant resume</div>
-                    <div className="text-xs text-[#8A8A90]">Playback starts in &lt;200ms</div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5 md:gap-3">
-                  <Play className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)] mt-0.5 shrink-0" />
-                  <div>
-                    <div className="text-sm text-[#F5F5F5]">Gapless continuation</div>
-                    <div className="text-xs text-[#8A8A90]">Album playback uninterrupted</div>
-                  </div>
-                </div>
+        {/* Image block */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7 }}
+          className="mb-8"
+        >
+          <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
+            <img
+              src="/assets/flick_banner.png"
+              alt="Flick Player interface"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0B]/80 via-transparent to-transparent" />
+
+            {/* Floating glass badge */}
+            <div className="absolute bottom-4 right-4 md:bottom-5 md:right-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
               </div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Description grid — ecosystem/ethos divider style */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="relative py-10 px-8 md:px-10"
+          >
+            {/* Vertical divider — desktop */}
+            <div
+              className="hidden md:block absolute right-0 top-0 bottom-0 w-px"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%)",
+              }}
+            />
+            {/* Horizontal divider — mobile */}
+            <div
+              className="md:hidden absolute left-0 right-0 bottom-0 h-px"
+              style={{
+                background:
+                  "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%)",
+              }}
+            />
+
+            <Zap
+              size={24}
+              strokeWidth={1.5}
+              className="text-[var(--accent)] mb-6"
+            />
+            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
+              Instant resume
+            </h3>
+            <p className="text-sm text-[#8A8A90] leading-relaxed">
+              Playback starts in &lt;200ms
+            </p>
           </motion.div>
 
-          {/* Image block — breaks right on desktop */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="md:col-span-7 md:col-start-6 lg:col-span-8 lg:col-start-5 lg:-mr-12 xl:-mr-20 relative order-1 md:order-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="relative py-10 px-8 md:px-10"
           >
-            <div className="relative rounded-2xl overflow-hidden brutal-border aspect-[16/10]">
-              <img
-                src="/assets/flick_banner.png"
-                alt="Flick Player interface"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0B]/80 via-transparent to-transparent" />
-              
-              {/* Floating glass badge — breaks out */}
-              <div className="absolute bottom-4 right-4 md:bottom-5 md:right-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-                </div>
-              </div>
-            </div>
+            {/* No right divider — last column */}
+            {/* No bottom divider — last row */}
+
+            <Play
+              size={24}
+              strokeWidth={1.5}
+              className="text-[var(--accent)] mb-6"
+            />
+            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
+              Gapless continuation
+            </h3>
+            <p className="text-sm text-[#8A8A90] leading-relaxed">
+              Album playback uninterrupted
+            </p>
           </motion.div>
         </div>
       </div>
