@@ -12,11 +12,11 @@ export function BrokenGridIntegration() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="text-label mb-3 flex items-center gap-3 justify-center md:justify-start">
+          <div className="text-label mb-3 flex items-center gap-3 justify-center">
             <span className="w-6 h-px bg-[var(--accent)]" />
             <span>Cross-App Integration</span>
           </div>
-          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-xl text-center md:text-left">
+          <h2 className="text-display text-[clamp(2.5rem,6vw,5rem)] text-[#F5F5F5] w-full text-center">
             Seamless handoff.
             <span className="text-[#8A8A90]"> Zero friction.</span>
           </h2>
