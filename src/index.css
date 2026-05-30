@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource-variable/space-grotesk";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -146,6 +147,115 @@ button, a, [role="button"] {
 .dot-pattern {
   background-image: radial-gradient(circle, rgba(237,237,237,0.15) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Ecosystem matrix */
+.ecosystem-section {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.ecosystem-grid {
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+.ecosystem-cell {
+  padding: 48px 40px;
+}
+
+.ecosystem-cell::before,
+.ecosystem-cell::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.ecosystem-cell::before {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255,255,255,0.12) 20%,
+    rgba(255,255,255,0.12) 80%,
+    transparent 100%
+  );
+}
+
+.ecosystem-cell::after {
+  display: none;
+}
+
+.ecosystem-cell:last-of-type::before {
+  display: none;
+}
+
+.ecosystem-cell-title {
+  font-family: "Space Grotesk Variable", "Space Grotesk", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.ecosystem-cell-description {
+  font-family: Inter, var(--font-sans);
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.moss-grid-glyph {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .ecosystem-cell::before {
+    display: none;
+  }
+
+  .ecosystem-cell::after {
+    display: block;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255,255,255,0.12) 20%,
+      rgba(255,255,255,0.12) 80%,
+      transparent 100%
+    );
+  }
+
+  .ecosystem-cell:nth-of-type(3n)::after {
+    display: none;
+  }
+
+  .moss-grid-glyph {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    opacity: 0.5;
+    transform: translate(-50%, -50%);
+    background-image: radial-gradient(circle, rgba(245,245,245,0.7) 1px, transparent 1px);
+    background-size: 5px 5px;
+    -webkit-mask-image: url("/assets/moss_logo.svg");
+    mask-image: url("/assets/moss_logo.svg");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
 }
 
 /* Landscape phones — compact vertical padding */
