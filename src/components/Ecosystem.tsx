@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { ArrowRightLeft, ArrowRight, Download } from "lucide-react"
+import { ArrowRight, Download } from "lucide-react"
 
 const container = {
   hidden: { opacity: 0 },
@@ -36,11 +36,11 @@ export function Ecosystem() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3 justify-center md:justify-start">
+          <div className="text-label mb-4 flex items-center gap-3 justify-center">
             <span className="w-8 h-px bg-[var(--accent)]" />
             <span>// 01 — THE_ECOSYSTEM</span>
           </div>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
+          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] w-full text-center">
             One secure backbone.
             <br />
             <span className="text-[#8A8A90]">Two powerful apps.</span>
@@ -53,7 +53,7 @@ export function Ecosystem() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="relative grid grid-cols-1 md:grid-cols-3"
+          className="relative grid grid-cols-1 md:grid-cols-2 md:max-w-4xl mx-auto"
         >
           {/* Latch */}
           <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
@@ -74,11 +74,13 @@ export function Ecosystem() {
               }}
             />
 
-            <img
-              src="/assets/logos/latch_logo.svg"
-              alt="Latch"
-              className="h-6 w-auto mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <img
+                src="/assets/logos/latch_logo.svg"
+                alt="Latch"
+                className="h-6 w-auto mb-6 block max-w-full"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Latch</h3>
             <p className="text-sm text-[#8A8A90] leading-relaxed mb-6">
               A secure media vault with AES-256 encryption, decoy mode, auto-kill
@@ -105,14 +107,6 @@ export function Ecosystem() {
 
           {/* Flick Player */}
           <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
-            {/* Vertical divider — desktop */}
-            <div
-              className="hidden md:block absolute right-0 top-0 bottom-0 w-px"
-              style={{
-                background:
-                  "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%)",
-              }}
-            />
             {/* Horizontal divider — mobile */}
             <div
               className="md:hidden absolute left-0 right-0 bottom-0 h-px"
@@ -122,11 +116,13 @@ export function Ecosystem() {
               }}
             />
 
-            <img
-              src="/assets/logos/flick_logo.svg"
-              alt="Flick Player"
-              className="h-6 w-auto mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <img
+                src="/assets/logos/flick_logo.svg"
+                alt="Flick Player"
+                className="h-6 w-auto mb-6 block max-w-full"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Flick Player</h3>
             <p className="text-sm text-[#8A8A90] leading-relaxed mb-6">
               An audiophile-grade music player with UAC 2.0 support, lossless
@@ -161,24 +157,6 @@ export function Ecosystem() {
             </div>
           </motion.div>
 
-          {/* Handoff */}
-          <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
-            {/* No right divider — last column */}
-            {/* No bottom divider — last row */}
-
-            <div className="flex justify-center md:justify-start">
-              <ArrowRightLeft
-                size={24}
-                strokeWidth={1.5}
-                className="text-[var(--accent)] mb-6"
-              />
-            </div>
-            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Handoff</h3>
-            <p className="text-sm text-[#8A8A90] leading-relaxed">
-              Seamless playback continuity between Latch and Flick. Start in the
-              vault, finish in the player — zero friction, zero delay.
-            </p>
-          </motion.div>
         </motion.div>
       </div>
     </section>
