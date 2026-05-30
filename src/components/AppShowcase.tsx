@@ -37,11 +37,11 @@ export function AppShowcase() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3">
+          <div className="text-label mb-4 flex items-center gap-3 justify-center md:justify-start">
             <span className="w-8 h-px bg-[var(--accent)]" />
             <span>// 02 — APP_SHOWCASE</span>
           </div>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl">
+          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
             Built with intent.
             <br />
             <span className="text-[#8A8A90]">No filler, no ads.</span>

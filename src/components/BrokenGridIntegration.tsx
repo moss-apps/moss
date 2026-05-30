@@ -12,11 +12,11 @@ export function BrokenGridIntegration() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="text-label mb-3 flex items-center gap-3">
+          <div className="text-label mb-3 flex items-center gap-3 justify-center md:justify-start">
             <span className="w-6 h-px bg-[var(--accent)]" />
             <span>Cross-App Integration</span>
           </div>
-          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-xl">
+          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-xl text-center md:text-left">
             Seamless handoff.
             <span className="text-[#8A8A90]"> Zero friction.</span>
           </h2>
@@ -76,7 +76,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="relative py-10 px-8 md:px-10"
+            className="relative py-10 px-8 md:px-10 text-center md:text-left"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -95,11 +95,13 @@ export function BrokenGridIntegration() {
               }}
             />
 
-            <Fingerprint
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Fingerprint
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Biometric unlock
             </h3>
@@ -113,16 +115,18 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative py-10 px-8 md:px-10"
+            className="relative py-10 px-8 md:px-10 text-center md:text-left"
           >
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <Cpu
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Cpu
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Memory-only decode
             </h3>
@@ -186,7 +190,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="relative py-10 px-8 md:px-10"
+            className="relative py-10 px-8 md:px-10 text-center md:text-left"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -205,11 +209,13 @@ export function BrokenGridIntegration() {
               }}
             />
 
-            <Zap
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Zap
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Instant resume
             </h3>
@@ -223,16 +229,18 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative py-10 px-8 md:px-10"
+            className="relative py-10 px-8 md:px-10 text-center md:text-left"
           >
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <Play
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <Play
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">
               Gapless continuation
             </h3>
