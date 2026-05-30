@@ -8,6 +8,7 @@ import { BrokenGridIntegration } from "@/components/BrokenGridIntegration"
 import { Ethos } from "@/components/Ethos"
 import { Footer } from "@/components/Footer"
 import { LoadingScreen } from "@/components/LoadingScreen"
+import { useGitHubRelease } from "@/hooks/useGitHubRelease"
 
 const latchMockups = [
   "/assets/mockups/latch_one.svg",
@@ -66,6 +67,17 @@ const flickCallouts = [
 function App() {
   const [loadingComplete, setLoadingComplete] = useState(false)
 
+  const latchVersion = useGitHubRelease("Latch").version
+  const flickVersion = useGitHubRelease("Flick").version
+
+  const latchInfoText = latchVersion
+    ? `LATCH ${latchVersion} / ANDROID 8+ / OPEN SOURCE`
+    : "LATCH all free / ANDROID 8+ / OPEN SOURCE"
+
+  const flickInfoText = flickVersion
+    ? `FLICK ${flickVersion} / ANDROID 8+ / OPEN SOURCE`
+    : "FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
+
   const handleLoadingComplete = useCallback(() => {
     setLoadingComplete(true)
   }, [])
@@ -85,7 +97,7 @@ function App() {
           appName="Latch"
           logoSrc="/assets/logos/latch_logo.svg"
           headerLabel="// 01 — LATCH / SECURE MEDIA VAULT"
-          infoText="LATCH all free / ANDROID 8+ / OPEN SOURCE"
+          infoText={latchInfoText}
           mockups={latchMockups}
           screenNames={latchScreenNames}
           callouts={latchCallouts}
@@ -95,7 +107,7 @@ function App() {
           appName="Flick"
           logoSrc="/assets/logos/flick_logo.svg"
           headerLabel="// 02 — FLICK / AUDIOPHILE PLAYER"
-          infoText="FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
+          infoText={flickInfoText}
           mockups={flickMockups}
           screenNames={flickScreenNames}
           callouts={flickCallouts}

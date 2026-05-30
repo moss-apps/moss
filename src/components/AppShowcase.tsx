@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Download,
 } from "lucide-react"
+import { useGitHubRelease } from "@/hooks/useGitHubRelease"
 
 const latchFeatures = [
   { icon: Lock, label: "AES-256 Encryption", desc: "Military-grade file protection" },
@@ -27,6 +28,9 @@ const flickFeatures = [
 ]
 
 export function AppShowcase() {
+  const latchVersion = useGitHubRelease("Latch").version
+  const flickVersion = useGitHubRelease("Flick").version
+
   return (
     <section id="apps" className="relative py-16 md:py-20 lg:py-32 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
@@ -67,7 +71,7 @@ export function AppShowcase() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">all free</span>
+                  <span className="text-label">{latchVersion ?? "all free"}</span>
                   <span className="text-label text-[#8A8A90]">Closed Beta</span>
                 </div>
               </div>
@@ -138,7 +142,7 @@ export function AppShowcase() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">v0.16.0-beta.1</span>
+                  <span className="text-label">{flickVersion ?? "v0.16.0-beta.1"}</span>
                   <span className="text-label text-[#8A8A90]">Google Play</span>
                 </div>
               </div>
