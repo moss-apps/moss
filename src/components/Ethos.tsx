@@ -22,11 +22,11 @@ export function Ethos() {
           transition={{ duration: 0.5 }}
           className="mb-12 md:mb-16"
         >
-          <div className="text-label mb-3 flex items-center gap-3 justify-center md:justify-start">
+          <div className="text-label mb-3 flex items-center gap-3 justify-center">
             <span className="w-6 h-px bg-[var(--accent)]" />
             <span>Design Ethos</span>
           </div>
-          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
+          <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] w-full text-center">
             Open source. Free forever.
             <span className="text-[#8A8A90]"> No ads, no tracking, no compromise.</span>
           </h2>
