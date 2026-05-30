@@ -36,11 +36,11 @@ export function Ecosystem() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3">
+          <div className="text-label mb-4 flex items-center gap-3 justify-center md:justify-start">
             <span className="w-8 h-px bg-[var(--accent)]" />
             <span>// 01 — THE_ECOSYSTEM</span>
           </div>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl">
+          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
             One secure backbone.
             <br />
             <span className="text-[#8A8A90]">Two powerful apps.</span>
@@ -56,7 +56,7 @@ export function Ecosystem() {
           className="relative grid grid-cols-1 md:grid-cols-3"
         >
           {/* Latch */}
-          <motion.div variants={item} className="relative py-12 px-10">
+          <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
             {/* Vertical divider — desktop */}
             <div
               className="hidden md:block absolute right-0 top-0 bottom-0 w-px"
@@ -84,7 +84,7 @@ export function Ecosystem() {
               A secure media vault with AES-256 encryption, decoy mode, auto-kill
               triggers, and folder-based organization. Your files stay yours.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a
                 href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
                 className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
@@ -104,7 +104,7 @@ export function Ecosystem() {
           </motion.div>
 
           {/* Flick Player */}
-          <motion.div variants={item} className="relative py-12 px-10">
+          <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
             {/* Vertical divider — desktop */}
             <div
               className="hidden md:block absolute right-0 top-0 bottom-0 w-px"
@@ -132,7 +132,7 @@ export function Ecosystem() {
               An audiophile-grade music player with UAC 2.0 support, lossless
               playback, and a tactile interface designed for focused listening.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a
                 href="https://www.flick-player.site/"
                 target="_blank"
@@ -162,15 +162,17 @@ export function Ecosystem() {
           </motion.div>
 
           {/* Handoff */}
-          <motion.div variants={item} className="relative py-12 px-10">
+          <motion.div variants={item} className="relative py-12 px-10 text-center md:text-left">
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <ArrowRightLeft
-              size={24}
-              strokeWidth={1.5}
-              className="text-[var(--accent)] mb-6"
-            />
+            <div className="flex justify-center md:justify-start">
+              <ArrowRightLeft
+                size={24}
+                strokeWidth={1.5}
+                className="text-[var(--accent)] mb-6"
+              />
+            </div>
             <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Handoff</h3>
             <p className="text-sm text-[#8A8A90] leading-relaxed">
               Seamless playback continuity between Latch and Flick. Start in the
