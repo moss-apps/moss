@@ -8,6 +8,7 @@ import { BrokenGridIntegration } from "@/components/BrokenGridIntegration"
 import { Ethos } from "@/components/Ethos"
 import { Footer } from "@/components/Footer"
 import { LoadingScreen } from "@/components/LoadingScreen"
+import { useGitHubRelease } from "@/hooks/useGitHubRelease"
 
 const latchMockups = [
   "/assets/mockups/latch_one.svg",
@@ -28,43 +29,54 @@ const flickMockups = [
 ]
 
 const latchScreenNames = [
-  "Vault Dashboard",
-  "Key Manager",
-  "Decoy Vault",
-  "Folder Explorer",
-  "Kill Switch",
-  "Share Link",
+  "Lock Screen",
+  "Security Settings",
+  "Audio Player",
+  "Gallery Vault",
+  "Folder Backup",
+  "More Settings",
 ]
 
 const latchCallouts = [
-  { title: "Vault Dashboard", description: "Your encrypted files at a glance. Biometric unlock ready." },
-  { title: "AES-256 Encryption", description: "Military-grade protection. We never hold the keys." },
-  { title: "Decoy Mode", description: "Plausible deniability layer for sensitive situations." },
-  { title: "Folder Vaults", description: "Organized containers with independent passcodes." },
-  { title: "Auto-Kill", description: "Timed self-destruct triggers for emergency scenarios." },
-  { title: "Secure Share", description: "Memory-only handoff to Flick Player." },
+  { title: "Lock Screen", description: "Biometric unlock with vault dashboard at a glance." },
+  { title: "Security Settings", description: "Configure encryption, access rules, and threat responses." },
+  { title: "Audio Player", description: "Built-in player with Flick as external output option." },
+  { title: "Gallery Vault", description: "Hide photos and doubles as a folder explorer." },
+  { title: "Folder Backup", description: "Automated backups with screenshot protection enabled." },
+  { title: "More Settings", description: "Additional preferences and advanced configuration." },
 ]
 
 const flickScreenNames = [
-  "Library Grid",
+  "Equalizer",
   "Now Playing",
-  "Audio Settings",
-  "DAC Output",
-  "Playback Queue",
-  "Hi-Res Panel",
+  "Library",
+  "Full Screen Player",
+  "UAC 2.0 Preferences",
+  "Flick Replay",
 ]
 
 const flickCallouts = [
-  { title: "Library View", description: "Your collection, beautifully organized. No cloud required." },
+  { title: "Equalizer", description: "Fine-tune your sound with precision frequency controls." },
   { title: "Now Playing", description: "Minimal interface that gets out of the way." },
-  { title: "Lossless Audio", description: "FLAC, ALAC, WAV, DSD — bit-perfect playback." },
-  { title: "UAC 2.0 DAC", description: "USB Audio Class support up to 32-bit / 384kHz." },
-  { title: "Gapless Playback", description: "Seamless album transitions. Zero silence." },
-  { title: "Hi-Res Output", description: "Clean signal path to your headphones." },
+  { title: "Library", description: "Your collection, beautifully organized. No cloud required." },
+  { title: "Full Screen Player", description: "Immersive playback with album art and controls." },
+  { title: "UAC 2.0 Preferences", description: "USB Audio Class settings up to 32-bit / 384kHz." },
+  { title: "Flick Replay", description: "Revisit your listening history and favorite moments." },
 ]
 
 function App() {
   const [loadingComplete, setLoadingComplete] = useState(false)
+
+  const latchVersion = useGitHubRelease("Latch").version
+  const flickVersion = useGitHubRelease("Flick").version
+
+  const latchInfoText = latchVersion
+    ? `LATCH ${latchVersion} / ANDROID 8+ / OPEN SOURCE`
+    : "LATCH all free / ANDROID 8+ / OPEN SOURCE"
+
+  const flickInfoText = flickVersion
+    ? `FLICK ${flickVersion} / ANDROID 8+ / OPEN SOURCE`
+    : "FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
 
   const handleLoadingComplete = useCallback(() => {
     setLoadingComplete(true)
@@ -85,7 +97,7 @@ function App() {
           appName="Latch"
           logoSrc="/assets/logos/latch_logo.svg"
           headerLabel="// 01 — LATCH / SECURE MEDIA VAULT"
-          infoText="LATCH all free / ANDROID 8+ / OPEN SOURCE"
+          infoText={latchInfoText}
           mockups={latchMockups}
           screenNames={latchScreenNames}
           callouts={latchCallouts}
@@ -95,7 +107,7 @@ function App() {
           appName="Flick"
           logoSrc="/assets/logos/flick_logo.svg"
           headerLabel="// 02 — FLICK / AUDIOPHILE PLAYER"
-          infoText="FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
+          infoText={flickInfoText}
           mockups={flickMockups}
           screenNames={flickScreenNames}
           callouts={flickCallouts}

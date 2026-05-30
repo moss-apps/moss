@@ -117,6 +117,13 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Contributors */}
+        <div className="flex flex-col items-center justify-center gap-1 py-6 brutal-border-t">
+          <span className="text-xs text-[#6A6A70] italic">
+            Special contributors during the closed beta test will be added soon.
+          </span>
+        </div>
+
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 brutal-border-t">
           <div className="text-label">

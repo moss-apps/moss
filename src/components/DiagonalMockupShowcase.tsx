@@ -1,22 +1,29 @@
-import { useRef, useLayoutEffect, useCallback, useState } from "react"
-import { motion, AnimatePresence, wrap } from "framer-motion"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useMossStore } from "@/stores/useMossStore"
-import { useIsMobile } from "@/hooks/useIsMobile"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  useRef,
+  useLayoutEffect,
+  useCallback,
+  useState,
+  useEffect,
+} from "react";
+import { motion, AnimatePresence, wrap } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMossStore } from "@/stores/useMossStore";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { MockupLoader } from "./MockupLoader";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 export interface DiagonalMockupShowcaseProps {
-  id: string
-  appName: string
-  logoSrc: string
-  headerLabel: string
-  infoText: string
-  mockups: string[]
-  screenNames: string[]
-  callouts: Array<{ title: string; description: string }>
+  id: string;
+  appName: string;
+  logoSrc: string;
+  headerLabel: string;
+  infoText: string;
+  mockups: string[];
+  screenNames: string[];
+  callouts: Array<{ title: string; description: string }>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -30,7 +37,7 @@ const POSITIONS = [
   { left: 48, top: 26 },
   { left: 58, top: 32 },
   { left: 70, top: 38 },
-]
+];
 
 /** Callouts sit in the negative space adjacent to their paired mockup */
 const CALLOUT_POSITIONS = [
@@ -40,10 +47,17 @@ const CALLOUT_POSITIONS = [
   { right: 4, top: 34 },
   { left: 4, top: 44 },
   { left: 4, top: 52 },
-]
+];
 
 /** Which side each callout sits on */
-const CALLOUT_SIDES = ["right", "right", "left", "right", "left", "left"] as const
+const CALLOUT_SIDES = [
+  "right",
+  "right",
+  "left",
+  "right",
+  "left",
+  "left",
+] as const;
 
 /* ------------------------------------------------------------------ */
 /*  Static layout (reduced-motion / perf-mode) — 3 left, 3 right       */
@@ -56,19 +70,31 @@ const STATIC_CALLOUT_POSITIONS = [
   { right: 3, top: 14 },
   { right: 3, top: 36 },
   { right: 3, top: 58 },
-]
+];
 
-const STATIC_CALLOUT_SIDES = ["left", "left", "left", "right", "right", "right"] as const
+const STATIC_CALLOUT_SIDES = [
+  "left",
+  "left",
+  "left",
+  "right",
+  "right",
+  "right",
+] as const;
 
 /* ------------------------------------------------------------------ */
 /*  Three-band depth system                                            */
 /* ------------------------------------------------------------------ */
 
 function getDepthBand(i: number) {
-  if (i < 2) return { opacity: 0.5, blur: 4, scale: 0.7 }
-  if (i < 4) return { opacity: 0.8, blur: 1, scale: 0.85 }
-  return { opacity: 1.0, blur: 0, scale: 1.0 }
+  if (i < 2) return { opacity: 0.72, blur: 0.75, scale: 0.74 };
+  if (i < 4) return { opacity: 0.88, blur: 0.25, scale: 0.87 };
+  return { opacity: 1.0, blur: 0, scale: 1.0 };
 }
+
+const MOCKUP_STEP = 0.22;
+const MOCKUP_REVEAL_DURATION = 0.32;
+const CALLOUT_FADE_DURATION = 0.08;
+const CALLOUT_HOLD_DURATION = 0.34;
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
@@ -84,40 +110,40 @@ export function DiagonalMockupShowcase({
   screenNames,
   callouts,
 }: DiagonalMockupShowcaseProps) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const mockupRefs = useRef<(HTMLDivElement | null)[]>([])
-  const calloutRefs = useRef<(HTMLDivElement | null)[]>([])
-  const logoRef = useRef<HTMLDivElement | null>(null)
+  const sectionRef = useRef<HTMLElement>(null);
+  const mockupRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const calloutRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const logoRef = useRef<HTMLDivElement | null>(null);
 
-  const isMobile = useIsMobile()
-  const performanceMode = useMossStore((s) => s.performanceMode)
-  const reducedMotion = useMossStore((s) => s.reducedMotion)
+  const isMobile = useIsMobile();
+  const performanceMode = useMossStore((s) => s.performanceMode);
+  const reducedMotion = useMossStore((s) => s.reducedMotion);
 
-  const disableChoreography = isMobile || performanceMode || reducedMotion
+  const disableChoreography = isMobile || performanceMode || reducedMotion;
 
   /* Extract section number from headerLabel e.g. "// 01 — LATCH ..." */
-  const sectionNumber = headerLabel.match(/\/\/\s*(\d+)/)?.[1] ?? ""
+  const sectionNumber = headerLabel.match(/\/\/\s*(\d+)/)?.[1] ?? "";
 
   /* GSAP pin + scrub (desktop only, motion enabled) */
   useLayoutEffect(() => {
-    if (disableChoreography) return
-    const section = sectionRef.current
-    if (!section) return
+    if (disableChoreography) return;
+    const section = sectionRef.current;
+    if (!section) return;
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=1100%",
+          end: "+=1400%",
           pin: true,
           scrub: 0.8,
           anticipatePin: 1,
         },
-      })
+      });
 
       /* Logo: start centered + enlarged, settle to top-left corner */
-      const logoEl = logoRef.current
+      const logoEl = logoRef.current;
       if (logoEl) {
         tl.fromTo(
           logoEl,
@@ -135,18 +161,19 @@ export function DiagonalMockupShowcase({
             ease: "none",
             duration: 0.12,
           },
-          0
-        )
+          0,
+        );
       }
 
       mockupRefs.current.forEach((el, i) => {
-        if (!el) return
-        const band = getDepthBand(i)
-        const start = i * 0.16
+        if (!el) return;
+        const band = getDepthBand(i);
+        const start = i * MOCKUP_STEP;
 
         /* Varied entrance vectors — all drift in from upper-left quadrant */
-        const entranceX = -35 + (i % 3) * 6
-        const entranceY = -22 + (i % 3) * 10
+        const entranceX = -35 + (i % 3) * 6;
+        const entranceY = -22 + (i % 3) * 10;
+        const entranceBlur = band.blur + 1;
 
         tl.fromTo(
           el,
@@ -155,81 +182,90 @@ export function DiagonalMockupShowcase({
             y: `${entranceY}vh`,
             opacity: 0,
             scale: band.scale * 0.82,
-            filter: band.blur > 0
-              ? `blur(${band.blur + 2}px)`
-              : `blur(2px)`,
+            filter: `blur(${entranceBlur}px)`,
           },
           {
             x: 0,
             y: 0,
             opacity: band.opacity,
             scale: band.scale,
-            filter: band.blur > 0
-              ? `blur(${band.blur}px)`
-              : "none",
+            filter: band.blur > 0 ? `blur(${band.blur}px)` : "none",
             ease: "none",
+            duration: MOCKUP_REVEAL_DURATION,
           },
-          start
-        )
-      })
+          start,
+        );
+      });
 
       calloutRefs.current.forEach((el, i) => {
-        if (!el) return
-        const fadeIn = i * 0.16 + 0.08
-        const fadeOut = (i + 1) * 0.16 + 0.08
+        if (!el) return;
+        const fadeIn = i * MOCKUP_STEP + 0.1;
+        const fadeOut = fadeIn + CALLOUT_HOLD_DURATION;
 
         /* Fade in when mockup becomes focal */
         tl.fromTo(
           el,
           { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, ease: "none", duration: 0.1 },
-          fadeIn
-        )
+          { opacity: 1, y: 0, ease: "none", duration: CALLOUT_FADE_DURATION },
+          fadeIn,
+        );
 
-        /* Fade out when next mockup takes focus — only 2 visible at a time */
+        /* Fade out after a longer read window as the next screen takes focus */
         if (i < callouts.length - 1) {
           tl.to(
             el,
-            { opacity: 0, y: -8, ease: "none", duration: 0.1 },
-            fadeOut
-          )
+            {
+              opacity: 0,
+              y: -8,
+              ease: "none",
+              duration: CALLOUT_FADE_DURATION,
+            },
+            fadeOut,
+          );
         }
-      })
-    }, section)
+      });
+    }, section);
 
-    return () => ctx.revert()
-  }, [disableChoreography, mockups.length, callouts.length])
+    return () => ctx.revert();
+  }, [disableChoreography, mockups.length, callouts.length]);
 
-  const setMockupRef = useCallback(
-    (el: HTMLDivElement | null, i: number) => {
-      mockupRefs.current[i] = el
-    },
-    []
-  )
+  const setMockupRef = useCallback((el: HTMLDivElement | null, i: number) => {
+    mockupRefs.current[i] = el;
+  }, []);
 
-  const setCalloutRef = useCallback(
-    (el: HTMLDivElement | null, i: number) => {
-      calloutRefs.current[i] = el
-    },
-    []
-  )
+  const setCalloutRef = useCallback((el: HTMLDivElement | null, i: number) => {
+    calloutRefs.current[i] = el;
+  }, []);
 
-  const positions = POSITIONS
+  const positions = POSITIONS;
 
   /* ---------------------------------------------------------------- */
   /*  Mobile carousel helper state                                     */
   /* ---------------------------------------------------------------- */
-  const [page, setPage] = useState(0)
-  const carouselIndex = wrap(0, mockups.length, page)
-  const prevIndexRef = useRef(carouselIndex)
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const carouselIndex = wrap(0, mockups.length, page);
 
-  const swipeThreshold = 50
+  /* Image loading state for mobile carousel */
+  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    if (!isMobile) return;
+    mockups.forEach((src, i) => {
+      const img = new Image();
+      img.onload = () => setLoadedImages((prev) => ({ ...prev, [i]: true }));
+      img.src = src;
+    });
+  }, [isMobile, mockups]);
+
+  const swipeThreshold = 50;
   const swipePower = (offset: number, velocity: number) =>
-    Math.abs(offset) * velocity
+    Math.abs(offset) * velocity;
 
-  const direction = carouselIndex >= prevIndexRef.current ? 1 : -1
-  // Update ref AFTER computing direction
-  prevIndexRef.current = carouselIndex
+  const paginate = useCallback((delta: number) => {
+    setDirection(delta >= 0 ? 1 : -1);
+    setPage((p) => p + delta);
+  }, []);
 
   /* ---------------------------------------------------------------- */
   /*  Mobile carousel render                                           */
@@ -244,20 +280,34 @@ export function DiagonalMockupShowcase({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="mb-14"
+            className="mb-14 text-center relative z-10"
           >
             <div className="text-label text-[var(--accent)] mb-3">
               {headerLabel}
             </div>
-            <img
-              src={logoSrc}
-              alt={appName}
-              className="h-10 metallic-paint"
-            />
           </motion.div>
 
+          {/* Logo — behind mockup, raised up, with fade gradient */}
+          <div className="absolute top-5 left-0 right-0 flex justify-center pointer-events-none select-none z-0">
+            <div className="relative">
+              <img
+                src={logoSrc}
+                alt={appName}
+                className="h-70 metallic-paint opacity-30"
+              />
+              {/* Gradient overlay: transparent at bottom, 70% black at top */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(to top, transparent 0%, rgba(10,10,11,0.7) 100%)",
+                }}
+              />
+            </div>
+          </div>
+
           {/* Carousel */}
-          <div className="relative">
+          <div className="relative z-10">
             {/* Slides viewport */}
             <div className="relative overflow-hidden">
               <AnimatePresence mode="popLayout" initial={false}>
@@ -271,9 +321,9 @@ export function DiagonalMockupShowcase({
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.15}
                   onDragEnd={(_, { offset, velocity }) => {
-                    const swipe = swipePower(offset.x, velocity.x)
-                    if (swipe < -swipeThreshold) setPage((p) => p + 1)
-                    else if (swipe > swipeThreshold) setPage((p) => p - 1)
+                    const swipe = swipePower(offset.x, velocity.x);
+                    if (swipe < -swipeThreshold) paginate(1);
+                    else if (swipe > swipeThreshold) paginate(-1);
                   }}
                   className="flex flex-col items-center gap-3 touch-pan-y"
                 >
@@ -281,12 +331,27 @@ export function DiagonalMockupShowcase({
                     // {String(carouselIndex + 1).padStart(2, "0")} —{" "}
                     {screenNames[carouselIndex]?.toUpperCase()}
                   </div>
-                  <img
-                    src={mockups[carouselIndex]}
-                    alt={`${appName} screen ${carouselIndex + 1}`}
-                    className="w-full max-w-[220px] rounded-[2px] border border-[rgba(255,255,255,0.12)] select-none"
-                    draggable={false}
-                  />
+                  <div className="relative w-full max-w-[220px]">
+                    <div
+                      className={`transition-opacity duration-300 ${
+                        loadedImages[carouselIndex]
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
+                    >
+                      <img
+                        src={mockups[carouselIndex]}
+                        alt={`${appName} screen ${carouselIndex + 1}`}
+                        className="w-full rounded-[2px] border border-[rgba(255,255,255,0.12)] select-none"
+                        draggable={false}
+                      />
+                    </div>
+                    {!loadedImages[carouselIndex] && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <MockupLoader />
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -295,14 +360,14 @@ export function DiagonalMockupShowcase({
             {mockups.length > 1 && (
               <>
                 <button
-                  onClick={() => setPage((p) => p - 1)}
+                  onClick={() => paginate(-1)}
                   className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
                   aria-label="Previous screen"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => setPage((p) => p + 1)}
+                  onClick={() => paginate(1)}
                   className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
                   aria-label="Next screen"
                 >
@@ -317,7 +382,10 @@ export function DiagonalMockupShowcase({
                 {mockups.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setPage(i)}
+                    onClick={() => {
+                      setDirection(i >= carouselIndex ? 1 : -1);
+                      setPage(i);
+                    }}
                     className={`rounded-full transition-all ${
                       i === carouselIndex
                         ? "w-5 h-1.5 bg-[var(--accent)]"
@@ -341,7 +409,8 @@ export function DiagonalMockupShowcase({
               className="mt-8 text-center max-w-[260px] mx-auto"
             >
               <h4 className="font-display text-sm text-[#F5F5F5] mb-1.5">
-                // {String(carouselIndex + 1).padStart(2, "0")} — {callouts[carouselIndex].title}
+                // {String(carouselIndex + 1).padStart(2, "0")} —{" "}
+                {callouts[carouselIndex].title}
               </h4>
               <p className="text-xs text-[#8A8A90] leading-relaxed">
                 {callouts[carouselIndex].description}
@@ -350,12 +419,12 @@ export function DiagonalMockupShowcase({
           )}
 
           {/* Info block */}
-          <div className="mt-16 pt-6 border-t border-[rgba(255,255,255,0.08)]">
+          <div className="mt-16 pt-6 border-t border-[rgba(255,255,255,0.08)] text-center">
             <p className="text-label text-[#8A8A90]">{infoText}</p>
           </div>
         </div>
       </section>
-    )
+    );
   }
 
   /* ---------------------------------------------------------------- */
@@ -420,7 +489,7 @@ export function DiagonalMockupShowcase({
 
       {/* Mockups — positioned along diagonal with three-band depth */}
       {mockups.map((src, i) => {
-        const pos = positions[i]
+        const pos = positions[i];
 
         return (
           <div
@@ -451,22 +520,36 @@ export function DiagonalMockupShowcase({
               loading="lazy"
             />
           </div>
-        )
+        );
       })}
 
       {/* Floating text callouts — paired 1:1 with mockups */}
       {callouts.map((callout, i) => {
-        const side = disableChoreography ? STATIC_CALLOUT_SIDES[i] : CALLOUT_SIDES[i]
+        const side = disableChoreography
+          ? STATIC_CALLOUT_SIDES[i]
+          : CALLOUT_SIDES[i];
         const leaderClass =
-          side === "right" ? "callout-leader-left" : "callout-leader-right"
+          side === "right" ? "callout-leader-left" : "callout-leader-right";
 
         const posStyle = disableChoreography
           ? STATIC_CALLOUT_POSITIONS[i].left !== undefined
-            ? { left: `${STATIC_CALLOUT_POSITIONS[i].left}%`, top: `${STATIC_CALLOUT_POSITIONS[i].top}%` }
-            : { right: `${STATIC_CALLOUT_POSITIONS[i].right}%`, top: `${STATIC_CALLOUT_POSITIONS[i].top}%` }
+            ? {
+                left: `${STATIC_CALLOUT_POSITIONS[i].left}%`,
+                top: `${STATIC_CALLOUT_POSITIONS[i].top}%`,
+              }
+            : {
+                right: `${STATIC_CALLOUT_POSITIONS[i].right}%`,
+                top: `${STATIC_CALLOUT_POSITIONS[i].top}%`,
+              }
           : CALLOUT_POSITIONS[i].left !== undefined
-            ? { left: `${CALLOUT_POSITIONS[i].left}%`, top: `${CALLOUT_POSITIONS[i].top}%` }
-            : { right: `${CALLOUT_POSITIONS[i].right}%`, top: `${CALLOUT_POSITIONS[i].top}%` }
+            ? {
+                left: `${CALLOUT_POSITIONS[i].left}%`,
+                top: `${CALLOUT_POSITIONS[i].top}%`,
+              }
+            : {
+                right: `${CALLOUT_POSITIONS[i].right}%`,
+                top: `${CALLOUT_POSITIONS[i].top}%`,
+              };
 
         return (
           <div
@@ -497,7 +580,7 @@ export function DiagonalMockupShowcase({
               </p>
             </div>
           </div>
-        )
+        );
       })}
 
       {/* Brutalist info block — anchored bottom-left of frame */}
@@ -505,5 +588,5 @@ export function DiagonalMockupShowcase({
         <p className="text-label text-[#8A8A90]">{infoText}</p>
       </div>
     </section>
-  )
+  );
 }

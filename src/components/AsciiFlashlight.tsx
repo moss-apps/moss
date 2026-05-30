@@ -122,9 +122,9 @@ export function AsciiFlashlight() {
 
         if (cell.brightness > 0.01) {
           const alpha = cell.brightness * maxBrightness
-          const r = Math.floor(10 + 235 * alpha)
-          const g = Math.floor(10 + 235 * alpha)
-          const b = Math.floor(11 + 234 * alpha)
+          const r = Math.floor((10 + 235 * alpha) * 0.6)
+          const g = Math.floor((10 + 235 * alpha) * 0.6)
+          const b = Math.floor((11 + 234 * alpha) * 0.6)
           ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
           ctx.fillText(cell.char, cell.x, cell.y)
         } else {
