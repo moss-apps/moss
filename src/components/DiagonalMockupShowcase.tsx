@@ -65,10 +65,15 @@ const STATIC_CALLOUT_SIDES = ["left", "left", "left", "right", "right", "right"]
 /* ------------------------------------------------------------------ */
 
 function getDepthBand(i: number) {
-  if (i < 2) return { opacity: 0.5, blur: 4, scale: 0.7 }
-  if (i < 4) return { opacity: 0.8, blur: 1, scale: 0.85 }
+  if (i < 2) return { opacity: 0.72, blur: 0.75, scale: 0.74 }
+  if (i < 4) return { opacity: 0.88, blur: 0.25, scale: 0.87 }
   return { opacity: 1.0, blur: 0, scale: 1.0 }
 }
+
+const MOCKUP_STEP = 0.22
+const MOCKUP_REVEAL_DURATION = 0.32
+const CALLOUT_FADE_DURATION = 0.08
+const CALLOUT_HOLD_DURATION = 0.34
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
@@ -109,7 +114,7 @@ export function DiagonalMockupShowcase({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=1100%",
+          end: "+=1400%",
           pin: true,
           scrub: 0.8,
           anticipatePin: 1,
@@ -142,11 +147,12 @@ export function DiagonalMockupShowcase({
       mockupRefs.current.forEach((el, i) => {
         if (!el) return
         const band = getDepthBand(i)
-        const start = i * 0.16
+        const start = i * MOCKUP_STEP
 
         /* Varied entrance vectors — all drift in from upper-left quadrant */
         const entranceX = -35 + (i % 3) * 6
         const entranceY = -22 + (i % 3) * 10
+        const entranceBlur = band.blur + 1
 
         tl.fromTo(
           el,
@@ -155,9 +161,7 @@ export function DiagonalMockupShowcase({
             y: `${entranceY}vh`,
             opacity: 0,
             scale: band.scale * 0.82,
-            filter: band.blur > 0
-              ? `blur(${band.blur + 2}px)`
-              : `blur(2px)`,
+            filter: `blur(${entranceBlur}px)`,
           },
           {
             x: 0,
@@ -168,6 +172,7 @@ export function DiagonalMockupShowcase({
               ? `blur(${band.blur}px)`
               : "none",
             ease: "none",
+            duration: MOCKUP_REVEAL_DURATION,
           },
           start
         )
@@ -175,22 +180,22 @@ export function DiagonalMockupShowcase({
 
       calloutRefs.current.forEach((el, i) => {
         if (!el) return
-        const fadeIn = i * 0.16 + 0.08
-        const fadeOut = (i + 1) * 0.16 + 0.08
+        const fadeIn = i * MOCKUP_STEP + 0.1
+        const fadeOut = fadeIn + CALLOUT_HOLD_DURATION
 
         /* Fade in when mockup becomes focal */
         tl.fromTo(
           el,
           { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, ease: "none", duration: 0.1 },
+          { opacity: 1, y: 0, ease: "none", duration: CALLOUT_FADE_DURATION },
           fadeIn
         )
 
-        /* Fade out when next mockup takes focus — only 2 visible at a time */
+        /* Fade out after a longer read window as the next screen takes focus */
         if (i < callouts.length - 1) {
           tl.to(
             el,
-            { opacity: 0, y: -8, ease: "none", duration: 0.1 },
+            { opacity: 0, y: -8, ease: "none", duration: CALLOUT_FADE_DURATION },
             fadeOut
           )
         }
@@ -220,16 +225,17 @@ export function DiagonalMockupShowcase({
   /*  Mobile carousel helper state                                     */
   /* ---------------------------------------------------------------- */
   const [page, setPage] = useState(0)
+  const [direction, setDirection] = useState(1)
   const carouselIndex = wrap(0, mockups.length, page)
-  const prevIndexRef = useRef(carouselIndex)
 
   const swipeThreshold = 50
   const swipePower = (offset: number, velocity: number) =>
     Math.abs(offset) * velocity
 
-  const direction = carouselIndex >= prevIndexRef.current ? 1 : -1
-  // Update ref AFTER computing direction
-  prevIndexRef.current = carouselIndex
+  const paginate = useCallback((delta: number) => {
+    setDirection(delta >= 0 ? 1 : -1)
+    setPage((p) => p + delta)
+  }, [])
 
   /* ---------------------------------------------------------------- */
   /*  Mobile carousel render                                           */
@@ -272,8 +278,8 @@ export function DiagonalMockupShowcase({
                   dragElastic={0.15}
                   onDragEnd={(_, { offset, velocity }) => {
                     const swipe = swipePower(offset.x, velocity.x)
-                    if (swipe < -swipeThreshold) setPage((p) => p + 1)
-                    else if (swipe > swipeThreshold) setPage((p) => p - 1)
+                    if (swipe < -swipeThreshold) paginate(1)
+                    else if (swipe > swipeThreshold) paginate(-1)
                   }}
                   className="flex flex-col items-center gap-3 touch-pan-y"
                 >
@@ -295,14 +301,14 @@ export function DiagonalMockupShowcase({
             {mockups.length > 1 && (
               <>
                 <button
-                  onClick={() => setPage((p) => p - 1)}
+                  onClick={() => paginate(-1)}
                   className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
                   aria-label="Previous screen"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => setPage((p) => p + 1)}
+                  onClick={() => paginate(1)}
                   className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 w-8 h-8 flex items-center justify-center rounded-full glass text-[#8A8A90] hover:text-[#F5F5F5] transition-colors active:scale-95"
                   aria-label="Next screen"
                 >
@@ -317,7 +323,10 @@ export function DiagonalMockupShowcase({
                 {mockups.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setPage(i)}
+                    onClick={() => {
+                      setDirection(i >= carouselIndex ? 1 : -1)
+                      setPage(i)
+                    }}
                     className={`rounded-full transition-all ${
                       i === carouselIndex
                         ? "w-5 h-1.5 bg-[var(--accent)]"
