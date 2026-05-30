@@ -12,11 +12,11 @@ export function Integration() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3">
+          <div className="text-label mb-4 flex items-center gap-3 justify-center">
             <span className="w-8 h-px bg-[var(--accent)]" />
             <span>// 03 — CROSS_APP_INTEGRATION</span>
           </div>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl">
+          <h2 className="text-display text-[clamp(2.5rem,6vw,5rem)] text-[#F5F5F5] w-full text-center">
             Seamless handoff.
             <br />
             <span className="text-[#8A8A90]">Zero friction playback.</span>
