@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Play, Lock, Zap, ArrowRight, Fingerprint, Cpu } from "lucide-react"
+import { Play, Lock, Zap, Fingerprint, Cpu, Check, Link } from "lucide-react"
 
 export function BrokenGridIntegration() {
   return (
@@ -12,9 +12,18 @@ export function BrokenGridIntegration() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="text-label mb-3 flex items-center gap-3 justify-center">
-            <span className="w-6 h-px bg-[var(--accent)]" />
-            <span>Cross-App Integration</span>
+          <div className="mb-3 flex items-center justify-center">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <Link className="w-3 h-3 text-[var(--accent)]" />
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">Cross App Integration</span>
+            </div>
           </div>
           <h2 className="text-display text-[clamp(2.5rem,6vw,5rem)] text-[#F5F5F5] w-full text-center">
             Seamless handoff.
@@ -33,7 +42,19 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.6 }}
           className="mb-8 text-center"
         >
-          <div className="text-label text-[var(--accent)] mb-3">STEP_01 — SELECT</div>
+          <div className="mb-3 flex items-center justify-center">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <Lock className="w-3 h-3 text-[var(--accent)]" />
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">Step 01 — Select</span>
+            </div>
+          </div>
           <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
             Choose media in Latch
           </h3>
@@ -63,7 +84,7 @@ export function BrokenGridIntegration() {
             <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
               <div className="flex items-center gap-2">
                 <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)]" />
-                <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
+                <span className="text-[10px] md:text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
               </div>
             </div>
           </div>
@@ -76,7 +97,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="relative py-10 px-8 md:px-10 text-center md:text-left"
+            className="relative py-10 px-8 md:px-10 text-center"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -95,7 +116,7 @@ export function BrokenGridIntegration() {
               }}
             />
 
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center">
               <Fingerprint
                 size={24}
                 strokeWidth={1.5}
@@ -115,12 +136,12 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative py-10 px-8 md:px-10 text-center md:text-left"
+            className="relative py-10 px-8 md:px-10 text-center"
           >
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center">
               <Cpu
                 size={24}
                 strokeWidth={1.5}
@@ -147,7 +168,19 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.6 }}
           className="mb-8 text-center"
         >
-          <div className="text-label text-[var(--accent)] mb-3">STEP_02 — PLAY</div>
+          <div className="mb-3 flex items-center justify-center">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <Play className="w-3 h-3 text-[var(--accent)]" />
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">Step 02 — Play</span>
+            </div>
+          </div>
           <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
             Flick takes the baton
           </h3>
@@ -176,7 +209,7 @@ export function BrokenGridIntegration() {
             {/* Floating glass badge */}
             <div className="absolute bottom-4 right-4 md:bottom-5 md:right-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] md:text-xs font-mono text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
+                <span className="text-[10px] md:text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
               </div>
             </div>
@@ -190,7 +223,7 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="relative py-10 px-8 md:px-10 text-center md:text-left"
+            className="relative py-10 px-8 md:px-10 text-center"
           >
             {/* Vertical divider — desktop */}
             <div
@@ -209,7 +242,7 @@ export function BrokenGridIntegration() {
               }}
             />
 
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center">
               <Zap
                 size={24}
                 strokeWidth={1.5}
@@ -229,12 +262,12 @@ export function BrokenGridIntegration() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative py-10 px-8 md:px-10 text-center md:text-left"
+            className="relative py-10 px-8 md:px-10 text-center"
           >
             {/* No right divider — last column */}
             {/* No bottom divider — last row */}
 
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center">
               <Play
                 size={24}
                 strokeWidth={1.5}
@@ -260,9 +293,16 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.8 }}
           className="relative h-px bg-white/10 origin-left"
         >
-          <div className="absolute left-1/2 -translate-x-1/2 -top-3 glass rounded-full px-4 py-1.5 flex items-center gap-2">
-            <ArrowRight className="w-3 h-3 text-[var(--accent)]" />
-            <span className="text-label">HANDOFF_COMPLETE</span>
+          <div
+            className="absolute left-1/2 -translate-x-1/2 -top-3 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+            style={{
+              background:
+                "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+              border: "1px solid transparent",
+            }}
+          >
+            <Check className="w-3 h-3 text-[var(--accent)]" />
+            <span className="text-sm font-sans font-medium text-[#8A8A90]">Handoff Complete</span>
           </div>
         </motion.div>
       </div>
