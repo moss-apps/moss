@@ -25,7 +25,7 @@ export function Footer() {
 
           {/* Links */}
           <div className="space-y-4">
-            <div className="text-label">Ecosystem</div>
+            <div className="text-sm font-sans font-medium text-[#8A8A90]">Ecosystem</div>
             <ul className="space-y-2">
               <li>
                 <a href="#ecosystem" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
@@ -89,7 +89,7 @@ export function Footer() {
           </div>
 
           <div className="space-y-4">
-            <div className="text-label">Connect</div>
+            <div className="text-sm font-sans font-medium text-[#8A8A90]">Connect</div>
             <ul className="space-y-2">
               <li>
                 <a
@@ -126,12 +126,10 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 brutal-border-t">
-          <div className="text-label">
-            <span className="text-[#8A8A90]">
-              © {new Date().getFullYear()} Moss Laboratories. Open source under MIT.
-            </span>
+          <div className="text-xs font-sans font-medium text-[#8A8A90]">
+            © {new Date().getFullYear()} Moss Laboratories. Open source under MIT.
           </div>
-          <div className="flex items-center gap-1 text-label">
+          <div className="flex items-center gap-1 text-xs font-sans font-medium text-[#8A8A90]">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
             <span className="text-[#8A8A90]">All systems nominal</span>
           </div>
