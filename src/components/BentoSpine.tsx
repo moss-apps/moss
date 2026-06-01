@@ -26,9 +26,9 @@ export function BentoSpine() {
           transition={{ duration: 0.5 }}
           className="mb-12 md:mb-16 px-2"
         >
-          <div className="text-label mb-3 flex items-center gap-3">
+          <div className="mb-3 flex items-center gap-3">
             <span className="w-6 h-px bg-[var(--accent)]" />
-            <span>The Ecosystem</span>
+            <span className="text-sm font-sans font-medium text-[#8A8A90]">The Ecosystem</span>
           </div>
           <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] max-w-xl">
             One backbone.
@@ -60,7 +60,7 @@ export function BentoSpine() {
                 </p>
               </div>
             </div>
-            <div className="mt-6 flex items-center gap-4 text-label">
+            <div className="mt-6 flex items-center gap-4 text-xs font-sans font-medium text-[#8A8A90]">
               <span className="px-2 py-1 rounded bg-white/5 border border-white/10">AES-256</span>
               <span className="px-2 py-1 rounded bg-white/5 border border-white/10">Zero-Knowledge</span>
             </div>
@@ -78,7 +78,7 @@ export function BentoSpine() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />
             <div className="relative p-4 sm:p-6 md:p-6 lg:p-8 h-full flex flex-col justify-end">
-              <div className="text-label text-[var(--accent)] mb-2">// 01 — LATCH</div>
+              <div className="text-sm font-sans font-medium text-[var(--accent)] mb-2">Latch</div>
               <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">Latch Secure Vault</h3>
               <p className="text-sm text-[#8A8A90] max-w-sm">
                 Hide, encrypt, and organize sensitive media. Decoy mode and auto-kill triggers included.
@@ -115,7 +115,7 @@ export function BentoSpine() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />
             <div className="relative p-4 sm:p-6 md:p-6 lg:p-8 h-full flex flex-col justify-end">
-              <div className="text-label text-[var(--accent)] mb-2">// 02 — FLICK</div>
+              <div className="text-sm font-sans font-medium text-[var(--accent)] mb-2">Flick</div>
               <h3 className="font-display text-2xl text-[#F5F5F5] mb-2">Flick Player</h3>
               <p className="text-sm text-[#8A8A90] max-w-sm">
                 Audiophile-grade playback with UAC 2.0 DAC support. Gapless, lossless, focused.
@@ -144,7 +144,7 @@ export function BentoSpine() {
 
           {/* Tile 4: Latch features */}
           <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-5 space-y-3">
-            <div className="text-label text-[#8A8A90] mb-1">Latch Features</div>
+            <div className="text-xs font-sans font-medium text-[#8A8A90] mb-1">Latch Features</div>
             <FeatureRow icon={Lock} label="AES-256 Encryption" />
             <FeatureRow icon={EyeOff} label="Decoy Mode" />
             <FeatureRow icon={Timer} label="Auto-Kill Timer" />
@@ -153,7 +153,7 @@ export function BentoSpine() {
 
           {/* Tile 5: Flick features */}
           <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-5 space-y-3">
-            <div className="text-label text-[#8A8A90] mb-1">Flick Features</div>
+            <div className="text-xs font-sans font-medium text-[#8A8A90] mb-1">Flick Features</div>
             <FeatureRow icon={AudioWaveform} label="Lossless Playback" />
             <FeatureRow icon={HardDrive} label="UAC 2.0 DAC" />
             <FeatureRow icon={Headphones} label="Hi-Res 32-bit" />
@@ -169,7 +169,17 @@ export function BentoSpine() {
               <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center">
                 <ArrowRightLeft className="w-4 h-4 text-[var(--accent)]" />
               </div>
-              <span className="text-label text-[var(--accent)]">HANDOFF_PROTOCOL</span>
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-3 py-1"
+                style={{
+                  background:
+                    "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                  border: "1px solid transparent",
+                }}
+              >
+                <ArrowRightLeft className="w-3 h-3 text-[var(--accent)]" />
+                <span className="text-sm font-sans font-medium text-[#8A8A90]">Handoff Protocol</span>
+              </div>
             </div>
             <p className="text-sm text-[#8A8A90] leading-relaxed max-w-md">
               Tap a track in Latch, it opens in Flick — instantly. No export. No temp files. Memory-only handoff with full encryption intact.
@@ -179,13 +189,13 @@ export function BentoSpine() {
           {/* Tile 7: Stats tile */}
           <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-6 md:p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
             <div className="font-display text-4xl text-[var(--accent)] mb-1">2</div>
-            <div className="text-label">Apps Live</div>
+            <div className="text-xs font-sans font-medium text-[#8A8A90]">Apps Live</div>
           </motion.div>
 
           {/* Tile 8: OSS badge */}
           <motion.div variants={tile} className="glass rounded-2xl p-4 sm:p-6 md:p-6 flex flex-col justify-center items-center text-center min-h-[160px]">
             <div className="font-display text-4xl text-[var(--accent)] mb-1">0</div>
-            <div className="text-label">Lines of tracking code</div>
+            <div className="text-xs font-sans font-medium text-[#8A8A90]">Lines of tracking code</div>
           </motion.div>
         </motion.div>
       </div>
