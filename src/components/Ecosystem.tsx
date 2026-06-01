@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { ArrowRight, Download } from "lucide-react"
+import { ArrowRight, Download, Layers } from "lucide-react"
 
 const container = {
   hidden: { opacity: 0 },
@@ -36,9 +36,18 @@ export function Ecosystem() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3 justify-center">
-            <span className="w-8 h-px bg-[var(--accent)]" />
-            <span>// 01 — THE_ECOSYSTEM</span>
+          <div className="mb-4 flex items-center justify-center">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <Layers className="w-3 h-3 text-[var(--accent)]" />
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">The Ecosystem</span>
+            </div>
           </div>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] w-full text-center">
             One secure backbone.
