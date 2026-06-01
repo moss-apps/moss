@@ -25,7 +25,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-label mb-6 flex items-center gap-3"
+          className="mb-6 flex items-center gap-3 text-sm font-sans font-medium text-[#8A8A90]"
         >
           <span className="w-6 h-px bg-[var(--accent)]" />
           <span>Moss Laboratories</span>
@@ -82,13 +82,13 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.95 }}
-          className="mt-12 flex items-center gap-4 sm:gap-6 text-label"
+          className="mt-12 flex items-center gap-4 sm:gap-6 text-sm font-sans font-medium text-[#8A8A90]"
         >
-          <span>all free</span>
+          <span>All Free</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
           <span>2 Apps</span>
           <span className="w-1 h-1 rounded-full bg-white/20" />
-          <span>OSS</span>
+          <span>Open Source</span>
         </motion.div>
       </div>
 
@@ -100,7 +100,7 @@ export function Hero() {
         transition={{ delay: 1.3 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
       >
-        <span className="text-label">Scroll</span>
+        <span className="text-sm font-sans font-medium text-[#8A8A90]">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}

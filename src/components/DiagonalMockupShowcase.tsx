@@ -121,9 +121,6 @@ export function DiagonalMockupShowcase({
 
   const disableChoreography = isMobile || performanceMode || reducedMotion;
 
-  /* Extract section number from headerLabel e.g. "// 01 — LATCH ..." */
-  const sectionNumber = headerLabel.match(/\/\/\s*(\d+)/)?.[1] ?? "";
-
   /* GSAP pin + scrub (desktop only, motion enabled) */
   useLayoutEffect(() => {
     if (disableChoreography) return;
@@ -282,7 +279,7 @@ export function DiagonalMockupShowcase({
             transition={{ duration: 0.5 }}
             className="mb-14 text-center relative z-10"
           >
-            <div className="text-label text-[var(--accent)] mb-3">
+            <div className="text-sm font-sans font-medium text-[var(--accent)] mb-3">
               {headerLabel}
             </div>
           </motion.div>
@@ -327,9 +324,8 @@ export function DiagonalMockupShowcase({
                   }}
                   className="flex flex-col items-center gap-3 touch-pan-y"
                 >
-                  <div className="text-label text-[#8A8A90]">
-                    // {String(carouselIndex + 1).padStart(2, "0")} —{" "}
-                    {screenNames[carouselIndex]?.toUpperCase()}
+                  <div className="text-sm font-sans font-medium text-[#8A8A90]">
+                    {screenNames[carouselIndex]}
                   </div>
                   <div className="relative w-full max-w-[220px]">
                     <div
@@ -420,7 +416,7 @@ export function DiagonalMockupShowcase({
 
           {/* Info block */}
           <div className="mt-16 pt-6 border-t border-[rgba(255,255,255,0.08)] text-center">
-            <p className="text-label text-[#8A8A90]">{infoText}</p>
+            <p className="text-sm font-sans font-medium text-[#8A8A90]">{infoText}</p>
           </div>
         </div>
       </section>
@@ -453,21 +449,6 @@ export function DiagonalMockupShowcase({
         ))}
       </div>
 
-      {/* Large dotted section glyph — pointillist mark */}
-      <div
-        className="absolute -top-1 -left-1 md:top-1 md:left-1 z-10 font-mono font-black text-[120px] leading-none tracking-tighter opacity-[0.10] pointer-events-none select-none"
-        style={{
-          color: "transparent",
-          background:
-            "radial-gradient(circle, rgba(255,255,255,0.7) 1.5px, transparent 1.5px)",
-          backgroundSize: "4px 4px",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-        }}
-      >
-        {sectionNumber}
-      </div>
-
       {/* Brutalist header — animates from center to corner */}
       <div
         ref={logoRef}
@@ -477,7 +458,7 @@ export function DiagonalMockupShowcase({
           willChange: disableChoreography ? undefined : "transform, opacity",
         }}
       >
-        <div className="text-label text-[var(--accent)] mb-2">
+        <div className="text-sm font-sans font-medium text-[var(--accent)] mb-2">
           {headerLabel}
         </div>
         <img
@@ -509,9 +490,8 @@ export function DiagonalMockupShowcase({
             }}
           >
             {/* Metadata label */}
-            <div className="text-label text-[#8A8A90] mb-1 whitespace-nowrap">
-              // {String(i + 1).padStart(2, "0")} —{" "}
-              {screenNames[i]?.toUpperCase()}
+            <div className="text-sm font-sans font-medium text-[#8A8A90] mb-1 whitespace-nowrap">
+              {screenNames[i]}
             </div>
             <img
               src={src}
@@ -572,8 +552,8 @@ export function DiagonalMockupShowcase({
               }}
             />
             <div className="relative z-10">
-              <h4 className="font-display text-xs md:text-sm text-[#F5F5F5] mb-1">
-                // {String(i + 1).padStart(2, "0")} — {callout.title}
+              <h4 className="text-sm font-sans font-medium text-[#F5F5F5] mb-1">
+                {callout.title}
               </h4>
               <p className="text-[10px] md:text-xs text-[#8A8A90] leading-relaxed">
                 {callout.description}
@@ -585,7 +565,7 @@ export function DiagonalMockupShowcase({
 
       {/* Brutalist info block — anchored bottom-left of frame */}
       <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20">
-        <p className="text-label text-[#8A8A90]">{infoText}</p>
+        <p className="text-sm font-sans font-medium text-[#8A8A90]">{infoText}</p>
       </div>
     </section>
   );

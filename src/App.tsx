@@ -71,12 +71,12 @@ function App() {
   const flickVersion = useGitHubRelease("Flick").version
 
   const latchInfoText = latchVersion
-    ? `LATCH ${latchVersion} / ANDROID 8+ / OPEN SOURCE`
-    : "LATCH all free / ANDROID 8+ / OPEN SOURCE"
+    ? `Latch ${latchVersion} / Android 8+ / Open Source`
+    : "Latch / All Free / Android 8+ / Open Source"
 
   const flickInfoText = flickVersion
-    ? `FLICK ${flickVersion} / ANDROID 8+ / OPEN SOURCE`
-    : "FLICK v0.16.0-beta.1 / ANDROID 8+ / OPEN SOURCE"
+    ? `Flick ${flickVersion} / Android 8+ / Open Source`
+    : "Flick v0.16.0-beta.1 / Android 8+ / Open Source"
 
   const handleLoadingComplete = useCallback(() => {
     setLoadingComplete(true)
@@ -96,7 +96,7 @@ function App() {
           id="latch"
           appName="Latch"
           logoSrc="/assets/logos/latch_logo.svg"
-          headerLabel="// 01 — LATCH / SECURE MEDIA VAULT"
+          headerLabel="Latch / Secure Media Vault"
           infoText={latchInfoText}
           mockups={latchMockups}
           screenNames={latchScreenNames}
@@ -106,7 +106,7 @@ function App() {
           id="flick"
           appName="Flick"
           logoSrc="/assets/logos/flick_logo.svg"
-          headerLabel="// 02 — FLICK / AUDIOPHILE PLAYER"
+          headerLabel="Flick / Audiophile Player"
           infoText={flickInfoText}
           mockups={flickMockups}
           screenNames={flickScreenNames}

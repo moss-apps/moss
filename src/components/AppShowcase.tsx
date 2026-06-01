@@ -41,9 +41,9 @@ export function AppShowcase() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <div className="text-label mb-4 flex items-center gap-3 justify-center md:justify-start">
+          <div className="mb-4 flex items-center gap-3 justify-center md:justify-start">
             <span className="w-8 h-px bg-[var(--accent)]" />
-            <span>// 02 — APP_SHOWCASE</span>
+            <span className="text-sm font-sans font-medium text-[#8A8A90]">App Showcase</span>
           </div>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] text-[#F5F5F5] max-w-2xl text-center md:text-left">
             Built with intent.
@@ -65,14 +65,14 @@ export function AppShowcase() {
               {/* Brutalist header */}
               <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                  <span className="text-label text-[var(--accent)]">// 01</span>
-                  <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
-                    LATCH
+                  <span className="text-sm font-sans font-medium text-[var(--accent)]">01</span>
+                  <span className="text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">
+                    Latch
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">{latchVersion ?? "all free"}</span>
-                  <span className="text-label text-[#8A8A90]">Closed Beta</span>
+                  <span className="text-xs font-sans font-medium">{latchVersion ?? "all free"}</span>
+                  <span className="text-xs font-sans font-medium text-[#8A8A90]">Closed Beta</span>
                 </div>
               </div>
 
@@ -136,14 +136,14 @@ export function AppShowcase() {
               {/* Brutalist header */}
               <div className="px-4 py-3 sm:px-6 sm:py-4 brutal-border-b flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                  <span className="text-label text-[var(--accent)]">// 02</span>
-                  <span className="font-mono text-xs text-[#F5F5F5] uppercase tracking-wider">
-                    FLICK
+                  <span className="text-sm font-sans font-medium text-[var(--accent)]">02</span>
+                  <span className="text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">
+                    Flick
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-label">{flickVersion ?? "v0.16.0-beta.1"}</span>
-                  <span className="text-label text-[#8A8A90]">Google Play</span>
+                  <span className="text-xs font-sans font-medium">{flickVersion ?? "v0.16.0-beta.1"}</span>
+                  <span className="text-xs font-sans font-medium text-[#8A8A90]">Google Play</span>
                 </div>
               </div>
 
