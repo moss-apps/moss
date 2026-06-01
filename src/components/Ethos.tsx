@@ -22,9 +22,18 @@ export function Ethos() {
           transition={{ duration: 0.5 }}
           className="mb-12 md:mb-16"
         >
-          <div className="text-label mb-3 flex items-center gap-3 justify-center">
-            <span className="w-6 h-px bg-[var(--accent)]" />
-            <span>Design Ethos</span>
+          <div className="mb-3 flex items-center justify-center">
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <Heart className="w-3 h-3 text-[var(--accent)]" />
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">Design Ethos</span>
+            </div>
           </div>
           <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] w-full text-center">
             Open source. Free forever.
@@ -154,10 +163,10 @@ export function Ethos() {
         >
           <div className="absolute top-0 right-0 w-48 h-48 dot-pattern opacity-[0.07]" />
           <div className="relative max-w-2xl">
-            <div className="text-label text-[var(--accent)] mb-6">
-              // MANIFESTO_001
+            <div className="text-sm font-sans font-medium text-[var(--accent)] mb-6">
+              Manifesto
             </div>
-            <blockquote className="font-mono text-sm md:text-base text-[#8A8A90] leading-relaxed space-y-4">
+            <blockquote className="text-sm md:text-base text-[#8A8A90] leading-relaxed space-y-4">
               <p>
                 We build tools we want to use. Tools that respect the user.
                 Tools that don&apos;t phone home, don&apos;t sell attention, and don&apos;t
