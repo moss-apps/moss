@@ -339,6 +339,8 @@ export function DiagonalMockupShowcase({
                         src={mockups[carouselIndex]}
                         alt={`${appName} screen ${carouselIndex + 1}`}
                         className="w-full rounded-[2px] border border-[rgba(255,255,255,0.12)] select-none"
+                        width={520}
+                        height={1020}
                         draggable={false}
                       />
                     </div>
@@ -497,7 +499,8 @@ export function DiagonalMockupShowcase({
               src={src}
               alt={`${appName} screen ${i + 1}`}
               className="w-full h-auto rounded-[2px] border border-[rgba(255,255,255,0.12)]"
-              loading="lazy"
+              loading={i < 3 ? "eager" : "lazy"}
+              decoding="async"
             />
           </div>
         );

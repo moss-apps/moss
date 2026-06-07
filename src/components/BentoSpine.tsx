@@ -74,6 +74,8 @@ export function BentoSpine() {
             <img
               src="/assets/latch_banner.png"
               alt="Latch app banner"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />
@@ -111,6 +113,8 @@ export function BentoSpine() {
             <img
               src="/assets/flick_banner.png"
               alt="Flick Player banner"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/60 to-transparent" />

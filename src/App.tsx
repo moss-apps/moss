@@ -11,21 +11,21 @@ import { LoadingScreen } from "@/components/LoadingScreen"
 import { useGitHubRelease } from "@/hooks/useGitHubRelease"
 
 const latchMockups = [
-  "/assets/mockups/latch_one.svg",
-  "/assets/mockups/latch_two.svg",
-  "/assets/mockups/latch_three.svg",
-  "/assets/mockups/latch_four.svg",
-  "/assets/mockups/latch_five.svg",
-  "/assets/mockups/latch_six.svg",
+  "/assets/mockups/latch_one.png",
+  "/assets/mockups/latch_two.png",
+  "/assets/mockups/latch_three.png",
+  "/assets/mockups/latch_four.png",
+  "/assets/mockups/latch_five.png",
+  "/assets/mockups/latch_six.png",
 ]
 
 const flickMockups = [
-  "/assets/mockups/flick_one.svg",
-  "/assets/mockups/flick_two.svg",
-  "/assets/mockups/flick_three.svg",
-  "/assets/mockups/flick_four.svg",
-  "/assets/mockups/flick_five.svg",
-  "/assets/mockups/flick_six.svg",
+  "/assets/mockups/flick_one.png",
+  "/assets/mockups/flick_two.png",
+  "/assets/mockups/flick_three.png",
+  "/assets/mockups/flick_four.png",
+  "/assets/mockups/flick_five.png",
+  "/assets/mockups/flick_six.png",
 ]
 
 const latchScreenNames = [
