@@ -329,6 +329,169 @@ button, a, [role="button"] {
   background: rgba(255,255,255,0.25);
 }
 
+/* Custom scrollbar for glass panels */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Changelog markdown prose */
+.changelog-prose {
+  color: var(--color-ink-muted);
+  line-height: 1.7;
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.changelog-prose > * + * {
+  margin-top: 1rem;
+}
+
+.changelog-prose h1,
+.changelog-prose h2,
+.changelog-prose h3,
+.changelog-prose h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.changelog-prose h1 {
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.changelog-prose h2 {
+  font-size: 1.25rem;
+}
+
+.changelog-prose h3 {
+  font-size: 1.1rem;
+}
+
+.changelog-prose h4 {
+  font-size: 1rem;
+}
+
+.changelog-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.changelog-prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,0.1);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+}
+
+.changelog-prose a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.changelog-prose ul,
+.changelog-prose ol {
+  padding-left: 1.25rem;
+}
+
+.changelog-prose ul {
+  list-style-type: disc;
+}
+
+.changelog-prose ol {
+  list-style-type: decimal;
+}
+
+.changelog-prose li + li {
+  margin-top: 0.375rem;
+}
+
+.changelog-prose li::marker {
+  color: var(--accent);
+}
+
+.changelog-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.125rem 0.375rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.375rem;
+  color: var(--color-ink);
+}
+
+.changelog-prose pre {
+  padding: 1rem;
+  overflow-x: auto;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+
+.changelog-prose pre code {
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: var(--color-ink-muted);
+}
+
+.changelog-prose blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid var(--accent);
+  color: var(--color-ink-muted);
+  font-style: italic;
+}
+
+.changelog-prose hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 1.5rem 0;
+}
+
+.changelog-prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 1rem 0;
+}
+
+.changelog-prose th,
+.changelog-prose td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  text-align: left;
+}
+
+.changelog-prose th {
+  background: rgba(255,255,255,0.04);
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.changelog-prose input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--accent);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
