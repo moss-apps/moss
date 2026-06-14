@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link, useLocation } from "react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMossStore, type AccentColor } from "@/stores/useMossStore"
 import { Menu, X, Zap, Gauge } from "lucide-react"
@@ -22,19 +23,23 @@ export function Navigation() {
   const performanceMode = useMossStore((s) => s.performanceMode)
   const setPerformanceMode = useMossStore((s) => s.setPerformanceMode)
 
+  const location = useLocation()
+  const isHome = location.pathname === "/"
+
   const navLinks = [
-    { label: "Ecosystem", href: "#ecosystem" },
-    { label: "Latch", href: "#latch" },
-    { label: "Flick", href: "#flick" },
-    { label: "Integration", href: "#integration" },
-    { label: "Ethos", href: "#ethos" },
+    { label: "Ecosystem", href: "/#ecosystem" },
+    { label: "Latch", href: "/#latch" },
+    { label: "Flick", href: "/#flick" },
+    { label: "Integration", href: "/#integration" },
+    { label: "Ethos", href: "/#ethos" },
+    { label: "Changelog", href: "/changelog", isRoute: true },
   ]
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
       <div className="glass rounded-full px-4 sm:px-5 h-12 flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group shrink-0">
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
           <img
             src="/assets/moss_logo.svg"
             alt=""
@@ -43,19 +48,37 @@ export function Navigation() {
           <span className="font-display font-medium text-sm tracking-tight text-[#F5F5F5]">
             Moss
           </span>
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="px-3 py-1.5 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors rounded-full hover:bg-white/5"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = link.isRoute
+              ? location.pathname === link.href
+              : isHome && location.hash === link.href.replace("/", "")
+            const baseClasses =
+              "px-3 py-1.5 text-sm transition-colors rounded-full hover:bg-white/5"
+            const activeClasses = isActive
+              ? "text-[var(--accent)] bg-[var(--accent)]/10"
+              : "text-[#8A8A90] hover:text-[#F5F5F5]"
+            return link.isRoute ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`${baseClasses} ${activeClasses}`}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`${baseClasses} ${activeClasses}`}
+              >
+                {link.label}
+              </a>
+            )
+          })}
         </div>
 
         {/* Controls */}
@@ -155,16 +178,35 @@ export function Navigation() {
             className="md:hidden absolute top-full left-4 right-4 mt-2 glass rounded-2xl overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block px-3 py-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] rounded-full hover:bg-white/5"
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = link.isRoute
+                  ? location.pathname === link.href
+                  : isHome && location.hash === link.href.replace("/", "")
+                const classes = `block px-3 py-2 text-sm rounded-full hover:bg-white/5 ${
+                  isActive
+                    ? "text-[var(--accent)] bg-[var(--accent)]/10"
+                    : "text-[#8A8A90] hover:text-[#F5F5F5]"
+                }`
+                return link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setOpen(false)}
+                    className={classes}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={classes}
+                  >
+                    {link.label}
+                  </a>
+                )
+              })}
               <div className="pt-3 flex flex-col gap-3">
                 <button
                   onClick={() => setPerformanceMode(!performanceMode)}

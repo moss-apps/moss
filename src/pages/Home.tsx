@@ -1,13 +1,8 @@
-import { useState, useCallback } from "react"
-import { AsciiFlashlight } from "@/components/AsciiFlashlight"
-import { Navigation } from "@/components/Navigation"
 import { Hero } from "@/components/Hero"
 import { Ecosystem } from "@/components/Ecosystem"
 import { DiagonalMockupShowcase } from "@/components/DiagonalMockupShowcase"
 import { BrokenGridIntegration } from "@/components/BrokenGridIntegration"
 import { Ethos } from "@/components/Ethos"
-import { Footer } from "@/components/Footer"
-import { LoadingScreen } from "@/components/LoadingScreen"
 import { useGitHubRelease } from "@/hooks/useGitHubRelease"
 
 const latchMockups = [
@@ -64,9 +59,7 @@ const flickCallouts = [
   { title: "Flick Replay", description: "Revisit your listening history and favorite moments." },
 ]
 
-function App() {
-  const [loadingComplete, setLoadingComplete] = useState(false)
-
+export function Home() {
   const latchVersion = useGitHubRelease("Latch").version
   const flickVersion = useGitHubRelease("Flick").version
 
@@ -78,46 +71,32 @@ function App() {
     ? `Flick ${flickVersion} / Android 8+ / Open Source`
     : "Flick v0.16.0-beta.1 / Android 8+ / Open Source"
 
-  const handleLoadingComplete = useCallback(() => {
-    setLoadingComplete(true)
-  }, [])
-
   return (
-    <div className="relative min-h-screen text-[#F5F5F5]">
-      {!loadingComplete && <LoadingScreen onComplete={handleLoadingComplete} />}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <AsciiFlashlight />
-      </div>
-      <Navigation />
-      <main>
-        <Hero />
-        <Ecosystem />
-        <DiagonalMockupShowcase
-          id="latch"
-          appName="Latch"
-          logoSrc="/assets/logos/latch_logo.svg"
-          headerLabel="Latch / Secure Media Vault"
-          infoText={latchInfoText}
-          mockups={latchMockups}
-          screenNames={latchScreenNames}
-          callouts={latchCallouts}
-        />
-        <DiagonalMockupShowcase
-          id="flick"
-          appName="Flick"
-          logoSrc="/assets/logos/flick_logo.svg"
-          headerLabel="Flick / Audiophile Player"
-          infoText={flickInfoText}
-          mockups={flickMockups}
-          screenNames={flickScreenNames}
-          callouts={flickCallouts}
-        />
-        <BrokenGridIntegration />
-        <Ethos />
-      </main>
-      <Footer />
-    </div>
+    <main>
+      <Hero />
+      <Ecosystem />
+      <DiagonalMockupShowcase
+        id="latch"
+        appName="Latch"
+        logoSrc="/assets/logos/latch_logo.svg"
+        headerLabel="Latch / Secure Media Vault"
+        infoText={latchInfoText}
+        mockups={latchMockups}
+        screenNames={latchScreenNames}
+        callouts={latchCallouts}
+      />
+      <DiagonalMockupShowcase
+        id="flick"
+        appName="Flick"
+        logoSrc="/assets/logos/flick_logo.svg"
+        headerLabel="Flick / Audiophile Player"
+        infoText={flickInfoText}
+        mockups={flickMockups}
+        screenNames={flickScreenNames}
+        callouts={flickCallouts}
+      />
+      <BrokenGridIntegration />
+      <Ethos />
+    </main>
   )
 }
-
-export default App
