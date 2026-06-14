@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { Mail } from "lucide-react"
 
 export function Footer() {
@@ -18,8 +19,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm text-[#8A8A90] max-w-sm leading-relaxed">
-              An ecosystem of secure, open-source creative tools by Ultra
-              Electronica. Built without compromise.
+              An ecosystem of secure, open-source creative tools by Ultraelectronica. Built without compromise.
             </p>
           </div>
 
@@ -46,6 +46,14 @@ export function Footer() {
                 <a href="#integration" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Integration
                 </a>
+              </li>
+              <li>
+                <Link
+                  to="/changelog"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Changelog
+                </Link>
               </li>
               <li>
                 <a
