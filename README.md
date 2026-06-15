@@ -2,7 +2,7 @@
 
 The landing page for the **Moss Laboratories** ecosystem — a suite of open-source, privacy-first Android applications. Built with React, TypeScript, and Vite, deployed on Vercel.
 
-**[moss-laboratories.vercel.app](https://moss-laboratories.vercel.app)**
+**[moss-laboratories.vercel.app](https://mosslabs.vercel.app)**
 
 ---
 
