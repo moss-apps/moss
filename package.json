@@ -2,6 +2,7 @@
   "name": "moss",
   "private": true,
   "version": "0.0.0",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -43,11 +44,6 @@
     "vite-plugin-glsl": "^1.6.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.13"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "msw"
-    ]
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
