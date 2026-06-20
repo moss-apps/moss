@@ -9,7 +9,6 @@ A single-page landing site for Moss Laboratories built with React 19, Vite 8, an
 ```
 index.html  →  main.tsx  →  App.tsx
                               ├── LoadingScreen
-                              ├── AsciiFlashlight (canvas)
                               ├── Navigation (sticky)
                               └── main
                                    ├── Hero
@@ -43,9 +42,6 @@ Each section is a self-contained component. Configuration data (mockup paths, sc
 
 ### `LoadingScreen`
 Full-screen overlay shown on first visit. Renders an SVG logo with animated metallic circles and a blinking "System Initialized" sequence. Calls `onComplete` via prop to unmount itself.
-
-### `AsciiFlashlight`
-A `<canvas>` element fixed behind all content. Tracks mouse position and draws a radial area of random ASCII characters that follow the cursor. Purely decorative — no interaction.
 
 ### `Navigation`
 Sticky top bar (fixed, `z-50`). Features:
@@ -147,7 +143,7 @@ There's no routing — this is a pure single-page scroll site. Navigation uses a
 
 Three levels of optimization:
 
-1. **Performance mode** (user toggle) — disables `AsciiFlashlight` canvas, skips GSAP choreography in `DiagonalMockupShowcase`, switches mockups to CSS-only
+1. **Performance mode** (user toggle) — skips GSAP choreography in `DiagonalMockupShowcase`, switches mockups to CSS-only
 2. **Reduced motion** (system preference) — components can check `reducedMotion` from the store to simplify animations
 3. **Lazy loading** — `ShaderBackgroundLazy.tsx` exists for deferred Three.js loading (not currently used in `App.tsx`)
 
