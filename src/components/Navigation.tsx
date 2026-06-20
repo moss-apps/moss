@@ -33,6 +33,7 @@ export function Navigation() {
     { label: "Integration", href: "/#integration" },
     { label: "Ethos", href: "/#ethos" },
     { label: "Changelog", href: "/changelog", isRoute: true },
+    { label: "Downloads", href: "/downloads", isRoute: true },
   ]
 
   return (
