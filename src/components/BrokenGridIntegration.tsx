@@ -79,14 +79,6 @@ export function BrokenGridIntegration() {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B]/80 via-transparent to-transparent" />
-
-            {/* Floating glass badge */}
-            <div className="absolute bottom-4 left-4 md:bottom-5 md:left-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
-              <div className="flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5 md:w-4 md:h-4 text-[var(--accent)]" />
-                <span className="text-[10px] md:text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">Encrypted</span>
-              </div>
-            </div>
           </div>
         </motion.div>
 
@@ -205,14 +197,6 @@ export function BrokenGridIntegration() {
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0B]/80 via-transparent to-transparent" />
-
-            {/* Floating glass badge */}
-            <div className="absolute bottom-4 right-4 md:bottom-5 md:right-5 glass rounded-xl px-3 py-2.5 md:px-4 md:py-3">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] md:text-xs font-sans font-medium text-[#F5F5F5] uppercase tracking-wider">UAC 2.0</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-              </div>
-            </div>
           </div>
         </motion.div>
 
@@ -293,17 +277,28 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.8 }}
           className="relative h-px bg-white/10 origin-left"
         >
-          <div
-            className="absolute left-1/2 -translate-x-1/2 -top-3 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-            style={{
-              background:
-                "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-              border: "1px solid transparent",
-            }}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
+            className="absolute left-1/2 -top-3 -translate-x-1/2"
           >
-            <Check className="w-3 h-3 text-[var(--accent)]" />
-            <span className="text-sm font-sans font-medium text-[#8A8A90]">Handoff Complete</span>
-          </div>
+            <div
+              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
+              style={{
+                background:
+                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
+                border: "1px solid transparent",
+              }}
+            >
+              <span className="relative flex w-3 h-3 items-center justify-center">
+                <span className="absolute inset-0 rounded-full bg-[var(--accent)]/40 animate-pulse" />
+                <Check className="relative w-3 h-3 text-[var(--accent)]" />
+              </span>
+              <span className="text-sm font-sans font-medium text-[#8A8A90]">Handoff Complete</span>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

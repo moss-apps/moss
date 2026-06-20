@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- **Node.js** 18+
+- **Node.js** 20.19+ or 22.12+ (Vite 8 requirement)
 - **pnpm** (lockfile is `pnpm-lock.yaml`)
 - A Vercel account (for deployment)
 
@@ -40,13 +40,13 @@ None required. The site is fully static with no server-side dependencies.
 ## Adding a New Section
 
 1. Create the component in `src/components/YourSection.tsx`
-2. Import and render it in `src/App.tsx` inside `<main>`
+2. Import and render it in `src/pages/Home.tsx` (the landing route)
 3. Give the section an `id` attribute for anchor linking
 4. Add a corresponding link in `Navigation.tsx` if it should appear in the nav
 
 ## Customizing Content
 
-All app-specific content (mockup paths, screen names, callout text, links) is configured in `src/App.tsx`. Static assets live in `public/assets/`. To update app screenshots, replace the SVGs in `public/assets/mockups/`.
+All app-specific content (mockup paths, screen names, callout text, links) is configured in `src/pages/Home.tsx` and the individual section components under `src/components/`. Static assets live in `public/assets/`. To update app screenshots, replace the PNGs in `public/assets/mockups/`.
 
 ## Accent Colors
 
@@ -60,7 +60,7 @@ The 8 accent options are defined in `src/stores/useMossStore.ts`. To add a new c
 
 ### Vercel (current setup)
 
-The site is deployed to Vercel at `moss-laboratories.vercel.app`. Configuration:
+The site is deployed to Vercel at `mosslabs.vercel.app`. Configuration:
 
 - **Framework**: Vite
 - **Build command**: `pnpm build` (or auto-detected)
@@ -87,12 +87,13 @@ pnpm build
 # Make sure SPA fallback is configured (all routes → index.html)
 ```
 
-## SVG Assets
+## Assets
 
-Mockups and logos are SVGs stored in `public/assets/`. To replace them:
+Mockups and logos live in `public/assets/`. To replace them:
 
-- **Logos**: `public/assets/logos/` — `moss_logo.svg`, `flick_logo.svg`, `latch_logo.svg`
-- **Mockups**: `public/assets/mockups/` — `flick_one.svg` through `flick_six.svg`, `latch_one.svg` through `latch_six.svg`
+- **Logos**: `public/assets/logos/` — `flick_logo.svg`, `latch_logo.svg`
+- **Brand**: `public/assets/` — `moss_logo.svg`, `mosslogo.png`
+- **Mockups**: `public/assets/mockups/` — `flick_one.png` through `flick_six.png`, `latch_one.png` through `latch_six.png`
 - **Banners**: `public/assets/` — `flick_banner.png`, `latch_banner.png`
 
-Mockup dimensions should be consistent (currently ~412×892px at 1x for phone frame SVGs).
+Mockup dimensions should be consistent (currently ~412×892px at 1x for phone frames).

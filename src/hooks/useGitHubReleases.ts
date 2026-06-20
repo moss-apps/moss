@@ -21,6 +21,12 @@ export interface GitHubRelease {
     avatar_url: string
     html_url: string
   }
+  assets: {
+    id: number
+    name: string
+    download_count: number
+    created_at: string
+  }[]
 }
 
 export function useGitHubReleases(repo: keyof typeof REPOS) {
