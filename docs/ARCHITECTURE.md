@@ -57,7 +57,7 @@ Full-viewport hero section with:
 - Animated logo entrance (scale + opacity)
 - "Moss" headline (gradient text, `clamp(4rem,14vw,12rem)`)
 - Subheadline paragraph
-- Two CTAs: "Get Flick" (Google Play) and "Join Latch Beta" (mailto)
+- Two CTAs: "Get Flick" (Google Play) and "Get Latch" (Google Play)
 - Version/stat meta line
 - Scroll-down indicator with animated chevron
 
@@ -67,7 +67,7 @@ Three-column grid introducing the apps:
 2. **Flick Player** — audiophile music player (Music icon)
 3. **Handoff** — cross-app integration (ArrowRightLeft icon)
 
-Cards have links to the Flick site, Google Play, GitHub releases, and the Latch beta mailto. Below the cards is a connection diagram (horizontal on desktop, vertical on mobile) with animated dot indicators showing Latch ↔ Flick data flow.
+Cards have links to the Flick site, Google Play, and GitHub releases for both apps. Below the cards is a connection diagram (horizontal on desktop, vertical on mobile) with animated dot indicators showing Latch ↔ Flick data flow.
 
 ### `DiagonalMockupShowcase`
 The most complex component. Used twice in `App.tsx` — once for Latch, once for Flick — configured entirely via props:
