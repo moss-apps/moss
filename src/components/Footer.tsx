@@ -67,10 +67,12 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                  href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
                 >
-                  Join Latch Beta
+                  Get Latch
                 </a>
               </li>
               <li>

@@ -70,10 +70,12 @@ export function Hero() {
             Get Flick
           </a>
           <a
-            href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+            href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full sm:w-auto text-center px-7 py-3 border border-white/15 text-[#F5F5F5] font-medium text-sm rounded-md hover:bg-white/5 transition-all"
           >
-            Join Latch Beta
+            Get Latch
           </a>
         </motion.div>
 
