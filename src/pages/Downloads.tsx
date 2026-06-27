@@ -304,6 +304,11 @@ export function Downloads() {
 
   return (
     <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
+      <title>Downloads — Moss Laboratories</title>
+      <meta
+        name="description"
+        content="All-time cumulative downloads for Latch and Flick release assets, pulled live from GitHub."
+      />
       <div className="max-w-7xl mx-auto">
         {/* Back link */}
         <Link
