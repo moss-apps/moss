@@ -87,10 +87,12 @@ export function BentoSpine() {
               </p>
               <div className="flex flex-wrap items-center gap-4 mt-4">
                 <a
-                  href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                  href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
                 >
-                  Join Closed Beta <ArrowRight className="w-4 h-4" />
+                  Get on Google Play <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
                   href="https://github.com/moss-apps/Latch/releases"

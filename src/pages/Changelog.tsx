@@ -264,6 +264,11 @@ export function Changelog() {
 
   return (
     <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
+      <title>Changelog — Moss Laboratories</title>
+      <meta
+        name="description"
+        content="Release history for Latch and Flick — every version, contributor, and change, pulled live from GitHub."
+      />
       <div className="max-w-7xl mx-auto">
         {/* Back link */}
         <Link

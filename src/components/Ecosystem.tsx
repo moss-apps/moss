@@ -97,10 +97,12 @@ export function Ecosystem() {
             </p>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a
-                href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
               >
-                Join Closed Beta <ArrowRight className="w-4 h-4" />
+                Google Play <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="https://github.com/moss-apps/Latch/releases"
@@ -128,31 +130,31 @@ export function Ecosystem() {
             <div className="flex justify-center md:justify-start">
               <img
                 src="/assets/logos/flick_logo.svg"
-                alt="Flick Player"
+                alt="Flick"
                 className="h-6 w-auto mb-6 block max-w-full"
               />
             </div>
-            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Flick Player</h3>
+            <h3 className="font-display text-xl text-[#F5F5F5] mb-3">Flick</h3>
             <p className="text-sm text-[#8A8A90] leading-relaxed mb-6">
               An audiophile-grade music player with UAC 2.0 support, lossless
               playback, and a tactile interface designed for focused listening.
             </p>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a
-                href="https://www.flick-player.site/"
+                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
               >
-                Visit Site <ArrowRight className="w-4 h-4" />
+                Google Play <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+                href="https://www.flick-player.site/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
               >
-                Google Play
+                Visit Site
               </a>
               <a
                 href="https://github.com/moss-apps/Flick/releases"

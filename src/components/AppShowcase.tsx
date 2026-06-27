@@ -72,7 +72,7 @@ export function AppShowcase() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-xs font-sans font-medium">{latchVersion ?? "all free"}</span>
-                  <span className="text-xs font-sans font-medium text-[#8A8A90]">Closed Beta</span>
+                  <span className="text-xs font-sans font-medium text-[#8A8A90]">Google Play</span>
                 </div>
               </div>
 
@@ -105,10 +105,12 @@ export function AppShowcase() {
 
                 <div className="flex flex-wrap items-center gap-4">
                   <a
-                    href="mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access"
+                    href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-sm text-[var(--accent)] hover:gap-3 transition-all"
                   >
-                    Join Closed Beta <ArrowRight className="w-4 h-4" />
+                    Get on Google Play <ArrowRight className="w-4 h-4" />
                   </a>
                   <a
                     href="https://github.com/moss-apps/Latch/releases"

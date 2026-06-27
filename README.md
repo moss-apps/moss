@@ -27,7 +27,7 @@ Audiophile-grade music player for Android. UAC 2.0 USB DAC support, lossless pla
 ### [Latch Secure Vault](https://github.com/moss-apps/Latch)
 Encrypted media vault with AES-256, biometric unlock, decoy vault (plausible deniability), folder-based passcodes, and auto-kill triggers. Shares files to Flick via in-memory handoff.
 
-- **Status**: Closed beta — [request access](mailto:moss_apps@proton.me?subject=Latch%20Closed%20Beta%20Access)
+- **Status**: Live on [Google Play](https://play.google.com/store/apps/details?id=com.mossapps.locker)
 - **Version**: v0.14.0-beta.1
 - **Releases**: [GitHub](https://github.com/moss-apps/Latch/releases)
 
@@ -154,7 +154,6 @@ Brutalist aesthetic with glassmorphism panels, monospace labels, hairline border
 
 ## Roadmap
 
-- **Latch public release** — graduate from closed beta to general availability.
 - **Ecosystem growth** — expand the Moss suite beyond Flick and Latch.
 - **Deeper cross-app handoffs** — extend in-memory integration between apps.
 
