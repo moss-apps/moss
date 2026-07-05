@@ -127,21 +127,10 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Contributors */}
-        <div className="flex flex-col items-center justify-center gap-1 py-6 brutal-border-t">
-          <span className="text-xs text-[#6A6A70] italic">
-            Special contributors during the closed beta test will be added soon.
-          </span>
-        </div>
-
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 brutal-border-t">
           <div className="text-xs font-sans font-medium text-[#8A8A90]">
             © {new Date().getFullYear()} Moss Laboratories. Open source under MIT.
-          </div>
-          <div className="flex items-center gap-1 text-xs font-sans font-medium text-[#8A8A90]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
-            <span className="text-[#8A8A90]">All systems nominal</span>
           </div>
         </div>
       </div>

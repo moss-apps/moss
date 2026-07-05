@@ -258,7 +258,21 @@ function StatCard({
 }) {
   const meta = REPO_META[repo]
   return (
-    <div className="glass brutal-border rounded-2xl p-6">
+    <div className="relative p-5 sm:p-6 rounded-none">
+      {/* mobile: horizontal accent line */}
+      <div
+        className="absolute top-0 left-4 right-4 h-px sm:hidden"
+        style={{
+          background: `linear-gradient(to right, transparent 0%, ${meta.color}40 20%, ${meta.color}40 80%, transparent 100%)`,
+        }}
+      />
+      {/* desktop: vertical accent line */}
+      <div
+        className="absolute left-0 top-4 bottom-4 w-px hidden sm:block"
+        style={{
+          background: `linear-gradient(to bottom, transparent 0%, ${meta.color}40 20%, ${meta.color}40 80%, transparent 100%)`,
+        }}
+      />
       <div className="flex items-center gap-3 mb-5">
         <img src={meta.logo} alt="" className="w-8 h-8" />
         <span className="font-display text-lg font-medium text-[#F5F5F5]">
@@ -275,7 +289,12 @@ function StatCard({
         </span>
         <span className="text-sm text-[#6A6A70]">downloads</span>
       </div>
-      <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-5 text-xs text-[#8A8A90]">
+      <div className="mt-5 pt-4 flex items-center gap-5 text-xs text-[#8A8A90]"
+        style={{
+          borderTop: "1px solid transparent",
+          borderImage: "linear-gradient(to right, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, rgba(255,255,255,0.06) 100%) 1",
+        }}
+      >
         <span className="inline-flex items-center gap-1.5">
           <Tag className="w-3.5 h-3.5" />
           {releaseCount} releases
@@ -343,7 +362,13 @@ export function Downloads() {
 
         {/* Error */}
         {!isLoading && error && (
-          <div className="glass brutal-border rounded-2xl p-8 text-center">
+          <div className="p-8 text-center"
+            style={{
+              borderTop: "1px solid transparent",
+              borderBottom: "1px solid transparent",
+              borderImage: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, transparent 100%) 1",
+            }}
+          >
             <AlertCircle className="w-10 h-10 text-red-400 mx-auto mb-4" />
             <h2 className="font-display text-xl text-[#F5F5F5] mb-2">
               Couldn&apos;t load download stats
@@ -354,7 +379,11 @@ export function Downloads() {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 rounded-full border border-white/10 text-sm text-[#8A8A90] hover:text-[#F5F5F5] hover:border-white/20 transition-all"
+              className="px-4 py-2 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+              style={{
+                border: "1px solid transparent",
+                borderImage: "linear-gradient(to right, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.06) 100%) 1",
+              }}
             >
               Retry
             </button>
@@ -365,12 +394,26 @@ export function Downloads() {
         {!isLoading && !error && hasData && (
           <div className="space-y-6">
             {/* Stat cards */}
-            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid sm:grid-cols-2 gap-4 sm:gap-6"
+              style={{
+                backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            >
               <StatCard
                 repo="Latch"
                 series={latchSeries}
                 releaseCount={latch.releases.length}
                 latestTag={latch.releases[0]?.tag_name ?? null}
+              />
+              {/* mobile separator between stat cards */}
+              <div
+                className="block sm:hidden"
+                style={{
+                  borderTop: "1px solid transparent",
+                  borderImage:
+                    "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent 100%) 1",
+                }}
               />
               <StatCard
                 repo="Flick"
@@ -381,7 +424,15 @@ export function Downloads() {
             </div>
 
             {/* Chart */}
-            <div className="glass brutal-border rounded-2xl p-5 sm:p-8">
+            <div className="relative py-5 sm:py-8 px-0 sm:px-8 rounded-none"
+              style={{
+                borderTop: "1px solid transparent",
+                borderBottom: "1px solid transparent",
+                borderImage: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent 100%) 1",
+                backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            >
               <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
                 <div className="flex items-center gap-2">
                   <Download className="w-4 h-4 text-[#8A8A90]" />
@@ -407,7 +458,12 @@ export function Downloads() {
 
               <CumulativeChart latches={latchSeries} flicks={flickSeries} />
 
-              <div className="mt-6 pt-5 border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
+              <div className="mt-6 pt-5 flex items-center justify-between flex-wrap gap-3"
+                style={{
+                  borderTop: "1px solid transparent",
+                  borderImage: "linear-gradient(to right, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, rgba(255,255,255,0.06) 100%) 1",
+                }}
+              >
                 <p className="text-xs text-[#6A6A70] max-w-lg leading-relaxed">
                   Cumulative sum of asset downloads across all releases, plotted
                   by release date. The curve steps up with each release.
@@ -422,7 +478,13 @@ export function Downloads() {
 
         {/* Empty */}
         {!isLoading && !error && !hasData && (
-          <div className="glass brutal-border rounded-2xl p-8 text-center">
+          <div className="p-8 text-center"
+            style={{
+              borderTop: "1px solid transparent",
+              borderBottom: "1px solid transparent",
+              borderImage: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 20%, rgba(255,255,255,0.12) 80%, transparent 100%) 1",
+            }}
+          >
             <p className="text-[#8A8A90]">No release data available.</p>
           </div>
         )}
