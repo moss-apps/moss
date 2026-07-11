@@ -7,6 +7,17 @@ export type AnnouncementTag =
 
 export type AnnouncementApp = "flick" | "latch" | "both" | "ecosystem"
 
+export type AttachmentKind = "image" | "video" | "file"
+
+export interface Attachment {
+  path: string
+  url: string
+  name: string
+  type: string
+  size: number
+  kind: AttachmentKind
+}
+
 export interface Announcement {
   id: string
   created_at: string
@@ -18,9 +29,11 @@ export interface Announcement {
   app: AnnouncementApp
   pinned: boolean
   published: boolean
+  attachments: Attachment[]
 }
 
 export interface AnnouncementInput {
+  id?: string
   title: string
   date: string
   body: string
@@ -28,6 +41,7 @@ export interface AnnouncementInput {
   app: AnnouncementApp
   pinned: boolean
   published: boolean
+  attachments: Attachment[]
 }
 
 export const TAG_META: Record<AnnouncementTag, { label: string; color: string }> = {
