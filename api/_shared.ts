@@ -17,7 +17,31 @@ export interface ApiResponse {
   end: (data?: string) => ApiResponse
 }
 
+export const ATTACHMENTS_BUCKET = "announcements"
+// ponytail: 25MB cap. Bytes go browser→storage directly (no function body limit),
+// so this is policy, not a hard ceiling. Lower if abuse becomes a concern.
+export const MAX_ATTACHMENT_SIZE = 25 * 1024 * 1024
+
+export type AttachmentKind = "image" | "video" | "file"
+
+export function kindFromMime(mime: string): AttachmentKind {
+  if (mime.startsWith("image/")) return "image"
+  if (mime.startsWith("video/")) return "video"
+  return "file"
+}
+
+export const attachmentSchema = z.object({
+  path: z.string().min(1),
+  url: z.string().url(),
+  name: z.string().min(1).max(255),
+  type: z.string().min(1),
+  size: z.number().int().nonnegative(),
+  kind: z.enum(["image", "video", "file"]),
+})
+
 export const announcementSchema = z.object({
+  // id optional on insert so attachments can be uploaded before the row exists
+  id: z.string().uuid().optional(),
   title: z.string().min(1).max(200),
   date: z.string().min(1),
   body: z.string().max(50000).default(""),
@@ -25,6 +49,7 @@ export const announcementSchema = z.object({
   app: z.enum(["flick", "latch", "both", "ecosystem"]),
   pinned: z.boolean().default(false),
   published: z.boolean().default(false),
+  attachments: z.array(attachmentSchema).default([]),
 })
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
@@ -94,14 +119,38 @@ export async function recordSuccess(ip: string): Promise<void> {
   await redis.del(`ratelimit:fail:admin:${ip}`)
 }
 
-let _supabaseAdmin: ReturnType<typeof createClient> | null = null
+// ponytail: permissive schema — swap for generated types when columns need checking
+type Database = {
+  public: {
+    Tables: {
+      announcements: {
+        Row: { id: string } & Record<string, unknown>
+        Insert: Record<string, unknown>
+        Update: Record<string, unknown>
+        Relationships: []
+      }
+      admin_audit: {
+        Row: Record<string, unknown>
+        Insert: Record<string, unknown>
+        Update: Record<string, unknown>
+        Relationships: []
+      }
+    }
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
+  }
+}
+
+let _supabaseAdmin: ReturnType<typeof createClient<Database>> | null = null
 
 export function getSupabaseAdmin() {
   if (!_supabaseAdmin) {
     const url = process.env.VITE_SUPABASE_URL
     const serviceKey = process.env.SUPABASE_SECRET_KEY
     if (!url || !serviceKey) throw new Error("Missing Supabase env vars")
-    _supabaseAdmin = createClient(url, serviceKey, {
+    _supabaseAdmin = createClient<Database>(url, serviceKey, {
       auth: { persistSession: false },
     })
   }
