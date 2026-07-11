@@ -70,6 +70,7 @@
 html {
   background-color: #0A0A0B;
   color: #F5F5F5;
+  color-scheme: dark;
   overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
@@ -90,6 +91,13 @@ body {
 /* Mobile-friendly tap targets */
 button, a, [role="button"] {
   touch-action: manipulation;
+}
+
+/* Native <select> dropdown lists render in a separate popup that doesn't
+   inherit color-scheme reliably — set option backgrounds explicitly. */
+select option {
+  background-color: var(--color-canvas-raised);
+  color: var(--color-ink);
 }
 
 /* Brutalist type scale */
