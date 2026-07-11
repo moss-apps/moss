@@ -115,7 +115,7 @@ export function Navigation() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 glass rounded-2xl p-2 min-w-[140px]"
+                  className="absolute right-0 top-full mt-2 nav-glass rounded-2xl p-2 min-w-[140px]"
                 >
                   {accentOptions.map((opt) => (
                     <button
