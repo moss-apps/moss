@@ -1,4 +1,9 @@
-import type { Announcement, AnnouncementInput } from "@/lib/announcements"
+import type {
+  Announcement,
+  AnnouncementInput,
+  Attachment,
+  AttachmentKind,
+} from "@/lib/announcements"
 
 const STORAGE_KEY = "moss_admin_token"
 
@@ -122,4 +127,62 @@ export const adminApi = {
       `/api/admin/announcements?id=${encodeURIComponent(id)}`,
       { method: "DELETE" },
     ),
+
+  // ponytail: bytes go browser→storage directly via signed URL (no function body cap).
+  // XHR only for upload progress; everything else uses fetch.
+  async uploadAttachment(
+    announcementId: string,
+    file: File,
+    onProgress?: (loaded: number, total: number) => void,
+  ): Promise<Attachment> {
+    const meta = await adminFetch<{
+      path: string
+      signedUrl: string
+      publicUrl: string
+      kind: AttachmentKind
+      name: string
+      type: string
+      size: number
+    }>("/api/admin/announcements/upload-url", {
+      method: "POST",
+      body: JSON.stringify({
+        id: announcementId,
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      }),
+    })
+
+    await putSigned(meta.signedUrl, file, onProgress)
+
+    return {
+      path: meta.path,
+      url: meta.publicUrl,
+      name: meta.name,
+      type: meta.type,
+      size: meta.size,
+      kind: meta.kind,
+    }
+  },
+}
+
+function putSigned(
+  url: string,
+  file: File,
+  onProgress?: (loaded: number, total: number) => void,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open("PUT", url, true)
+    xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream")
+    if (onProgress) {
+      xhr.upload.onprogress = (e) => onProgress(e.loaded, e.total)
+    }
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) resolve()
+      else reject(new Error(`Upload failed: ${xhr.status}`))
+    }
+    xhr.onerror = () => reject(new Error("Upload network error"))
+    xhr.send(file)
+  })
 }
