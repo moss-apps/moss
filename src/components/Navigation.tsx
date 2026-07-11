@@ -38,8 +38,8 @@ export function Navigation() {
   ]
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
-      <div className="glass nav-glass rounded-full px-4 sm:px-5 h-12 flex items-center gap-3 sm:gap-4 md:gap-6">
+    <nav className="relative w-full nav-glass border-b" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <img
@@ -53,13 +53,13 @@ export function Navigation() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex flex-1 justify-center items-center gap-1">
           {navLinks.map((link) => {
             const isActive = link.isRoute
               ? location.pathname === link.href
               : isHome && location.hash === link.href.replace("/", "")
             const baseClasses =
-              "px-3 py-1.5 text-sm transition-colors rounded-full hover:bg-white/5"
+              "px-3 py-1.5 text-sm transition-colors rounded-md hover:bg-white/5"
             const activeClasses = isActive
               ? "text-[var(--accent)] bg-[var(--accent)]/10"
               : "text-[#8A8A90] hover:text-[#F5F5F5]"
@@ -84,11 +84,11 @@ export function Navigation() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0">
           {/* Performance toggle */}
           <button
             onClick={() => setPerformanceMode(!performanceMode)}
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-full border transition-all ${
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-md border transition-all ${
               performanceMode
                 ? "border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10"
                 : "border-white/10 text-[#8A8A90] hover:text-[#F5F5F5] hover:border-white/20"
@@ -103,7 +103,7 @@ export function Navigation() {
           <div className="relative">
             <button
               onClick={() => setShowAccentPicker(!showAccentPicker)}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-full border border-white/10 text-[#8A8A90] hover:text-[#F5F5F5] hover:border-white/20 transition-all"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-md border border-white/10 text-[#8A8A90] hover:text-[#F5F5F5] hover:border-white/20 transition-all"
             >
               <Zap className="w-3.5 h-3.5" style={{ color: `var(--accent)` }} />
               <span className="font-mono uppercase tracking-wider">Theme</span>
@@ -115,7 +115,7 @@ export function Navigation() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -4, scale: 0.97 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 glass rounded-2xl p-2 min-w-[140px]"
+                  className="absolute right-0 top-full mt-2 nav-glass rounded-2xl p-2 min-w-[140px]"
                 >
                   {accentOptions.map((opt) => (
                     <button
@@ -184,7 +184,7 @@ export function Navigation() {
                 const isActive = link.isRoute
                   ? location.pathname === link.href
                   : isHome && location.hash === link.href.replace("/", "")
-                const classes = `block px-3 py-2 text-sm rounded-full hover:bg-white/5 ${
+                const classes = `block px-3 py-2 text-sm rounded-md hover:bg-white/5 ${
                   isActive
                     ? "text-[var(--accent)] bg-[var(--accent)]/10"
                     : "text-[#8A8A90] hover:text-[#F5F5F5]"
@@ -212,7 +212,7 @@ export function Navigation() {
               <div className="pt-3 flex flex-col gap-3">
                 <button
                   onClick={() => setPerformanceMode(!performanceMode)}
-                  className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-full border transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-md border transition-all ${
                     performanceMode
                       ? "border-[var(--accent)] text-[var(--accent)]"
                       : "border-white/10 text-[#8A8A90]"

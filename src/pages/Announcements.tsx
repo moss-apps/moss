@@ -9,9 +9,15 @@ import {
   Loader2,
   Calendar,
   Pin,
+  FileText,
 } from "lucide-react"
 import { useAnnouncements } from "@/hooks/useAnnouncements"
-import { TAG_META, APP_META, type Announcement } from "@/lib/announcements"
+import {
+  TAG_META,
+  APP_META,
+  type Announcement,
+  type Attachment,
+} from "@/lib/announcements"
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(undefined, {
@@ -27,6 +33,60 @@ const panelStyle = {
   borderImage:
     "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent 100%) 1",
 } as const
+
+function AnnouncementAttachments({ items }: { items: Attachment[] }) {
+  if (!items || items.length === 0) return null
+  const images = items.filter((a) => a.kind === "image")
+  const videos = items.filter((a) => a.kind === "video")
+  const files = items.filter((a) => a.kind === "file")
+  return (
+    <div className="mt-4 space-y-3">
+      {images.length > 0 && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {images.map((a) => (
+            <a
+              key={a.path}
+              href={a.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={a.url}
+                alt={a.name}
+                className="w-full aspect-video object-cover border border-white/5"
+              />
+            </a>
+          ))}
+        </div>
+      )}
+      {videos.map((a) => (
+        <video
+          key={a.path}
+          src={a.url}
+          controls
+          className="w-full border border-white/5"
+        />
+      ))}
+      {files.length > 0 && (
+        <ul className="flex flex-wrap gap-2">
+          {files.map((a) => (
+            <li key={a.path}>
+              <a
+                href={a.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs text-[#8A8A90] hover:text-[#F5F5F5] border border-white/10 hover:border-white/20 transition-colors"
+              >
+                <FileText className="w-3 h-3" />
+                {a.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 function AnnouncementCard({ item }: { item: Announcement }) {
   const tagMeta = TAG_META[item.tag]
@@ -88,6 +148,8 @@ function AnnouncementCard({ item }: { item: Announcement }) {
           </ReactMarkdown>
         </div>
       )}
+
+      <AnnouncementAttachments items={item.attachments ?? []} />
     </motion.article>
   )
 }

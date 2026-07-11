@@ -1,4 +1,3 @@
-import { AnnouncementBanner } from "@/components/AnnouncementBanner"
 import { Hero } from "@/components/Hero"
 import { Ecosystem } from "@/components/Ecosystem"
 import { DiagonalMockupShowcase } from "@/components/DiagonalMockupShowcase"
@@ -74,7 +73,6 @@ export function Home() {
 
   return (
     <main>
-      <AnnouncementBanner />
       <Hero />
       <Ecosystem />
       <DiagonalMockupShowcase

@@ -5,7 +5,7 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
 const SELECT_FIELDS =
-  "id,created_at,updated_at,title,date,body,tag,app,pinned,published"
+  "id,created_at,updated_at,title,date,body,tag,app,pinned,published,attachments"
 
 const swrConfig: SWRConfiguration = {
   refreshInterval: 30 * 60 * 1000,

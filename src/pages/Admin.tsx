@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import useSWR from "swr"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,6 +16,9 @@ import {
   Pin,
   Eye,
   EyeOff,
+  Upload,
+  FileText,
+  Video,
 } from "lucide-react"
 import {
   adminApi,
@@ -28,8 +31,10 @@ import {
   APP_OPTIONS,
   TAG_META,
   type Announcement,
+  type AnnouncementInput,
   type AnnouncementTag,
   type AnnouncementApp,
+  type Attachment,
 } from "@/lib/announcements"
 
 const formSchema = z.object({
@@ -50,6 +55,11 @@ interface FormData {
   app: AnnouncementApp
   pinned: boolean
   published: boolean
+}
+
+interface SavePayload extends FormData {
+  id: string
+  attachments: Attachment[]
 }
 
 function toDatetimeLocal(iso: string): string {
@@ -74,6 +84,117 @@ const inputClass =
   "w-full px-3 py-2 bg-white/[0.02] text-[#F5F5F5] text-sm border border-white/10 focus:border-[var(--accent)]/40 focus:outline-none transition-colors rounded-none"
 const labelClass =
   "block text-label text-[#6A6A70] mb-1.5"
+
+function formatBytes(n: number): string {
+  if (n < 1024) return `${n} B`
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function AttachmentsEditor({
+  announcementId,
+  attachments,
+  onChange,
+}: {
+  announcementId: string
+  attachments: Attachment[]
+  onChange: (next: Attachment[]) => void
+}) {
+  const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState<{ loaded: number; total: number } | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleFiles = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    setUploading(true)
+    setError(null)
+    const added: Attachment[] = []
+    try {
+      for (const file of Array.from(files)) {
+        const att = await adminApi.uploadAttachment(
+          announcementId,
+          file,
+          (loaded, total) => setProgress({ loaded, total }),
+        )
+        added.push(att)
+      }
+      onChange([...attachments, ...added])
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Upload failed")
+    } finally {
+      setUploading(false)
+      setProgress(null)
+      if (inputRef.current) inputRef.current.value = ""
+    }
+  }
+
+  const pct = progress
+    ? Math.round((progress.loaded / progress.total) * 100)
+    : 0
+
+  return (
+    <div className="space-y-2">
+      <label className={labelClass}>Attachments</label>
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        className="hidden"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-[#8A8A90] hover:text-[#F5F5F5] border border-white/10 hover:border-white/20 disabled:opacity-40 transition-colors"
+      >
+        {uploading ? (
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+        ) : (
+          <Upload className="w-3.5 h-3.5" />
+        )}
+        {uploading && progress ? `Uploading… ${pct}%` : "Add files"}
+      </button>
+      {error && <p className="text-xs text-red-400">{error}</p>}
+      {attachments.length > 0 && (
+        <ul className="space-y-1.5">
+          {attachments.map((a) => (
+            <li
+              key={a.path}
+              className="flex items-center gap-2 px-2 py-1.5 bg-white/[0.02] border border-white/5"
+            >
+              {a.kind === "image" ? (
+                <img
+                  src={a.url}
+                  alt={a.name}
+                  className="w-8 h-8 object-cover shrink-0"
+                />
+              ) : a.kind === "video" ? (
+                <Video className="w-4 h-4 text-[#8A8A90] shrink-0" />
+              ) : (
+                <FileText className="w-4 h-4 text-[#8A8A90] shrink-0" />
+              )}
+              <span className="text-xs text-[#F5F5F5] truncate flex-1">
+                {a.name}
+              </span>
+              <span className="text-[10px] font-mono text-[#6A6A70] shrink-0">
+                {formatBytes(a.size)}
+              </span>
+              <button
+                type="button"
+                onClick={() => onChange(attachments.filter((x) => x.path !== a.path))}
+                className="text-[#6A6A70] hover:text-red-400 transition-colors shrink-0"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
 function LoginForm({ onSuccess }: { onSuccess: () => void }) {
   const [password, setPassword] = useState("")
@@ -174,7 +295,7 @@ function AnnouncementForm({
 }: {
   initial: Announcement | null
   saving: boolean
-  onSave: (data: FormData) => void
+  onSave: (data: SavePayload) => void
   onDelete: (() => void) | null
   onCancel: () => void
 }) {
@@ -197,6 +318,15 @@ function AnnouncementForm({
     },
   })
 
+  // ponytail: id generated client-side so attachments upload before the row exists.
+  // Form remounts per target via key, so lazy init is correct for each session.
+  const [announcementId] = useState(
+    () => initial?.id ?? crypto.randomUUID(),
+  )
+  const [attachments, setAttachments] = useState<Attachment[]>(
+    () => initial?.attachments ?? [],
+  )
+
   useEffect(() => {
     reset({
       title: initial?.title ?? "",
@@ -207,6 +337,7 @@ function AnnouncementForm({
       pinned: initial?.pinned ?? false,
       published: initial?.published ?? false,
     })
+    setAttachments(initial?.attachments ?? [])
   }, [initial, reset])
 
   const bodyValue = watch("body")
@@ -226,7 +357,12 @@ function AnnouncementForm({
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSave)} className="space-y-4">
+      <form
+        onSubmit={handleSubmit((data) =>
+          onSave({ ...data, id: announcementId, attachments }),
+        )}
+        className="space-y-4"
+      >
         <div>
           <label className={labelClass}>Title</label>
           <input {...register("title")} className={inputClass} />
@@ -331,6 +467,12 @@ function AnnouncementForm({
           </div>
         )}
 
+        <AttachmentsEditor
+          announcementId={announcementId}
+          attachments={attachments}
+          onChange={setAttachments}
+        />
+
         <div className="flex items-center gap-3 pt-2">
           <button
             type="submit"
@@ -386,13 +528,14 @@ export function Admin() {
     return cleanup
   }, [authed])
 
-  const handleSave = async (data: FormData) => {
+  const handleSave = async (data: SavePayload) => {
     setSaving(true)
     setSaveError(null)
     try {
-      const input = {
+      const input: AnnouncementInput = {
         ...data,
         date: fromDatetimeLocal(data.date),
+        attachments: data.attachments,
       }
       if (editingId) {
         await adminApi.update(editingId, input)
@@ -561,6 +704,7 @@ export function Admin() {
                 }}
               >
                 <AnnouncementForm
+                  key={showNew ? "new" : editingId ?? "new"}
                   initial={editing}
                   saving={saving}
                   onSave={handleSave}
