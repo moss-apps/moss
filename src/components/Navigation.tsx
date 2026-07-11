@@ -32,6 +32,7 @@ export function Navigation() {
     { label: "Flick", href: "/#flick" },
     { label: "Integration", href: "/#integration" },
     { label: "Ethos", href: "/#ethos" },
+    { label: "Announcements", href: "/announcements", isRoute: true },
     { label: "Changelog", href: "/changelog", isRoute: true },
     { label: "Downloads", href: "/downloads", isRoute: true },
   ]
@@ -176,7 +177,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="md:hidden absolute top-full left-4 right-4 mt-2 glass rounded-2xl overflow-hidden"
+            className="md:hidden absolute top-full left-4 right-4 mt-2 nav-glass rounded-2xl overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1">
               {navLinks.map((link) => {
