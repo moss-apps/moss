@@ -19,4 +19,10 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['api/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ])
