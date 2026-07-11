@@ -36,3 +36,5 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 .vercel
+db/
+docs/ANNOUNCEMENTS.md

@@ -49,6 +49,14 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  to="/announcements"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                >
+                  Announcements
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/changelog"
                   className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
                 >

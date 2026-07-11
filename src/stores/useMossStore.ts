@@ -26,9 +26,11 @@ interface MossState {
   accent: AccentColor
   performanceMode: boolean
   reducedMotion: boolean
+  dismissedAnnouncementId: string | null
   setAccent: (a: AccentColor) => void
   setPerformanceMode: (v: boolean) => void
   setReducedMotion: (v: boolean) => void
+  setDismissedAnnouncementId: (id: string | null) => void
   getAccentHex: () => string
   getAccentHue: () => number
 }
@@ -44,6 +46,7 @@ export const useMossStore = create<MossState>()(
       accent: "teal",
       performanceMode: false,
       reducedMotion: getInitialReducedMotion(),
+      dismissedAnnouncementId: null,
       setAccent: (accent) => {
         set({ accent })
         const { hex, hue } = accentMap[accent]
@@ -52,6 +55,8 @@ export const useMossStore = create<MossState>()(
       },
       setPerformanceMode: (performanceMode) => set({ performanceMode }),
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
+      setDismissedAnnouncementId: (dismissedAnnouncementId) =>
+        set({ dismissedAnnouncementId }),
       getAccentHex: () => accentMap[get().accent].hex,
       getAccentHue: () => accentMap[get().accent].hue,
     }),
@@ -60,6 +65,7 @@ export const useMossStore = create<MossState>()(
       partialize: (state) => ({
         accent: state.accent,
         performanceMode: state.performanceMode,
+        dismissedAnnouncementId: state.dismissedAnnouncementId,
       }),
     }
   )
