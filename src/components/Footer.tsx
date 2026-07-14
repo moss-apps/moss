@@ -138,8 +138,20 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 brutal-border-t">
           <div className="text-xs font-sans font-medium text-[#8A8A90]">
-            © {new Date().getFullYear()} Moss Laboratories. Open source under MIT.
+            © {new Date().getFullYear()} Moss Laboratories. Open source under
+            AGPL-3.0-or-later.
           </div>
+          <Link
+            to="/community"
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-sans font-medium text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
+            style={{
+              border: "1px solid transparent",
+              borderImage:
+                "linear-gradient(to right, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.06) 100%) 1",
+            }}
+          >
+            Community &amp; Legal
+          </Link>
         </div>
       </div>
     </footer>

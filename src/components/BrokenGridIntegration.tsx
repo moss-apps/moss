@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { Play, Lock, Zap, Fingerprint, Cpu, Check, Link } from "lucide-react"
+import { Play, Zap, Fingerprint, Cpu } from "lucide-react"
 
 export function BrokenGridIntegration() {
   return (
@@ -12,19 +12,6 @@ export function BrokenGridIntegration() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="mb-3 flex items-center justify-center">
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-              style={{
-                background:
-                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-                border: "1px solid transparent",
-              }}
-            >
-              <Link className="w-3 h-3 text-[var(--accent)]" />
-              <span className="text-sm font-sans font-medium text-[#8A8A90]">Cross App Integration</span>
-            </div>
-          </div>
           <h2 className="text-display text-[clamp(2.5rem,6vw,5rem)] text-[#F5F5F5] w-full text-center">
             Seamless handoff.
             <span className="text-[#8A8A90]"> Zero friction.</span>
@@ -42,19 +29,6 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.6 }}
           className="mb-8 text-center"
         >
-          <div className="mb-3 flex items-center justify-center">
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-              style={{
-                background:
-                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-                border: "1px solid transparent",
-              }}
-            >
-              <Lock className="w-3 h-3 text-[var(--accent)]" />
-              <span className="text-sm font-sans font-medium text-[#8A8A90]">Step 01 — Select</span>
-            </div>
-          </div>
           <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
             Choose media in Latch
           </h3>
@@ -160,19 +134,6 @@ export function BrokenGridIntegration() {
           transition={{ duration: 0.6 }}
           className="mb-8 text-center"
         >
-          <div className="mb-3 flex items-center justify-center">
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-              style={{
-                background:
-                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-                border: "1px solid transparent",
-              }}
-            >
-              <Play className="w-3 h-3 text-[var(--accent)]" />
-              <span className="text-sm font-sans font-medium text-[#8A8A90]">Step 02 — Play</span>
-            </div>
-          </div>
           <h3 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#F5F5F5] mb-3">
             Flick takes the baton
           </h3>
@@ -276,30 +237,7 @@ export function BrokenGridIntegration() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="relative h-px bg-white/10 origin-left"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
-            className="absolute left-1/2 -top-3 -translate-x-1/2"
-          >
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-              style={{
-                background:
-                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-                border: "1px solid transparent",
-              }}
-            >
-              <span className="relative flex w-3 h-3 items-center justify-center">
-                <span className="absolute inset-0 rounded-full bg-[var(--accent)]/40 animate-pulse" />
-                <Check className="relative w-3 h-3 text-[var(--accent)]" />
-              </span>
-              <span className="text-sm font-sans font-medium text-[#8A8A90]">Handoff Complete</span>
-            </div>
-          </motion.div>
-        </motion.div>
+        />
       </div>
     </section>
   )
