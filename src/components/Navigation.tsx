@@ -28,10 +28,6 @@ export function Navigation() {
 
   const navLinks = [
     { label: "Ecosystem", href: "/#ecosystem" },
-    { label: "Latch", href: "/#latch" },
-    { label: "Flick", href: "/#flick" },
-    { label: "Integration", href: "/#integration" },
-    { label: "Ethos", href: "/#ethos" },
     { label: "Announcements", href: "/announcements", isRoute: true },
     { label: "Changelog", href: "/changelog", isRoute: true },
     { label: "Downloads", href: "/downloads", isRoute: true },
@@ -41,7 +37,7 @@ export function Navigation() {
     <nav className="relative w-full nav-glass border-b" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3 sm:gap-4 md:gap-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 group shrink-0">
+        <Link to="/" className="flex items-center gap-3 group shrink-0 md:flex-1">
           <img
             src="/assets/moss_logo.svg"
             alt=""
@@ -53,7 +49,7 @@ export function Navigation() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex flex-1 justify-center items-center gap-1">
+        <div className="hidden md:flex justify-center items-center gap-1">
           {navLinks.map((link) => {
             const isActive = link.isRoute
               ? location.pathname === link.href
@@ -84,7 +80,7 @@ export function Navigation() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0">
+        <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0 md:flex-1 md:justify-end">
           {/* Performance toggle */}
           <button
             onClick={() => setPerformanceMode(!performanceMode)}

@@ -1,9 +1,31 @@
 import { motion } from "framer-motion"
 import { ChevronDown } from "lucide-react"
+import Ferrofluid from "@/components/Ferrofluid"
+import { useMossStore } from "@/stores/useMossStore"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 export function Hero() {
+  const isMobile = useIsMobile()
+  const performanceMode = useMossStore((s) => s.performanceMode)
+  const reducedMotion = useMossStore((s) => s.reducedMotion)
+
+  const lowEnd = isMobile || performanceMode
+
   return (
     <section className="relative min-h-[100dvh] flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden">
+      {reducedMotion ? null : (
+        <div className="absolute inset-0 -z-0 pointer-events-none">
+          <Ferrofluid
+            dpr={lowEnd ? 1 : Math.min(window.devicePixelRatio || 1, 1.5)}
+            antialias={!lowEnd}
+            frameSkip={lowEnd ? 2 : 1}
+            speed={lowEnd ? 0.12 : 0.22}
+            opacity={lowEnd ? 0.16 : 0.28}
+            mouseInteraction={!isMobile}
+            colors={["#9ca3af", "#d1d5db", "#e5e7eb"]}
+          />
+        </div>
+      )}
       {/* Full-bleed centered content */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
         {/* Logo mark */}

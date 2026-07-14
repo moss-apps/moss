@@ -22,19 +22,6 @@ export function Ethos() {
           transition={{ duration: 0.5 }}
           className="mb-12 md:mb-16"
         >
-          <div className="mb-3 flex items-center justify-center">
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
-              style={{
-                background:
-                  "linear-gradient(var(--color-canvas-raised), var(--color-canvas-raised)) padding-box, linear-gradient(to right, var(--accent), hsl(var(--accent-hue) 80% 16%)) border-box",
-                border: "1px solid transparent",
-              }}
-            >
-              <Heart className="w-3 h-3 text-[var(--accent)]" />
-              <span className="text-sm font-sans font-medium text-[#8A8A90]">Design Ethos</span>
-            </div>
-          </div>
           <h2 className="text-display text-[clamp(1.75rem,4vw,3rem)] text-[#F5F5F5] w-full text-center">
             Open source. Free forever.
             <span className="text-[#8A8A90]"> No ads, no tracking, no compromise.</span>
