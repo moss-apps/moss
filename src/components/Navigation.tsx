@@ -1,8 +1,9 @@
 import { useState } from "react"
+import { createPortal } from "react-dom"
 import { Link, useLocation } from "react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMossStore, type AccentColor } from "@/stores/useMossStore"
-import { Menu, X, Zap, Gauge } from "lucide-react"
+import { Menu, X, Zap, Gauge, RefreshCw } from "lucide-react"
 
 const accentOptions: { key: AccentColor; label: string }[] = [
   { key: "teal", label: "Teal" },
@@ -18,10 +19,16 @@ const accentOptions: { key: AccentColor; label: string }[] = [
 export function Navigation() {
   const [open, setOpen] = useState(false)
   const [showAccentPicker, setShowAccentPicker] = useState(false)
+  const [showRefreshToast, setShowRefreshToast] = useState(false)
   const accent = useMossStore((s) => s.accent)
   const setAccent = useMossStore((s) => s.setAccent)
   const performanceMode = useMossStore((s) => s.performanceMode)
   const setPerformanceMode = useMossStore((s) => s.setPerformanceMode)
+
+  const togglePerformanceMode = () => {
+    setPerformanceMode(!performanceMode)
+    setShowRefreshToast(true)
+  }
 
   const location = useLocation()
   const isHome = location.pathname === "/"
@@ -83,7 +90,7 @@ export function Navigation() {
         <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0 md:flex-1 md:justify-end">
           {/* Performance toggle */}
           <button
-            onClick={() => setPerformanceMode(!performanceMode)}
+            onClick={togglePerformanceMode}
             className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-md border transition-all ${
               performanceMode
                 ? "border-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/10"
@@ -207,7 +214,7 @@ export function Navigation() {
               })}
               <div className="pt-3 flex flex-col gap-3">
                 <button
-                  onClick={() => setPerformanceMode(!performanceMode)}
+                  onClick={togglePerformanceMode}
                   className={`flex items-center gap-1.5 px-3 py-2 text-xs rounded-md border transition-all ${
                     performanceMode
                       ? "border-[var(--accent)] text-[var(--accent)]"
@@ -252,9 +259,47 @@ export function Navigation() {
                 </div>
               </div>
             </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+      {/* Refresh toast */}
+      {showRefreshToast && createPortal(
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-6 right-6 z-[60] nav-glass rounded-2xl border border-white/10 p-4 max-w-xs shadow-xl"
+            style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+          >
+            <div className="flex items-start gap-3">
+              <RefreshCw className="w-4 h-4 text-[var(--accent)] mt-0.5 shrink-0" />
+              <div className="flex-1">
+                <p className="text-xs text-[#F5F5F5] font-medium leading-relaxed">
+                  Performance mode changed. Refresh to apply fully.
+                </p>
+                <div className="flex items-center gap-2 mt-3">
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="px-2.5 py-1 text-xs rounded-md bg-[var(--accent)] text-black font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Refresh
+                  </button>
+                  <button
+                    onClick={() => setShowRefreshToast(false)}
+                    className="px-2.5 py-1 text-xs rounded-md border border-white/10 text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </nav>
   )
 }
