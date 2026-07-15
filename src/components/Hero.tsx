@@ -71,7 +71,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.55 }}
           className="mt-6 text-lg md:text-xl text-[#8A8A90] max-w-lg leading-relaxed"
         >
-          An ecosystem of secure, interconnected creative tools.
+          An ecosystem of secure, interconnected creative tools.{" "}
           <br className="hidden md:block" />
           Built open-source. No ads. No compromise.
         </motion.p>
