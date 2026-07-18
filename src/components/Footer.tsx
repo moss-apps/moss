@@ -167,6 +167,7 @@ export function Footer() {
           </div>
           <Link
             to="/community"
+            onClick={() => window.scrollTo(0, 0)}
             className="inline-flex items-center gap-2 px-4 py-2 text-xs font-sans font-medium text-[#8A8A90] hover:text-[#F5F5F5] transition-all"
             style={{
               border: "1px solid transparent",
