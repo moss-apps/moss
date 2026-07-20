@@ -33,14 +33,14 @@ export function AnnouncementBanner() {
                 {item.title}
               </span>
               <Link
-                to="/announcements"
+                to={`/announcements/${item.id}`}
                 className="hidden sm:inline-flex shrink-0 items-center text-xs text-[#0A0A0B] hover:underline ml-auto font-medium"
               >
                 Read more
               </Link>
             </div>
             <Link
-              to="/announcements"
+              to={`/announcements/${item.id}`}
               className="sm:hidden shrink-0 text-xs text-[#0A0A0B] font-medium"
             >
               →
