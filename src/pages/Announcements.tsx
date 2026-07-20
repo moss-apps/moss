@@ -1,9 +1,8 @@
 import { Link } from "react-router"
 import { motion } from "framer-motion"
-import ReactMarkdown from "react-markdown"
-import remarkGfm from "remark-gfm"
 import {
   ArrowLeft,
+  ArrowRight,
   Megaphone,
   AlertCircle,
   Loader2,
@@ -15,26 +14,14 @@ import { useAnnouncements } from "@/hooks/useAnnouncements"
 import {
   TAG_META,
   APP_META,
+  excerpt,
+  formatDate,
+  panelStyle,
   type Announcement,
   type Attachment,
 } from "@/lib/announcements"
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-}
-
-const panelStyle = {
-  borderTop: "1px solid transparent",
-  borderBottom: "1px solid transparent",
-  borderImage:
-    "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent 100%) 1",
-} as const
-
-function AnnouncementAttachments({ items }: { items: Attachment[] }) {
+export function AnnouncementAttachments({ items }: { items: Attachment[] }) {
   if (!items || items.length === 0) return null
   const images = items.filter((a) => a.kind === "image")
   const videos = items.filter((a) => a.kind === "video")
@@ -131,23 +118,29 @@ function AnnouncementCard({ item }: { item: Announcement }) {
       </div>
 
       <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-[#F5F5F5] mb-4">
-        {item.title}
+        <Link
+          to={`/announcements/${item.id}`}
+          className="hover:text-[var(--accent)] transition-colors"
+        >
+          {item.title}
+        </Link>
       </h2>
 
       {item.body && (
-        <div className="changelog-prose">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              a: ({ ...props }) => (
-                <a {...props} target="_blank" rel="noopener noreferrer" />
-              ),
-            }}
-          >
-            {item.body}
-          </ReactMarkdown>
-        </div>
+        <p className="text-sm text-[#8A8A90] leading-relaxed line-clamp-3">
+          {excerpt(item.body)}
+        </p>
       )}
+
+      <div className="mt-4">
+        <Link
+          to={`/announcements/${item.id}`}
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--accent)] hover:underline transition-colors"
+        >
+          Read more
+          <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
 
       <AnnouncementAttachments items={item.attachments ?? []} />
     </motion.article>

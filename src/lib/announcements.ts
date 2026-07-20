@@ -68,3 +68,34 @@ export const APP_OPTIONS = Object.entries(APP_META).map(([key, meta]) => ({
   key: key as AnnouncementApp,
   ...meta,
 }))
+
+export function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}
+
+export const panelStyle = {
+  borderTop: "1px solid transparent",
+  borderBottom: "1px solid transparent",
+  borderImage:
+    "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent 100%) 1",
+} as const
+
+// ponytail: regex strip — known ceiling: raw HTML, nested formatting, and
+// GFM tables won't flatten cleanly. Upgrade to an mdast walker if excerpts
+// ever need structure-aware truncation.
+export function excerpt(body: string, max = 180): string {
+  const text = body
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/^[#>\-*+]+\s+/gm, " ")
+    .replace(/[*_~]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+  return text.length > max ? text.slice(0, max).trimEnd() + "…" : text
+}
