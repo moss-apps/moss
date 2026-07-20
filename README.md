@@ -21,19 +21,14 @@ The landing page for the **Moss Laboratories** ecosystem — a suite of open-sou
 Audiophile-grade music player for Android. UAC 2.0 USB DAC support, lossless playback (FLAC, ALAC, WAV, DSD), gapless transitions, and a focused listening interface.
 
 - **Status**: Live on [Google Play](https://play.google.com/store/apps/details?id=com.mossapps.flick)
-- **Version**: v0.16.0-beta.1
+- **Version**: [![GitHub Release](https://img.shields.io/github/v/release/moss-apps/Flick?label=version)](https://github.com/moss-apps/Flick/releases/latest)
 - **Site**: [flick-player.site](https://www.flick-player.site/)
 
 ### [Latch Secure Vault](https://github.com/moss-apps/Latch)
 Encrypted media vault with AES-256, biometric unlock, decoy vault (plausible deniability), folder-based passcodes, and auto-kill triggers. Shares files to Flick via in-memory handoff.
 
 - **Status**: Live on [Google Play](https://play.google.com/store/apps/details?id=com.mossapps.locker)
-- **Version**: v0.14.0-beta.1
-- **Releases**: [GitHub](https://github.com/moss-apps/Latch/releases)
-
-> Version numbers above are hand-maintained snapshots. The site itself pulls live
-> release data from GitHub via the `/changelog` and `/downloads` routes, so those
-> are always current.
+- **Version**: [![GitHub Release](https://img.shields.io/github/v/release/moss-apps/Latch?label=version)](https://github.com/moss-apps/Latch/releases/latest)
 
 ---
 
