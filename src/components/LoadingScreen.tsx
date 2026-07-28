@@ -75,6 +75,8 @@ interface LoadingScreenProps {
 export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [phase, setPhase] = useState<"entering" | "blinking" | "exiting" | "done">("entering")
   const [circlesReady, setCirclesReady] = useState(false)
+  const [minElapsed, setMinElapsed] = useState(false)
+  const [siteReady, setSiteReady] = useState(false)
 
   const sortedCircles = useMemo(() => {
     const minY = Math.min(...circleData.map((c) => c.cy))
@@ -91,19 +93,53 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   useEffect(() => {
     const readyTimer = setTimeout(() => setCirclesReady(true), 50)
     const blinkTimer = setTimeout(() => setPhase("blinking"), 700)
-    const exitTimer = setTimeout(() => setPhase("exiting"), 1350)
-    const doneTimer = setTimeout(() => {
-      setPhase("done")
-      onComplete()
-    }, 2000)
-
+    const minTimer = setTimeout(() => setMinElapsed(true), 1350)
     return () => {
       clearTimeout(readyTimer)
       clearTimeout(blinkTimer)
+      clearTimeout(minTimer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (siteReady) return
+    let cancelled = false
+    const settle = () => {
+      if (!cancelled) setSiteReady(true)
+    }
+    const loaded =
+      document.readyState === "complete" &&
+      (!document.fonts || document.fonts.status === "loaded")
+    if (loaded) {
+      settle()
+      return
+    }
+    if (document.readyState !== "complete") {
+      window.addEventListener("load", settle, { once: true })
+    }
+    if (document.fonts && document.fonts.status !== "loaded") {
+      document.fonts.ready.then(settle)
+    }
+    return () => {
+      cancelled = true
+      window.removeEventListener("load", settle)
+    }
+  }, [siteReady])
+
+  useEffect(() => {
+    if (!(siteReady && minElapsed)) return
+    // ponytail: exit only once the site is actually loaded (window load + fonts) AND the
+    // 1350ms blink floor has played. Slow site → hold; fast site → exit at the floor.
+    const exitTimer = setTimeout(() => setPhase("exiting"), 0)
+    const doneTimer = setTimeout(() => {
+      setPhase("done")
+      onComplete()
+    }, 500)
+    return () => {
       clearTimeout(exitTimer)
       clearTimeout(doneTimer)
     }
-  }, [onComplete])
+  }, [siteReady, minElapsed, onComplete])
 
   if (phase === "done") return null
 
