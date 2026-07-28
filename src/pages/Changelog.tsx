@@ -3,6 +3,7 @@ import { Link } from "react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import rehypeRaw from "rehype-raw"
 import { ArrowLeft, ExternalLink, Calendar, GitCommit, AlertCircle, Loader2 } from "lucide-react"
 import { useGitHubReleases, type GitHubRelease } from "@/hooks/useGitHubReleases"
 
@@ -242,7 +243,7 @@ function ReleaseDetail({ release, repo }: { release: GitHubRelease; repo: Repo }
 
       {/* Body */}
       <div className="changelog-prose">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {release.body || "No release notes provided."}
         </ReactMarkdown>
       </div>
