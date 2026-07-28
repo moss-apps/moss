@@ -3,7 +3,9 @@ import { Link } from "react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import rehypeRaw from "rehype-raw"
 import { ArrowLeft, ExternalLink, Calendar, GitCommit, AlertCircle, Loader2 } from "lucide-react"
+import { PlasmaWave } from "@/components/PlasmaWave"
 import { useGitHubReleases, type GitHubRelease } from "@/hooks/useGitHubReleases"
 
 const REPOS = ["Latch", "Flick"] as const
@@ -242,7 +244,7 @@ function ReleaseDetail({ release, repo }: { release: GitHubRelease; repo: Repo }
 
       {/* Body */}
       <div className="changelog-prose">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
           {release.body || "No release notes provided."}
         </ReactMarkdown>
       </div>
@@ -301,13 +303,14 @@ export function Changelog() {
   }
 
   return (
-    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
+    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen bg-[#0A0A0B]">
       <title>Changelog — Moss Laboratories</title>
       <meta
         name="description"
         content="Release history for Latch and Flick — every version, contributor, and change, pulled live from GitHub."
       />
-      <div className="max-w-7xl mx-auto">
+      <PlasmaWave />
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Back link */}
         <Link
           to="/"

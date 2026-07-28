@@ -11,7 +11,7 @@ export type AccentColor =
   | "green"
   | "gunmetal"
 
-const accentMap: Record<AccentColor, { hex: string; hue: number }> = {
+export const accentMap: Record<AccentColor, { hex: string; hue: number }> = {
   blue: { hex: "#4F8CFF", hue: 217 },
   purple: { hex: "#A855F7", hue: 271 },
   pink: { hex: "#EC4899", hue: 330 },

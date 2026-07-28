@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import { Link } from "react-router"
 import { motion } from "framer-motion"
 import { ArrowLeft, TrendingUp, AlertCircle, Loader2, Download, Tag } from "lucide-react"
+import { PlasmaWave } from "@/components/PlasmaWave"
 import { useGitHubReleases, type GitHubRelease } from "@/hooks/useGitHubReleases"
 
 type Repo = "Latch" | "Flick"
@@ -322,13 +323,14 @@ export function Downloads() {
   const combinedTotal = latchSeries.total + flickSeries.total
 
   return (
-    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
+    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen bg-[#0A0A0B]">
       <title>Downloads — Moss Laboratories</title>
       <meta
         name="description"
         content="All-time cumulative downloads for Latch and Flick release assets, pulled live from GitHub."
       />
-      <div className="max-w-7xl mx-auto">
+      <PlasmaWave />
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Back link */}
         <Link
           to="/"

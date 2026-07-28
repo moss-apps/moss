@@ -506,6 +506,18 @@ select option {
   accent-color: var(--accent);
 }
 
+.changelog-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  margin: 0.5rem 0;
+}
+
+.changelog-prose picture {
+  display: block;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -10,6 +10,7 @@ import {
   Pin,
   FileText,
 } from "lucide-react"
+import { PlasmaWave } from "@/components/PlasmaWave"
 import { useAnnouncements } from "@/hooks/useAnnouncements"
 import {
   TAG_META,
@@ -151,13 +152,14 @@ export function Announcements() {
   const { items, isLoading, error, configured } = useAnnouncements()
 
   return (
-    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen">
+    <main className="relative pt-28 sm:pt-32 pb-20 px-4 sm:px-6 min-h-screen bg-[#0A0A0B]">
       <title>Announcements — Moss Laboratories</title>
       <meta
         name="description"
         content="Latest announcements and updates from the Moss ecosystem."
       />
-      <div className="max-w-3xl mx-auto">
+      <PlasmaWave />
+      <div className="relative z-10 max-w-3xl mx-auto">
         <Link
           to="/"
           className="inline-flex items-center gap-2 mb-6 text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
