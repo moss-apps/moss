@@ -1,18 +1,33 @@
+import { useMemo } from "react"
 import { motion } from "framer-motion"
-import { ChevronDown } from "lucide-react"
 import Ferrofluid from "@/components/Ferrofluid"
-import { useMossStore } from "@/stores/useMossStore"
+import { accentMap, useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
+
+const tint = (hex: string, amt: number) => {
+  const n = parseInt(hex.slice(1), 16)
+  const m = (v: number) =>
+    Math.round(v + (255 - v) * amt)
+      .toString(16)
+      .padStart(2, "0")
+  return `#${m((n >> 16) & 255)}${m((n >> 8) & 255)}${m(n & 255)}`
+}
 
 export function Hero() {
   const isMobile = useIsMobile()
   const performanceMode = useMossStore((s) => s.performanceMode)
   const reducedMotion = useMossStore((s) => s.reducedMotion)
+  const accent = useMossStore((s) => s.accent)
 
   const lowEnd = isMobile || performanceMode
+  const accentHex = accentMap[accent].hex
+  const colors = useMemo(
+    () => [accentHex, tint(accentHex, 0.3), tint(accentHex, 0.6)],
+    [accentHex]
+  )
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center pt-16 px-4 sm:px-6 overflow-hidden">
       {reducedMotion ? null : (
         <div className="absolute inset-0 -z-0 pointer-events-none">
           <Ferrofluid
@@ -22,10 +37,12 @@ export function Hero() {
             speed={lowEnd ? 0.12 : 0.22}
             opacity={lowEnd ? 0.16 : 0.28}
             mouseInteraction={!isMobile}
-            colors={["#9ca3af", "#d1d5db", "#e5e7eb"]}
+            colors={colors}
           />
         </div>
       )}
+      {/* Bottom fade so the ferrofluid dissolves into the page instead of cutting */}
+      <div className="absolute inset-0 -z-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[#0A0A0B]" />
       {/* Full-bleed centered content */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
         {/* Logo mark */}
@@ -115,23 +132,6 @@ export function Hero() {
           <span>Open Source</span>
         </motion.div>
       </div>
-
-      {/* Scroll hint */}
-      <motion.a
-        href="#spine"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.3 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
-      >
-        <span className="text-sm font-sans font-medium text-[#8A8A90]">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <ChevronDown className="w-4 h-4" />
-        </motion.div>
-      </motion.a>
     </section>
   )
 }
