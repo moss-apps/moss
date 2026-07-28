@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router"
 import { motion } from "framer-motion"
 import ReactMarkdown from "react-markdown"
@@ -11,10 +11,8 @@ import {
   Pin,
   Megaphone,
 } from "lucide-react"
-import Ferrofluid from "@/components/Ferrofluid"
+import { PlasmaWave } from "@/components/PlasmaWave"
 import { useAnnouncement, useAnnouncements } from "@/hooks/useAnnouncements"
-import { useMossStore } from "@/stores/useMossStore"
-import { useIsMobile } from "@/hooks/useIsMobile"
 import {
   TAG_META,
   APP_META,
@@ -23,16 +21,6 @@ import {
   type Announcement,
 } from "@/lib/announcements"
 import { AnnouncementAttachments } from "@/pages/Announcements"
-
-// ponytail: derive a tint from any hex — amt in [-255,255]
-function shade(hex: string, amt: number) {
-  const n = parseInt(hex.replace("#", ""), 16)
-  const clamp = (v: number) => Math.max(0, Math.min(255, v))
-  const r = clamp(((n >> 16) & 255) + amt)
-  const g = clamp(((n >> 8) & 255) + amt)
-  const b = clamp((n & 255) + amt)
-  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`
-}
 
 function ScrollProgress() {
   const [p, setP] = useState(0)
@@ -189,17 +177,6 @@ export function AnnouncementDetail() {
   const params = useParams<{ id?: string }>()
   const { item, isLoading, error, configured } = useAnnouncement(params.id)
   const { items } = useAnnouncements()
-  const isMobile = useIsMobile()
-  const performanceMode = useMossStore((s) => s.performanceMode)
-  const reducedMotion = useMossStore((s) => s.reducedMotion)
-  const accent = useMossStore((s) => s.getAccentHex())
-
-  // memoized so Ferrofluid doesn't re-init WebGL every render
-  const plasmaColors = useMemo(
-    () => [shade(accent, 30), accent, shade(accent, 90)],
-    [accent],
-  )
-  const showWave = !isMobile && !performanceMode && !reducedMotion
 
   return (
     <main className="relative min-h-screen pt-28 sm:pt-32 pb-20 px-4 sm:px-6 bg-[#0A0A0B]">
@@ -219,31 +196,7 @@ export function AnnouncementDetail() {
       />
 
       {/* Plasma wave — upper part of the background, fading into #0A0A0B */}
-      {showWave && (
-        <div
-          className="absolute top-0 left-0 right-0 z-0 h-[55vh] overflow-hidden pointer-events-none"
-          aria-hidden
-        >
-          <Ferrofluid
-            dpr={Math.min(
-              (typeof window !== "undefined" && window.devicePixelRatio) || 1,
-              1.5,
-            )}
-            speed={0.18}
-            opacity={0.75}
-            mouseInteraction={false}
-            colors={plasmaColors}
-            flowDirection="down"
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(10,10,11,0.05) 0%, rgba(10,10,11,0.5) 60%, #0A0A0B 100%)",
-            }}
-          />
-        </div>
-      )}
+      <PlasmaWave />
 
       <div className="relative z-10 mx-auto max-w-5xl">
         {isLoading && (
