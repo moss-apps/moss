@@ -20,6 +20,7 @@ import {
   panelStyle,
   type Announcement,
 } from "@/lib/announcements"
+import { ImageSlideshow } from "@/components/ImageSlideshow"
 import { AnnouncementAttachments } from "@/pages/Announcements"
 
 function ScrollProgress() {
@@ -134,8 +135,7 @@ function AnnouncementHeader({ item }: { item: Announcement }) {
 
 function AnnouncementBody({ item }: { item: Announcement }) {
   const images = item.attachments?.filter((a) => a.kind === "image") ?? []
-  const heroImage = images[0]
-  const rest = item.attachments?.filter((a) => a !== heroImage) ?? []
+  const rest = item.attachments?.filter((a) => a.kind !== "image") ?? []
 
   return (
     <motion.div
@@ -143,15 +143,7 @@ function AnnouncementBody({ item }: { item: Announcement }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Hero picture — same width as the text body */}
-      {heroImage && (
-        <img
-          src={heroImage.url}
-          alt={heroImage.name}
-          loading="lazy"
-          className="w-full h-auto border border-white/10 rounded-xl mb-8"
-        />
-      )}
+      {images.length > 0 && <ImageSlideshow images={images} className="mb-8" />}
 
       {item.body && (
         <div className="changelog-prose">
