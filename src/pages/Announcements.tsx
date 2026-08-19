@@ -10,6 +10,7 @@ import {
   Pin,
   FileText,
 } from "lucide-react"
+import { ImageSlideshow } from "@/components/ImageSlideshow"
 import { PlasmaWave } from "@/components/PlasmaWave"
 import { useAnnouncements } from "@/hooks/useAnnouncements"
 import {
@@ -29,7 +30,7 @@ export function AnnouncementAttachments({ items }: { items: Attachment[] }) {
   const files = items.filter((a) => a.kind === "file")
   return (
     <div className="mt-4 space-y-3">
-      {images.length > 0 && (
+      {images.length === 1 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {images.map((a) => (
             <a
@@ -47,6 +48,7 @@ export function AnnouncementAttachments({ items }: { items: Attachment[] }) {
           ))}
         </div>
       )}
+      {images.length >= 2 && <ImageSlideshow images={images} />}
       {videos.map((a) => (
         <video
           key={a.path}
