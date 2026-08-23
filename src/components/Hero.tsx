@@ -46,13 +46,13 @@ export function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-1/2 -z-0 pointer-events-none bg-gradient-to-t from-canvas to-transparent" />
 
       {/* Center: the mark is the hero object */}
-      <div className="relative z-10 flex-1 flex items-center justify-center min-h-0 py-6">
+      <div className="relative z-10 flex-1 flex items-center justify-center min-h-0 py-2 md:py-0">
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          <HeroCubes className="h-[min(clamp(280px,54vw,560px),50vh)] aspect-square" />
+          <HeroCubes className="h-[min(clamp(280px,62vw,560px),48vh)] aspect-square md:h-[min(clamp(460px,74vw,920px),60vh,calc(100dvh_-_350px))]" />
         </motion.div>
       </div>
 
