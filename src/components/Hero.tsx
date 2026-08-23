@@ -1,6 +1,7 @@
 import { useMemo } from "react"
 import { motion } from "framer-motion"
-import Ferrofluid from "@/components/Ferrofluid"
+import AcidSquares from "@/components/AcidSquares"
+import { HeroCubes } from "@/components/HeroCubes"
 import { accentMap, useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
 
@@ -27,109 +28,81 @@ export function Hero() {
   )
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center pt-16 px-4 sm:px-6 overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col overflow-hidden px-4 sm:px-6 lg:px-10 pt-20 pb-8 md:pb-10">
       {reducedMotion ? null : (
         <div className="absolute inset-0 -z-0 pointer-events-none">
-          <Ferrofluid
-            dpr={lowEnd ? 1 : Math.min(window.devicePixelRatio || 1, 1.5)}
-            antialias={!lowEnd}
-            frameSkip={lowEnd ? 2 : 1}
+          <AcidSquares
+            detail={lowEnd ? "low" : "medium"}
             speed={lowEnd ? 0.12 : 0.22}
             opacity={lowEnd ? 0.16 : 0.28}
             mouseInteraction={!isMobile}
-            colors={colors}
+            color1={colors[0]}
+            color2={colors[1]}
+            color3={colors[2]}
           />
         </div>
       )}
       {/* Bottom fade so the ferrofluid dissolves into the page instead of cutting */}
-      <div className="absolute inset-0 -z-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-[#0A0A0B]" />
-      {/* Full-bleed centered content */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
-        {/* Logo mark */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 -z-0 pointer-events-none bg-gradient-to-t from-canvas to-transparent" />
+
+      {/* Center: the mark is the hero object */}
+      <div className="relative z-10 flex-1 flex items-center justify-center min-h-0 py-6">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8 -ml-2 sm:-ml-3 md:-ml-6"
+          transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          <img
-            src="/assets/moss_logo.svg"
-            alt="Moss"
-            className="w-16 h-16 md:w-20 md:h-20 opacity-90"
-          />
+          <HeroCubes className="h-[min(clamp(280px,54vw,560px),50vh)] aspect-square" />
+        </motion.div>
+      </div>
+
+      {/* Corners: wordmark flush left, creed + CTAs flush right */}
+      <div className="relative z-10 flex flex-col gap-10 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+        >
+          <p className="text-label mb-3 sm:mb-4 flex items-center gap-3">
+            <span className="w-6 h-px bg-[var(--accent)]" />
+            All free / 2 apps / Open source
+          </p>
+          <h1 className="text-display text-ink text-[clamp(4.5rem,13vw,11rem)]">
+            Moss
+          </h1>
         </motion.div>
 
-        {/* Eyebrow */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6 flex items-center gap-3 text-sm font-sans font-medium text-[#8A8A90]"
+          transition={{ duration: 0.6, delay: 0.65, ease: "easeOut" }}
+          className="glass w-full sm:w-[22rem] md:w-[24rem] shrink-0 p-5 md:p-6"
         >
-          <span className="w-6 h-px bg-[var(--accent)]" />
-          <span>Moss Laboratories</span>
-          <span className="w-6 h-px bg-[var(--accent)]" />
-        </motion.div>
-
-        {/* Main headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.35 }}
-          className="text-display text-[clamp(4rem,14vw,12rem)] bg-gradient-to-t from-[#909090] to-[#F5F5F5] bg-clip-text text-transparent leading-[0.9] tracking-[-0.04em]"
-        >
-          Moss
-        </motion.h1>
-
-        {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
-          className="mt-6 text-lg md:text-xl text-[#8A8A90] max-w-lg leading-relaxed"
-        >
-          An ecosystem of secure, interconnected creative tools.{" "}
-          <br className="hidden md:block" />
-          Built open-source. No ads. No compromise.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-3"
-        >
-          <a
-            href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto text-center px-7 py-3 bg-[var(--accent)] text-[#0A0A0B] font-medium text-sm rounded-md hover:brightness-110 transition-all"
-          >
-            Get Flick
-          </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto text-center px-7 py-3 border border-white/15 text-[#F5F5F5] font-medium text-sm rounded-md hover:bg-white/5 transition-all"
-          >
-            Get Latch
-          </a>
-        </motion.div>
-
-        {/* Meta line */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.95 }}
-          className="mt-12 flex items-center gap-4 sm:gap-6 text-sm font-sans font-medium text-[#8A8A90]"
-        >
-          <span>All Free</span>
-          <span className="w-1 h-1 rounded-full bg-white/20" />
-          <span>2 Apps</span>
-          <span className="w-1 h-1 rounded-full bg-white/20" />
-          <span>Open Source</span>
+          <span className="mb-5 block h-px w-10 bg-[var(--accent)]" />
+          <p className="text-[15px] md:text-base leading-relaxed text-ink">
+            An ecosystem of secure, interconnected creative tools.
+          </p>
+          <p className="text-label mt-3">
+            Built open-source. No ads. No compromise.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-end gap-2.5">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2.5 rounded-md bg-[var(--accent)] text-canvas font-medium text-sm hover:brightness-110 active:brightness-95 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            >
+              Get Flick
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2.5 rounded-md border border-glass-border text-ink font-medium text-sm hover:bg-glass-hover active:bg-white/10 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            >
+              Get Latch
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
