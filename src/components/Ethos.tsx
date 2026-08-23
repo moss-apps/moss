@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import type { LucideIcon } from "lucide-react"
 import { Code2, Heart, Globe, Mail } from "lucide-react"
-import Ferrofluid from "./Ferrofluid"
+import AcidSquares from "./AcidSquares"
 import { useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
 
@@ -93,19 +93,13 @@ export function Ethos() {
         >
           {showShader && (
             <div className="absolute inset-0 pointer-events-none">
-              <Ferrofluid
+              <AcidSquares
+                detail="low"
                 opacity={0.4}
-                colors={["#14B8A6", "#0EA5E9", "#5EEAD4"]}
-                flowDirection="right"
+                color1="#14B8A6"
+                color2="#0EA5E9"
+                color3="#5EEAD4"
                 speed={0.28}
-                scale={2.6}
-                turbulence={0.7}
-                fluidity={0.12}
-                rimWidth={0.28}
-                sharpness={2.2}
-                shimmer={1.2}
-                glow={1.6}
-                frameSkip={2}
                 mouseInteraction={false}
               />
             </div>
