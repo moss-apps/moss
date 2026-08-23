@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { Environment, Lightformer } from "@react-three/drei"
+import { Environment, Lightformer, RoundedBox } from "@react-three/drei"
 import * as THREE from "three"
 import { RoundedBoxGeometry } from "three-stdlib"
 import { accentMap, useMossStore } from "@/stores/useMossStore"
@@ -18,6 +18,9 @@ interface Keyframe {
 
 const TAU = Math.PI * 2
 const GAP = 1.18
+const CAM_Z = 7
+const _euler = new THREE.Euler()
+const _mat = new THREE.Matrix4()
 const LOOP = 20
 const FROZEN_T = 6.4
 
@@ -127,6 +130,15 @@ const LATCH_TRACK: Keyframe[] = [
 ]
 
 const TRACKS: Keyframe[][] = [MOSS_TRACK, FLICK_TRACK, LATCH_TRACK]
+
+// Small companions behind the cluster. Outer radii keep the autofit honest.
+const PROPS = [
+  { p: [-1.05, -0.85, -1.25], r: 0.48 },
+  { p: [-1.65, 0, -1.4], r: 0.34 },
+  { p: [-1.75, -1.25, -1.35], r: 0.32 },
+  { p: [-0.45, -1.3, -1.05], r: 0.25 },
+  { p: [1.55, 1.25, -2], r: 0.65 },
+]
 
 const LOGO_SOURCES = [
   { url: "/assets/moss_logo.svg", letter: "M" },
@@ -283,14 +295,27 @@ function Rig({
     const t = frozen ? FROZEN_T : state.clock.elapsedTime % LOOP
     let maxX = 0
     let maxY = 0
+    let maxZ = 0
     for (const track of tracks) {
       sampleTrack(track, t, sp.current, sr.current)
-      maxX = Math.max(maxX, Math.abs(sp.current[0]))
-      maxY = Math.max(maxY, Math.abs(sp.current[1]))
+      _euler.set(sr.current[0], sr.current[1], sr.current[2])
+      _mat.makeRotationFromEuler(_euler)
+      const e = _mat.elements
+      const hx = 0.5 * (Math.abs(e[0]) + Math.abs(e[4]) + Math.abs(e[8])) + 0.05
+      const hy = 0.5 * (Math.abs(e[1]) + Math.abs(e[5]) + Math.abs(e[9])) + 0.05
+      maxX = Math.max(maxX, Math.abs(sp.current[0]) + hx)
+      maxY = Math.max(maxY, Math.abs(sp.current[1]) + hy)
+      maxZ = Math.max(maxZ, sp.current[2])
     }
-    const need = Math.max(maxX, maxY) * 2 + 1.1
-    const avail = Math.min(viewport.width, viewport.height) * 0.96
-    const targetScale = Math.min(1.3, avail / need)
+    for (const pr of PROPS) {
+      maxX = Math.max(maxX, Math.abs(pr.p[0]) + pr.r)
+      maxY = Math.max(maxY, Math.abs(pr.p[1]) + pr.r)
+      maxZ = Math.max(maxZ, pr.p[2])
+    }
+    const f = CAM_Z / (CAM_Z - maxZ)
+    const need = Math.max(maxX * f, maxY * f + 0.11) * 2 * 1.02
+    const avail = Math.min(viewport.width, viewport.height) * 0.97
+    const targetScale = Math.min(1.4, avail / need)
 
     if (frozen) {
       g.scale.setScalar(targetScale)
@@ -306,6 +331,82 @@ function Rig({
   })
 
   return <group ref={group}>{children}</group>
+}
+
+function Satellites({
+  accentHex,
+  frozen,
+  lowEnd,
+}: {
+  accentHex: string
+  frozen: boolean
+  lowEnd: boolean
+}) {
+  const cubeA = useRef<THREE.Mesh>(null!)
+  const cubeB = useRef<THREE.Mesh>(null!)
+  const sphereA = useRef<THREE.Mesh>(null!)
+  const sphereB = useRef<THREE.Mesh>(null!)
+  const torus = useRef<THREE.Mesh>(null!)
+
+  useFrame((state) => {
+    if (frozen) return
+    const e = state.clock.elapsedTime
+    cubeA.current.rotation.set(e * 0.4, e * 0.3 + 0.6, e * 0.22)
+    cubeB.current.rotation.set(-e * 0.34 + 0.4, e * 0.26, e * 0.5)
+    sphereA.current.position.y = -1.25 + Math.sin(e * 0.7 + 1.2) * 0.07
+    sphereB.current.position.y = -1.3 + Math.sin(e * 0.85 + 3.4) * 0.09
+    torus.current.rotation.z = e * 0.4
+  })
+
+  const silver = {
+    metalness: 0.9,
+    roughness: 0.26,
+    clearcoat: 0.6,
+    clearcoatRoughness: 0.2,
+    envMapIntensity: 1.2,
+  }
+  const colored = {
+    metalness: 0.92,
+    roughness: 0.22,
+    clearcoat: 0.6,
+    clearcoatRoughness: 0.18,
+    envMapIntensity: 1.25,
+  }
+
+  return (
+    <group>
+      <RoundedBox
+        ref={cubeA}
+        args={[0.5, 0.5, 0.5]}
+        radius={0.125}
+        position={[-1.05, -0.85, -1.25]}
+        rotation={[0.6, 0.3, 0.2]}
+      >
+        <meshPhysicalMaterial color="#c9cdd4" {...silver} />
+      </RoundedBox>
+      <RoundedBox
+        ref={cubeB}
+        args={[0.34, 0.34, 0.34]}
+        radius={0.085}
+        position={[-1.65, 0, -1.4]}
+        rotation={[-0.3, 0.5, 0.1]}
+      >
+        <meshPhysicalMaterial color={accentHex} {...colored} />
+      </RoundedBox>
+      <mesh ref={sphereA} position={[-1.75, -1.25, -1.35]}>
+        <sphereGeometry args={[0.22, lowEnd ? 16 : 24, lowEnd ? 12 : 18]} />
+        <meshPhysicalMaterial color={accentHex} {...colored} />
+      </mesh>
+      <mesh ref={sphereB} position={[-0.45, -1.3, -1.05]}>
+        <sphereGeometry args={[0.15, lowEnd ? 16 : 24, lowEnd ? 12 : 18]} />
+        <meshPhysicalMaterial color="#c9cdd4" {...silver} />
+      </mesh>
+      <mesh ref={torus} position={[1.55, 1.25, -2]} rotation={[1.15, 0.35, 0]}>
+        <torusGeometry args={[0.55, 0.075, lowEnd ? 8 : 12, lowEnd ? 24 : 36]} />
+        <meshPhysicalMaterial color="#c9cdd4" metalness={0.95} roughness={0.15} clearcoat={0.7} clearcoatRoughness={0.15} envMapIntensity={1.3} />
+      </mesh>
+    </group>
+  )
 }
 
 function CubeScene({
@@ -342,6 +443,7 @@ function CubeScene({
         </Environment>
       )}
       <Rig tracks={TRACKS} frozen={frozen}>
+        <Satellites accentHex={accentHex} frozen={frozen} lowEnd={lowEnd} />
         {textures.map((tex, i) => (
           <Cube
             key={i}
@@ -386,7 +488,7 @@ export function HeroCubes({ className }: { className?: string }) {
     <div className={className} aria-hidden="true">
       <Canvas
         frameloop={frozen ? "demand" : "always"}
-        camera={{ position: [0, 0, 7], fov: 34 }}
+        camera={{ position: [0, 0, CAM_Z], fov: 34 }}
         dpr={Math.min(window.devicePixelRatio, lowEnd ? 1.5 : 2)}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         style={{ pointerEvents: "none" }}
