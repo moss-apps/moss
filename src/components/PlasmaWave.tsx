@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import Ferrofluid from "@/components/Ferrofluid"
+import AcidSquares from "@/components/AcidSquares"
 import { useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
 
@@ -31,16 +31,14 @@ export function PlasmaWave() {
       className="absolute top-0 left-0 right-0 z-0 h-[55vh] overflow-hidden pointer-events-none"
       aria-hidden
     >
-      <Ferrofluid
-        dpr={Math.min(
-          (typeof window !== "undefined" && window.devicePixelRatio) || 1,
-          1.5,
-        )}
+      <AcidSquares
+        detail="medium"
         speed={0.18}
         opacity={0.75}
         mouseInteraction={false}
-        colors={plasmaColors}
-        flowDirection="down"
+        color1={plasmaColors[0]}
+        color2={plasmaColors[1]}
+        color3={plasmaColors[2]}
       />
       <div
         className="absolute inset-0"
