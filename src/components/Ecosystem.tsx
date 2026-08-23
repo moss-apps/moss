@@ -1,6 +1,6 @@
 import { motion } from "framer-motion"
 import { ArrowRight, Download, ExternalLink } from "lucide-react"
-import Ferrofluid from "./Ferrofluid"
+import AcidSquares from "./AcidSquares"
 import { useMossStore } from "@/stores/useMossStore"
 import { useIsMobile } from "@/hooks/useIsMobile"
 
@@ -81,19 +81,13 @@ export function Ecosystem() {
         >
           {showShader && (
             <div className="absolute inset-0 pointer-events-none">
-              <Ferrofluid
+              <AcidSquares
+                detail="low"
                 opacity={0.45}
-                colors={["#14B8A6", "#0EA5E9", "#5EEAD4"]}
-                flowDirection="right"
+                color1="#14B8A6"
+                color2="#0EA5E9"
+                color3="#5EEAD4"
                 speed={0.3}
-                scale={2.4}
-                turbulence={0.8}
-                fluidity={0.12}
-                rimWidth={0.28}
-                sharpness={2.2}
-                shimmer={1.2}
-                glow={1.6}
-                frameSkip={2}
                 mouseInteraction={false}
               />
             </div>
