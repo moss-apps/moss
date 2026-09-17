@@ -19,6 +19,7 @@ interface ApiResponse {
 }
 
 const ROUTES: Record<string, string> = {
+  "/api/releases": "/api/releases.ts",
   "/api/admin/auth": "/api/admin/auth.ts",
   "/api/admin/announcements": "/api/admin/announcements.ts",
   "/api/admin/announcements/upload-url": "/api/admin/announcements/upload-url.ts",

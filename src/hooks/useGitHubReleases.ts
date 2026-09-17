@@ -1,11 +1,5 @@
 import useSWR from "swr"
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
-const REPOS = {
-  Latch: "moss-apps/Latch",
-  Flick: "moss-apps/Flick",
-} as const
+import { fetchJson, releasesUrl, type GitHubRepo } from "@/lib/github"
 
 export interface GitHubRelease {
   id: number
@@ -29,10 +23,10 @@ export interface GitHubRelease {
   }[]
 }
 
-export function useGitHubReleases(repo: keyof typeof REPOS) {
+export function useGitHubReleases(repo: GitHubRepo) {
   const { data, error, isLoading } = useSWR<GitHubRelease[]>(
-    `https://api.github.com/repos/${REPOS[repo]}/releases?per_page=100`,
-    fetcher,
+    releasesUrl(repo),
+    fetchJson<GitHubRelease[]>,
     {
       refreshInterval: 30 * 60 * 1000,
       revalidateOnFocus: true,
@@ -41,12 +35,12 @@ export function useGitHubReleases(repo: keyof typeof REPOS) {
     },
   )
 
-  const releases = data?.filter((r) => !r.draft).sort(
-    (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
-  )
+  const releases = (Array.isArray(data) ? data : [])
+    .filter((r) => !r.draft)
+    .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
 
   return {
-    releases: releases ?? [],
+    releases,
     isLoading,
     error,
   }
