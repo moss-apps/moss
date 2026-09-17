@@ -4,6 +4,8 @@ import { Navigation } from "@/components/Navigation"
 import { AnnouncementBanner } from "@/components/AnnouncementBanner"
 import { Footer } from "@/components/Footer"
 import { LoadingScreen } from "@/components/LoadingScreen"
+import { ScrollToTop } from "@/components/ScrollToTop"
+import { BackToTop } from "@/components/BackToTop"
 
 export function Layout() {
   const [loadingComplete, setLoadingComplete] = useState(false)
@@ -33,6 +35,13 @@ export function Layout() {
 
   return (
     <div className="relative min-h-screen text-[#F5F5F5]">
+      <ScrollToTop />
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-[#0A0A0B] focus:text-sm focus:font-medium focus:rounded-md"
+      >
+        Skip to content
+      </a>
       {!loadingComplete && <LoadingScreen onComplete={handleLoadingComplete} />}
       <div
         className="fixed top-0 left-0 right-0 z-50"
@@ -44,7 +53,10 @@ export function Layout() {
         <Navigation />
         <AnnouncementBanner />
       </div>
-      <Outlet />
+      <div id="main-content" tabIndex={-1} className="outline-none">
+        <Outlet />
+      </div>
+      <BackToTop />
       <Footer />
     </div>
   )

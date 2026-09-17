@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Environment, Lightformer, RoundedBox } from "@react-three/drei"
+import { EffectComposer, Vignette } from "@react-three/postprocessing"
 import * as THREE from "three"
 import { RoundedBoxGeometry } from "three-stdlib"
 import { accentMap, useMossStore } from "@/stores/useMossStore"
@@ -131,14 +132,47 @@ const LATCH_TRACK: Keyframe[] = [
 
 const TRACKS: Keyframe[][] = [MOSS_TRACK, FLICK_TRACK, LATCH_TRACK]
 
-// Small companions behind the cluster. Outer radii keep the autofit honest.
-const PROPS = [
-  { p: [-1.05, -0.85, -1.25], r: 0.48 },
-  { p: [-1.65, 0, -1.4], r: 0.34 },
-  { p: [-1.75, -1.25, -1.35], r: 0.32 },
-  { p: [-0.45, -1.3, -1.05], r: 0.25 },
-  { p: [1.55, 1.25, -2], r: 0.65 },
+type PropKind = "cube" | "sphere" | "torus" | "octa"
+
+interface PropDef {
+  kind: PropKind
+  p: Vec3
+  rot: Vec3
+  size: number
+  tone: "silver" | "accent"
+  bob: number
+  spin: number
+  phase: number
+}
+
+// Companions around the cluster. They may bleed off the frame edges — only
+// the logo cubes drive the autofit.
+const PROP_DEFS: PropDef[] = [
+  { kind: "cube", p: [-1.05, -0.85, -1.25], rot: [0.6, 0.3, 0.2], size: 0.5, tone: "silver", bob: 0.4, spin: 0.18, phase: 0 },
+  { kind: "cube", p: [-1.65, 0, -1.4], rot: [-0.3, 0.5, 0.1], size: 0.34, tone: "accent", bob: 0.55, spin: 0.24, phase: 1.7 },
+  { kind: "sphere", p: [-1.75, -1.25, -1.35], rot: [0, 0, 0], size: 0.44, tone: "accent", bob: 0.7, spin: 0, phase: 3.2 },
+  { kind: "sphere", p: [-0.45, -1.3, -1.05], rot: [0, 0, 0], size: 0.3, tone: "silver", bob: 0.85, spin: 0, phase: 5.1 },
+  { kind: "torus", p: [1.55, 1.25, -2], rot: [1.15, 0.35, 0], size: 1.1, tone: "silver", bob: 0.35, spin: 0.3, phase: 2.4 },
+  { kind: "sphere", p: [2.15, -0.6, -1.5], rot: [0, 0, 0], size: 0.36, tone: "silver", bob: 0.75, spin: 0, phase: 0.9 },
+  { kind: "sphere", p: [2.6, 0.4, -1.15], rot: [0, 0, 0], size: 0.24, tone: "accent", bob: 0.6, spin: 0, phase: 4.4 },
+  { kind: "octa", p: [-2.3, 1.1, -1.9], rot: [0.4, 0.8, 0.2], size: 0.5, tone: "accent", bob: 0.5, spin: 0.32, phase: 2.9 },
+  { kind: "cube", p: [-2.4, -0.65, -1.55], rot: [0.35, -0.5, 0.15], size: 0.3, tone: "silver", bob: 0.45, spin: 0.22, phase: 5.8 },
+  { kind: "sphere", p: [0.75, -1.35, -1.8], rot: [0, 0, 0], size: 0.52, tone: "silver", bob: 0.5, spin: 0, phase: 1.2 },
+  { kind: "torus", p: [-0.2, 1.35, -2.2], rot: [1.35, 0.25, 0.4], size: 0.7, tone: "accent", bob: 0.4, spin: 0.26, phase: 3.7 },
 ]
+
+function propExtent(d: PropDef) {
+  switch (d.kind) {
+    case "cube":
+      return d.size * 0.8
+    case "sphere":
+      return d.size * 0.5
+    case "torus":
+      return d.size * 0.57
+    case "octa":
+      return d.size * 0.5
+  }
+}
 
 const LOGO_SOURCES = [
   { url: "/assets/moss_logo.svg", letter: "M" },
@@ -146,18 +180,35 @@ const LOGO_SOURCES = [
   { url: "/assets/logos/latch_logo.svg", letter: "L" },
 ]
 
-const textureCache = new Map<string, Promise<THREE.CanvasTexture>>()
+interface FaceMaps {
+  map: THREE.CanvasTexture
+  emissiveMap: THREE.CanvasTexture
+}
+
+const textureCache = new Map<string, Promise<FaceMaps>>()
 
 function getFaceTexture(url: string, letter: string) {
   const cached = textureCache.get(url)
   if (cached) return cached
-  const promise = new Promise<THREE.CanvasTexture>((resolve) => {
+  const promise = new Promise<FaceMaps>((resolve) => {
     const size = 512
     const canvas = document.createElement("canvas")
     canvas.width = canvas.height = size
+    const glowCanvas = document.createElement("canvas")
+    glowCanvas.width = glowCanvas.height = size
     const ctx = canvas.getContext("2d")
-    if (!ctx) {
-      resolve(new THREE.CanvasTexture(canvas))
+    const gctx = glowCanvas.getContext("2d")
+    const finish = () => {
+      const tex = new THREE.CanvasTexture(canvas)
+      tex.colorSpace = THREE.SRGBColorSpace
+      tex.anisotropy = 8
+      const glow = new THREE.CanvasTexture(glowCanvas)
+      glow.colorSpace = THREE.SRGBColorSpace
+      glow.anisotropy = 8
+      resolve({ map: tex, emissiveMap: glow })
+    }
+    if (!ctx || !gctx) {
+      finish()
       return
     }
     const paint = (img: HTMLImageElement | null) => {
@@ -185,24 +236,34 @@ function getFaceTexture(url: string, letter: string) {
         ctx.stroke()
       }
       ctx.restore()
+
       if (img) {
-        const maxW = size * 0.52
-        const maxH = size * 0.52
+        const maxW = size * 0.56
+        const maxH = size * 0.56
         const scale = Math.min(maxW / img.width, maxH / img.height)
         const w = img.width * scale
         const h = img.height * scale
-        ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h)
+        const x = (size - w) / 2
+        const y = (size - h) / 2
+        ctx.drawImage(img, x, y, w, h)
+        gctx.drawImage(img, x, y, w, h)
+        gctx.globalCompositeOperation = "source-in"
+        gctx.fillStyle = "#ffffff"
+        gctx.fillRect(0, 0, size, size)
+        gctx.globalCompositeOperation = "source-over"
       } else {
         ctx.fillStyle = "#e8e8ea"
         ctx.font = "600 210px 'Space Grotesk', sans-serif"
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
         ctx.fillText(letter, size / 2, size / 2 + 10)
+        gctx.fillStyle = "#ffffff"
+        gctx.font = "600 210px 'Space Grotesk', sans-serif"
+        gctx.textAlign = "center"
+        gctx.textBaseline = "middle"
+        gctx.fillText(letter, size / 2, size / 2 + 10)
       }
-      const tex = new THREE.CanvasTexture(canvas)
-      tex.colorSpace = THREE.SRGBColorSpace
-      tex.anisotropy = 8
-      resolve(tex)
+      finish()
     }
     const img = new Image()
     img.onload = () => paint(img)
@@ -214,13 +275,13 @@ function getFaceTexture(url: string, letter: string) {
 }
 
 function Cube({
-  texture,
+  maps,
   track,
   phase,
   frozen,
   geometry,
 }: {
-  texture: THREE.Texture
+  maps: FaceMaps
   track: Keyframe[]
   phase: number
   frozen: boolean
@@ -255,7 +316,10 @@ function Cube({
   return (
     <mesh ref={ref} geometry={geometry}>
       <meshPhysicalMaterial
-        map={texture}
+        map={maps.map}
+        emissiveMap={maps.emissiveMap}
+        emissive="#ffffff"
+        emissiveIntensity={0.9}
         metalness={0.88}
         roughness={0.3}
         clearcoat={0.55}
@@ -295,7 +359,8 @@ function Rig({
     const t = frozen ? FROZEN_T : state.clock.elapsedTime % LOOP
     let maxX = 0
     let maxY = 0
-    let maxZ = 0
+    let closestZ = -Infinity
+    let spreadZ = 0
     for (const track of tracks) {
       sampleTrack(track, t, sp.current, sr.current)
       _euler.set(sr.current[0], sr.current[1], sr.current[2])
@@ -303,19 +368,31 @@ function Rig({
       const e = _mat.elements
       const hx = 0.5 * (Math.abs(e[0]) + Math.abs(e[4]) + Math.abs(e[8])) + 0.05
       const hy = 0.5 * (Math.abs(e[1]) + Math.abs(e[5]) + Math.abs(e[9])) + 0.05
+      const hz = 0.5 * (Math.abs(e[2]) + Math.abs(e[6]) + Math.abs(e[10])) + 0.05
       maxX = Math.max(maxX, Math.abs(sp.current[0]) + hx)
       maxY = Math.max(maxY, Math.abs(sp.current[1]) + hy)
-      maxZ = Math.max(maxZ, sp.current[2])
+      closestZ = Math.max(closestZ, sp.current[2] + hz)
+      spreadZ = Math.max(spreadZ, Math.abs(sp.current[2]) + hz)
     }
-    for (const pr of PROPS) {
-      maxX = Math.max(maxX, Math.abs(pr.p[0]) + pr.r)
-      maxY = Math.max(maxY, Math.abs(pr.p[1]) + pr.r)
-      maxZ = Math.max(maxZ, pr.p[2])
+    for (const d of PROP_DEFS) {
+      const r = propExtent(d)
+      const fp = CAM_Z / (CAM_Z - d.p[2])
+      maxX = Math.max(maxX, (Math.abs(d.p[0]) + r) * fp)
+      maxY = Math.max(maxY, (Math.abs(d.p[1]) + r) * fp)
+      spreadZ = Math.max(spreadZ, Math.abs(d.p[2]) + r)
     }
-    const f = CAM_Z / (CAM_Z - maxZ)
-    const need = Math.max(maxX * f, maxY * f + 0.11) * 2 * 1.02
-    const avail = Math.min(viewport.width, viewport.height) * 0.97
-    const targetScale = Math.min(1.4, avail / need)
+    const f = CAM_Z / (CAM_Z - closestZ)
+    const rx = g.rotation.x
+    const ry = g.rotation.y
+    const ex = maxX * Math.abs(Math.cos(ry)) + spreadZ * Math.abs(Math.sin(ry))
+    const ey = maxY * Math.abs(Math.cos(rx)) + spreadZ * Math.abs(Math.sin(rx))
+    const needX = (ex * f + 0.12) * 2 * 1.02
+    const needY = (ey * f + 0.12) * 2 * 1.02
+    const targetScale = Math.min(
+      1.8,
+      (viewport.width * 0.94) / needX,
+      (viewport.height * 0.94) / needY
+    )
 
     if (frozen) {
       g.scale.setScalar(targetScale)
@@ -324,13 +401,36 @@ function Rig({
       return
     }
     const e = state.clock.elapsedTime
-    g.scale.setScalar(THREE.MathUtils.lerp(g.scale.x, targetScale, 0.05))
+    const next = THREE.MathUtils.lerp(g.scale.x, targetScale, 0.05)
+    g.scale.setScalar(Math.min(next, targetScale))
     g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, pointer.current.x * 0.22, 0.05)
     g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, -pointer.current.y * 0.14, 0.05)
     g.position.y = Math.sin(e * 0.5) * 0.07
   })
 
   return <group ref={group}>{children}</group>
+}
+
+const SILVER = {
+  metalness: 0.9,
+  roughness: 0.26,
+  clearcoat: 0.6,
+  clearcoatRoughness: 0.2,
+  envMapIntensity: 1.2,
+}
+const CHROME = {
+  metalness: 0.95,
+  roughness: 0.15,
+  clearcoat: 0.7,
+  clearcoatRoughness: 0.15,
+  envMapIntensity: 1.3,
+}
+const COLORED = {
+  metalness: 0.92,
+  roughness: 0.22,
+  clearcoat: 0.6,
+  clearcoatRoughness: 0.18,
+  envMapIntensity: 1.25,
 }
 
 function Satellites({
@@ -342,80 +442,127 @@ function Satellites({
   frozen: boolean
   lowEnd: boolean
 }) {
-  const cubeA = useRef<THREE.Mesh>(null!)
-  const cubeB = useRef<THREE.Mesh>(null!)
-  const sphereA = useRef<THREE.Mesh>(null!)
-  const sphereB = useRef<THREE.Mesh>(null!)
-  const torus = useRef<THREE.Mesh>(null!)
+  const refs = useRef<(THREE.Mesh | null)[]>([])
 
   useFrame((state) => {
     if (frozen) return
     const e = state.clock.elapsedTime
-    cubeA.current.rotation.set(e * 0.4, e * 0.3 + 0.6, e * 0.22)
-    cubeB.current.rotation.set(-e * 0.34 + 0.4, e * 0.26, e * 0.5)
-    sphereA.current.position.y = -1.25 + Math.sin(e * 0.7 + 1.2) * 0.07
-    sphereB.current.position.y = -1.3 + Math.sin(e * 0.85 + 3.4) * 0.09
-    torus.current.rotation.z = e * 0.4
+    PROP_DEFS.forEach((d, i) => {
+      const m = refs.current[i]
+      if (!m) return
+      m.position.y = d.p[1] + Math.sin(e * d.bob + d.phase) * 0.06
+      if (d.spin > 0) {
+        m.rotation.set(
+          d.rot[0] + e * d.spin,
+          d.rot[1] + e * d.spin * 0.8,
+          d.rot[2] + Math.sin(e * 0.4 + d.phase) * 0.15
+        )
+      }
+    })
   })
-
-  const silver = {
-    metalness: 0.9,
-    roughness: 0.26,
-    clearcoat: 0.6,
-    clearcoatRoughness: 0.2,
-    envMapIntensity: 1.2,
-  }
-  const colored = {
-    metalness: 0.92,
-    roughness: 0.22,
-    clearcoat: 0.6,
-    clearcoatRoughness: 0.18,
-    envMapIntensity: 1.25,
-  }
 
   return (
     <group>
-      <RoundedBox
-        ref={cubeA}
-        args={[0.5, 0.5, 0.5]}
-        radius={0.125}
-        position={[-1.05, -0.85, -1.25]}
-        rotation={[0.6, 0.3, 0.2]}
-      >
-        <meshPhysicalMaterial color="#c9cdd4" {...silver} />
-      </RoundedBox>
-      <RoundedBox
-        ref={cubeB}
-        args={[0.34, 0.34, 0.34]}
-        radius={0.085}
-        position={[-1.65, 0, -1.4]}
-        rotation={[-0.3, 0.5, 0.1]}
-      >
-        <meshPhysicalMaterial color={accentHex} {...colored} />
-      </RoundedBox>
-      <mesh ref={sphereA} position={[-1.75, -1.25, -1.35]}>
-        <sphereGeometry args={[0.22, lowEnd ? 16 : 24, lowEnd ? 12 : 18]} />
-        <meshPhysicalMaterial color={accentHex} {...colored} />
-      </mesh>
-      <mesh ref={sphereB} position={[-0.45, -1.3, -1.05]}>
-        <sphereGeometry args={[0.15, lowEnd ? 16 : 24, lowEnd ? 12 : 18]} />
-        <meshPhysicalMaterial color="#c9cdd4" {...silver} />
-      </mesh>
-      <mesh ref={torus} position={[1.55, 1.25, -2]} rotation={[1.15, 0.35, 0]}>
-        <torusGeometry args={[0.55, 0.075, lowEnd ? 8 : 12, lowEnd ? 24 : 36]} />
-        <meshPhysicalMaterial color="#c9cdd4" metalness={0.95} roughness={0.15} clearcoat={0.7} clearcoatRoughness={0.15} envMapIntensity={1.3} />
-      </mesh>
+      {PROP_DEFS.map((d, i) => {
+        const material =
+          d.tone === "accent" ? (
+            <meshPhysicalMaterial color={accentHex} {...(d.kind === "torus" ? CHROME : COLORED)} />
+          ) : (
+            <meshPhysicalMaterial
+              color="#c9cdd4"
+              {...(d.kind === "torus" ? CHROME : SILVER)}
+            />
+          )
+        const setRef = (m: THREE.Mesh | null) => {
+          refs.current[i] = m
+        }
+        if (d.kind === "cube") {
+          return (
+            <RoundedBox
+              key={i}
+              ref={setRef}
+              args={[d.size, d.size, d.size]}
+              radius={d.size * 0.25}
+              position={d.p}
+              rotation={d.rot}
+            >
+              {material}
+            </RoundedBox>
+          )
+        }
+        return (
+          <mesh
+            key={i}
+            ref={setRef}
+            position={d.p}
+            rotation={d.rot}
+          >
+            {d.kind === "sphere" ? (
+              <sphereGeometry args={[d.size / 2, lowEnd ? 16 : 24, lowEnd ? 12 : 18]} />
+            ) : d.kind === "torus" ? (
+              <torusGeometry
+                args={[d.size / 2, d.size * 0.068, lowEnd ? 8 : 12, lowEnd ? 24 : 36]}
+              />
+            ) : (
+              <octahedronGeometry args={[d.size / 2, 0]} />
+            )}
+            {material}
+          </mesh>
+        )
+      })}
+    </group>
+  )
+}
+
+function Dust({ frozen, lowEnd }: { frozen: boolean; lowEnd: boolean }) {
+  const group = useRef<THREE.Group>(null!)
+  const positions = useMemo(() => {
+    const count = lowEnd ? 70 : 150
+    const arr = new Float32Array(count * 3)
+    const rand = (n: number) => {
+      const x = Math.sin(n * 127.1 + 311.7) * 43758.5453
+      return x - Math.floor(x)
+    }
+    for (let i = 0; i < count; i++) {
+      arr[i * 3] = (rand(i * 3 + 1) - 0.5) * 11
+      arr[i * 3 + 1] = (rand(i * 3 + 2) - 0.5) * 6
+      arr[i * 3 + 2] = 0.5 - rand(i * 3 + 3) * 4
+    }
+    return arr
+  }, [lowEnd])
+
+  useFrame((state) => {
+    if (frozen) return
+    group.current.rotation.y = state.clock.elapsedTime * 0.02
+  })
+
+  return (
+    <group ref={group}>
+      <points>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.03}
+          sizeAttenuation
+          transparent
+          opacity={0.45}
+          color="#cfd6de"
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
     </group>
   )
 }
 
 function CubeScene({
-  textures,
+  faces,
   frozen,
   lowEnd,
   accentHex,
 }: {
-  textures: THREE.Texture[]
+  faces: FaceMaps[]
   frozen: boolean
   lowEnd: boolean
   accentHex: string
@@ -432,22 +579,23 @@ function CubeScene({
       <directionalLight position={[3.5, 5, 4]} intensity={2.2} />
       <pointLight position={[-4, -2.5, 3.5]} intensity={60} color={accentHex} />
       <pointLight position={[4.5, 2.5, 2.5]} intensity={28} color="#9db4ff" />
-      {lowEnd ? null : (
-        <Environment key={accentHex} resolution={256} frames={1}>
-          <color attach="background" args={["#08090b"]} />
-          <Lightformer intensity={3} position={[0, 4, 2]} rotation-x={Math.PI / 2} scale={[8, 4, 1]} />
-          <Lightformer intensity={1.6} position={[-4, 0.5, 1]} rotation-y={Math.PI / 2} scale={[7, 2.2, 1]} color="#dfe8ff" />
-          <Lightformer intensity={1.6} position={[4, -0.5, 1]} rotation-y={-Math.PI / 2} scale={[7, 2.2, 1]} />
-          <Lightformer intensity={2.4} position={[0, 1.5, 5]} scale={[2.5, 2.5, 1]} color={accentHex} />
-          <Lightformer intensity={0.9} position={[0, -4, 1]} rotation-x={-Math.PI / 2} scale={[8, 4, 1]} color={accentHex} />
-        </Environment>
-      )}
+      <directionalLight position={[-3, 2, -3]} intensity={1.1} color={accentHex} />
+      <directionalLight position={[3.5, -1.5, -2.5]} intensity={0.9} color="#9db4ff" />
+      <Environment key={accentHex} resolution={lowEnd ? 64 : 256} frames={1}>
+        <color attach="background" args={["#08090b"]} />
+        <Lightformer intensity={3} position={[0, 4, 2]} rotation-x={Math.PI / 2} scale={[8, 4, 1]} />
+        <Lightformer intensity={1.6} position={[-4, 0.5, 1]} rotation-y={Math.PI / 2} scale={[7, 2.2, 1]} color="#dfe8ff" />
+        <Lightformer intensity={1.6} position={[4, -0.5, 1]} rotation-y={-Math.PI / 2} scale={[7, 2.2, 1]} />
+        <Lightformer intensity={2.4} position={[0, 1.5, 5]} scale={[2.5, 2.5, 1]} color={accentHex} />
+        <Lightformer intensity={0.9} position={[0, -4, 1]} rotation-x={-Math.PI / 2} scale={[8, 4, 1]} color={accentHex} />
+      </Environment>
+      <Dust frozen={frozen} lowEnd={lowEnd} />
       <Rig tracks={TRACKS} frozen={frozen}>
         <Satellites accentHex={accentHex} frozen={frozen} lowEnd={lowEnd} />
-        {textures.map((tex, i) => (
+        {faces.map((face, i) => (
           <Cube
             key={i}
-            texture={tex}
+            maps={face}
             track={TRACKS[i]}
             phase={i * 2.1}
             frozen={frozen}
@@ -455,6 +603,11 @@ function CubeScene({
           />
         ))}
       </Rig>
+      {lowEnd ? null : (
+        <EffectComposer multisampling={4}>
+          <Vignette offset={0.3} darkness={0.6} />
+        </EffectComposer>
+      )}
     </>
   )
 }
@@ -464,13 +617,13 @@ export function HeroCubes({ className }: { className?: string }) {
   const performanceMode = useMossStore((s) => s.performanceMode)
   const reducedMotion = useMossStore((s) => s.reducedMotion)
   const accent = useMossStore((s) => s.accent)
-  const [textures, setTextures] = useState<THREE.Texture[] | null>(null)
+  const [faces, setFaces] = useState<FaceMaps[] | null>(null)
 
   useEffect(() => {
     let alive = true
     Promise.all(LOGO_SOURCES.map((s) => getFaceTexture(s.url, s.letter))).then(
-      (tx) => {
-        if (alive) setTextures(tx)
+      (maps) => {
+        if (alive) setFaces(maps)
       }
     )
     return () => {
@@ -478,7 +631,7 @@ export function HeroCubes({ className }: { className?: string }) {
     }
   }, [])
 
-  if (!textures) return null
+  if (!faces) return null
 
   const lowEnd = isMobile || performanceMode
   const accentHex = accentMap[accent].hex
@@ -494,7 +647,7 @@ export function HeroCubes({ className }: { className?: string }) {
         style={{ pointerEvents: "none" }}
       >
         <CubeScene
-          textures={textures}
+          faces={faces}
           frozen={frozen}
           lowEnd={lowEnd}
           accentHex={accentHex}

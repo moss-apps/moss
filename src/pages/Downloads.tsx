@@ -28,10 +28,21 @@ const LATCH_RELEASE_URL = `https://github.com/moss-apps/Latch/releases/tag/${LAT
 
 const LATCH_DOWNLOAD_BASE = `https://github.com/moss-apps/Latch/releases/download/${LATCH_VERSION}/`
 
-const LATCH_DOWNLOAD_GROUPS = [
+const LATCH_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.mossapps.locker"
+
+interface DownloadGroup {
+  title: string
+  description: string
+  playUrl?: string
+  assets: { label: string; name: string }[]
+}
+
+const LATCH_DOWNLOAD_GROUPS: DownloadGroup[] = [
   {
     title: "Mobile app",
-    description: "The Latch Android app.",
+    description: "The Latch Android app. Also available on Google Play.",
+    playUrl: LATCH_PLAY_URL,
     assets: [
       { label: "Android APK", name: "latch_0.18.0-beta.1_official.apk" },
     ],
@@ -409,7 +420,7 @@ export function Downloads() {
                 <p className="mt-1 mb-4 text-xs text-[#8A8A90] leading-relaxed">
                   {group.description}
                 </p>
-                <div className="mt-auto flex flex-wrap gap-3">
+                <div className="mt-auto flex flex-wrap items-center gap-3">
                   {group.assets.map((asset) => (
                     <a
                       key={asset.name}
@@ -420,6 +431,20 @@ export function Downloads() {
                       {asset.label}
                     </a>
                   ))}
+                  {group.playUrl && (
+                    <a
+                      href={group.playUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-md transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                    >
+                      <img
+                        src="/assets/play_badge.png"
+                        alt="Get it on Google Play"
+                        className="h-[42px] w-auto"
+                      />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

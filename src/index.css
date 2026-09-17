@@ -328,6 +328,12 @@ select option {
   color: #0A0A0B;
 }
 
+/* Hide native clear affordance on search inputs (custom button used) */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -75,7 +75,9 @@ export function ImageSlideshow({
     go(idx)
     try {
       ;(e.target as Element).releasePointerCapture(e.pointerId)
-    } catch {}
+    } catch {
+      /* pointer may already be released */
+    }
   }
 
   if (images.length === 0) return null

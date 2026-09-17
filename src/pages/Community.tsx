@@ -6,56 +6,7 @@ import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
 import { ArrowLeft, FileText } from "lucide-react"
 
-import codeOfConductRaw from "../../CODE_OF_CONDUCT.md?raw"
-import contributingRaw from "../../CONTRIBUTING.md?raw"
-import licenseRaw from "../../LICENSE?raw"
-import privacyRaw from "../../PRIVACY.md?raw"
-import readmeRaw from "../../README.md?raw"
-import securityRaw from "../../SECURITY.md?raw"
-import termsRaw from "../../TERMS.md?raw"
-
-type Slug =
-  | "readme"
-  | "contributing"
-  | "code-of-conduct"
-  | "security"
-  | "privacy"
-  | "terms"
-  | "license"
-
-interface Doc {
-  slug: Slug
-  label: string
-  raw: string
-}
-
-const DOCS: Doc[] = [
-  { slug: "readme", label: "Readme", raw: readmeRaw },
-  { slug: "contributing", label: "Contributing", raw: contributingRaw },
-  { slug: "code-of-conduct", label: "Code of Conduct", raw: codeOfConductRaw },
-  { slug: "security", label: "Security", raw: securityRaw },
-  { slug: "privacy", label: "Privacy", raw: privacyRaw },
-  { slug: "terms", label: "Terms", raw: termsRaw },
-  { slug: "license", label: "License", raw: licenseRaw },
-]
-
-const FILE_TO_SLUG: Record<string, Slug> = {
-  readme: "readme",
-  contributing: "contributing",
-  code_of_conduct: "code-of-conduct",
-  codeofconduct: "code-of-conduct",
-  security: "security",
-  privacy: "privacy",
-  terms: "terms",
-  license: "license",
-}
-
-function resolveInternal(href: string): Slug | null {
-  const match = href.match(/^[./\s]*([A-Za-z0-9_-]+?)(?:\.md)?$/)
-  if (!match) return null
-  const key = match[1].toLowerCase().replace(/-/g, "_")
-  return FILE_TO_SLUG[key] ?? null
-}
+import { DOCS, resolveInternal, type DocSlug } from "@/lib/docs"
 
 const panelStyle = {
   borderTop: "1px solid transparent",
@@ -68,7 +19,7 @@ export function Community() {
   const params = useParams<{ slug?: string }>()
   const navigate = useNavigate()
 
-  const slug = (params.slug as Slug | undefined) ?? "readme"
+  const slug = (params.slug as DocSlug | undefined) ?? "readme"
   const active = useMemo(
     () => DOCS.find((d) => d.slug === slug) ?? DOCS[0],
     [slug],

@@ -35,7 +35,10 @@ The dev server runs at `http://localhost:5173` with HMR enabled.
 
 ## Environment Variables
 
-None required. The site is fully static with no server-side dependencies.
+The site renders without environment variables, but the announcements feed and
+admin editor require a Supabase project. Client-exposed values are prefixed with
+`VITE_`; everything else is server-only (Vercel functions in `api/`). See
+`.env.example` for the full list.
 
 ## Adding a New Section
 
@@ -44,9 +47,20 @@ None required. The site is fully static with no server-side dependencies.
 3. Give the section an `id` attribute for anchor linking
 4. Add a corresponding link in `Navigation.tsx` if it should appear in the nav
 
+## Adding a New Route
+
+1. Create the page in `src/pages/YourPage.tsx`
+2. Add it to the route table in `src/main.tsx` (inside the `Layout` route)
+3. Add the path to `src/lib/routes.ts` so the edge middleware treats it as known
+4. Add the URL to `public/sitemap.xml` unless the page should be `noindex`
+
 ## Customizing Content
 
-All app-specific content (mockup paths, screen names, callout text, links) is configured in `src/pages/Home.tsx` and the individual section components under `src/components/`. Static assets live in `public/assets/`. To update app screenshots, replace the PNGs in `public/assets/mockups/`.
+App-specific content (mockup paths, screen names, callout text, links) lives in
+`src/lib/apps.ts` and feeds both the home page and the `/flick` + `/latch`
+product pages. Section components under `src/components/` contain the layout.
+Static assets live in `public/assets/`; to update app screenshots, replace the
+PNGs in `public/assets/mockups/`.
 
 ## Accent Colors
 
@@ -66,6 +80,7 @@ The site is deployed to Vercel at `mosslabs.vercel.app`. Configuration:
 - **Build command**: `pnpm build` (or auto-detected)
 - **Output directory**: `dist`
 - **SPA rewrites**: Handled by `vercel.json` — all routes redirect to `index.html` except `/assets/`
+- **Edge middleware**: `middleware.ts` returns a real `404` status for paths not listed in `src/lib/routes.ts`, while still serving the SPA shell (so the `NotFound` page renders)
 
 To deploy your own instance:
 
@@ -86,6 +101,9 @@ pnpm build
 # Serve the dist/ directory with any static file server
 # Make sure SPA fallback is configured (all routes → index.html)
 ```
+
+> Edge middleware (real 404 status) only runs on Vercel. On other static hosts,
+> unknown routes still render the `NotFound` page but respond with HTTP 200.
 
 ## Assets
 

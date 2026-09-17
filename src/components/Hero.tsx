@@ -1,5 +1,4 @@
 import { useMemo } from "react"
-import { Link } from "react-router"
 import { motion } from "framer-motion"
 import AcidSquares from "@/components/AcidSquares"
 import { HeroCubes } from "@/components/HeroCubes"
@@ -52,8 +51,9 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
+          className="w-full max-w-[34rem] md:max-w-[78rem]"
         >
-          <HeroCubes className="h-[min(clamp(280px,62vw,560px),48vh)] aspect-square md:h-[min(clamp(460px,74vw,920px),60vh,calc(100dvh_-_350px))]" />
+          <HeroCubes className="h-[min(clamp(260px,58vw,520px),46vh)] w-full md:h-[min(clamp(360px,50vw,680px),52vh,calc(100dvh_-_360px))]" />
         </motion.div>
       </div>
 
@@ -77,8 +77,16 @@ export function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65, ease: "easeOut" }}
-          className="glass w-full sm:w-[22rem] md:w-[24rem] shrink-0 p-5 md:p-6"
+          className="glass relative w-full sm:w-[22rem] md:w-[24rem] shrink-0 overflow-hidden rounded-xl p-5 md:p-6"
         >
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px"
+            style={{
+              background:
+                "linear-gradient(to right, transparent 0%, color-mix(in srgb, var(--accent) 55%, transparent) 50%, transparent 100%)",
+            }}
+          />
           <span className="mb-5 block h-px w-10 bg-[var(--accent)]" />
           <p className="text-[15px] md:text-base leading-relaxed text-ink">
             An ecosystem of secure, interconnected creative tools.
@@ -86,21 +94,23 @@ export function Hero() {
           <p className="text-label mt-3">
             Built open-source. No ads. No compromise.
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-end gap-2.5">
+          <div className="mt-6 grid grid-cols-2 gap-2.5">
             <a
               href="https://play.google.com/store/apps/details?id=com.mossapps.flick"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-2.5 rounded-md bg-[var(--accent)] text-canvas font-medium text-sm hover:brightness-110 active:brightness-95 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              className="inline-flex items-center justify-center px-4 py-2.5 rounded-md bg-[var(--accent)] text-canvas font-medium text-sm hover:brightness-110 active:brightness-95 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Get Flick
             </a>
-            <Link
-              to="/downloads"
-              className="px-6 py-2.5 rounded-md border border-glass-border text-ink font-medium text-sm hover:bg-glass-hover active:bg-white/10 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            <a
+              href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-4 py-2.5 rounded-md border border-glass-border text-ink font-medium text-sm hover:bg-glass-hover active:bg-white/10 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             >
               Get Latch
-            </Link>
+            </a>
           </div>
         </motion.div>
       </div>

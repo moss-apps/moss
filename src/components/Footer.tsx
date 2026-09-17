@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { Mail, Coffee } from "lucide-react"
+import { Mail, Coffee, Send, Search } from "lucide-react"
 
 export function Footer() {
   return (
@@ -28,24 +28,33 @@ export function Footer() {
             <div className="text-sm font-sans font-medium text-[#8A8A90]">Ecosystem</div>
             <ul className="space-y-2">
               <li>
-                <a href="#ecosystem" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <a href="/#ecosystem" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Overview
                 </a>
               </li>
               <li>
-                <a href="#latch" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <Link to="/latch" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Latch
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#flick" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <Link to="/flick" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Flick
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#integration" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
+                <a href="/#integration" className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors">
                   Integration
                 </a>
+              </li>
+              <li>
+                <Link
+                  to="/search"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  Search
+                </Link>
               </li>
               <li>
                 <Link
@@ -109,6 +118,15 @@ export function Footer() {
           <div className="space-y-4">
             <div className="text-sm font-sans font-medium text-[#8A8A90]">Connect</div>
             <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-sm text-[#8A8A90] hover:text-[#F5F5F5] transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  Contact
+                </Link>
+              </li>
               <li>
                 <a
                   href="https://github.com/moss-apps"

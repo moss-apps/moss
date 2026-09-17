@@ -59,5 +59,6 @@ Disallow: /
 # --- Everyone else: allow, keep SEO open ---
 User-agent: *
 Allow: /
+Disallow: /admin
 
 Sitemap: https://mosslabs.vercel.app/sitemap.xml
