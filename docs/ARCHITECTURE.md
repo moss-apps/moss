@@ -4,41 +4,72 @@ This document describes the structure, component tree, and design patterns of th
 
 ## Overview
 
-A single-page landing site for Moss Laboratories built with React 19, Vite 8, and TypeScript. It consists of six scrollable sections, a sticky navigation bar, an interactive canvas background, and a loading splash screen.
+A multi-route site for Moss Laboratories built with React 19, Vite 8, and TypeScript. The home route consists of six scrollable sections; secondary routes (downloads, changelog, announcements, community docs, per-app pages, contact, search) share the same shell. Every route renders through a top-level error boundary and a shared layout with a sticky navigation bar, an interactive canvas background, and a loading splash screen.
 
 ```
-index.html  →  main.tsx  →  App.tsx
-                              ├── LoadingScreen
-                              ├── Navigation (sticky)
-                              └── main
-                                   ├── Hero
-                                   ├── Ecosystem
-                                   ├── DiagonalMockupShowcase (Latch)
-                                   ├── DiagonalMockupShowcase (Flick)
-                                   ├── BrokenGridIntegration
-                                   ├── Ethos
-                                   └── Footer
+index.html  →  main.tsx  →  BrowserRouter → ErrorBoundary
+                                             └── Layout
+                                                  ├── ScrollToTop
+                                                  ├── LoadingScreen
+                                                  ├── Navigation (sticky) + AnnouncementBanner
+                                                  ├── main-content (Outlet)
+                                                  ├── BackToTop
+                                                  └── Footer
 ```
+
+## Routing
+
+Route definitions live in `src/main.tsx`; all routes render inside `Layout`.
+
+| Path | Page |
+|------|------|
+| `/` | `Home` — landing sections |
+| `/flick`, `/latch` | `AppPage` — shared product page, configured from `src/lib/apps.ts` |
+| `/downloads` | `Downloads` — Latch downloads + live GitHub stats |
+| `/changelog` | `Changelog` — release feed for both repos |
+| `/announcements`, `/announcements/:id` | `Announcements`, `AnnouncementDetail` |
+| `/community`, `/community/:slug` | `Community` — bundled markdown docs |
+| `/contact` | `Contact` — channels + mailto composer |
+| `/search` | `Search` — client-side search (noindex) |
+| `/admin` | `Admin` — password-gated announcement editor |
+| `*` | `NotFound` — 404 UI, noindex |
+
+Known paths are also listed in `src/lib/routes.ts`, which the root
+`middleware.ts` (Vercel Edge Middleware) uses to return a real `404` HTTP
+status for unknown routes while still serving the SPA shell. `vercel.json`
+continues to rewrite all other paths to `index.html`.
 
 ## Directory Layout
 
 ```
 src/
-  main.tsx                  # ReactDOM.createRoot, renders <App />
-  App.tsx                   # Root component, orchestrates all sections
+  main.tsx                  # ReactDOM.createRoot + route table
   index.css                 # Global styles — Tailwind directives + custom utility classes
-  components/               # UI components (one per section + shared)
+  pages/                    # Route components (see Routing above)
+  components/               # UI components (sections, shell, shared)
   components/ui/            # shadcn/ui primitives (button.tsx)
-  hooks/                    # Custom React hooks
-  lib/                      # Utility functions (cn() from clsx + tailwind-merge)
+  hooks/                    # Custom React hooks (SWR data fetching, viewport)
+  lib/                      # apps.ts (app catalog), docs.ts (bundled docs),
+                            # routes.ts (route matcher), announcements.ts helpers
   shaders/                  # GLSL fragment shader source files
   stores/                   # Zustand state management
   types/                    # TypeScript type declarations (currently empty)
+middleware.ts               # Vercel edge middleware — 404 status for unknown routes
 ```
 
 ## Component Architecture
 
-Each section is a self-contained component. Configuration data (mockup paths, screen names, callout text) lives in `App.tsx` and is passed as props — sections themselves contain no hardcoded app-specific strings.
+Each section is a self-contained component. Configuration data (mockup paths, screen names, callout text) lives in `src/lib/apps.ts` and is passed as props — sections themselves contain no hardcoded app-specific strings.
+
+### Shell components
+
+- **`ErrorBoundary`** — top-level class component. Catches render errors, logs them, and shows a 500-style fallback with reload/home actions.
+- **`ScrollToTop`** — resets scroll on route change; honors `#hash` targets by scrolling the matched element into view.
+- **`BackToTop`** — floating button that appears past 600px of scroll; snaps instantly when reduced motion is preferred.
+
+### `NotFound`
+
+Renders for unmatched paths: terminal-style request readout (`GET /path → 404`), suggested routes, and links home/search. Sets `noindex` and pairs with the edge middleware for a real 404 status.
 
 ### `LoadingScreen`
 Full-screen overlay shown on first visit. Renders an SVG logo with animated metallic circles and a blinking "System Initialized" sequence. Calls `onComplete` via prop to unmount itself.
