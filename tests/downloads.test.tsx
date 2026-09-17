@@ -29,11 +29,14 @@ describe("Latch downloads", () => {
 
     expect(links.map((link) => link.getAttribute("href"))).toEqual([
       `${base}latch_0.18.0-beta.1_official.apk`,
+      "https://play.google.com/store/apps/details?id=com.mossapps.locker",
       `${base}latchd-linux-amd64`,
       `${base}latchd-linux-arm64`,
       `${base}latchd-windows-amd64.exe`,
       "https://github.com/moss-apps/Latch/releases/tag/0.18.0-beta.1",
     ])
+    const badge = section.querySelector('img[alt="Get it on Google Play"]')
+    expect(badge).not.toBeNull()
     expect(section.textContent).toContain("Beta")
     expect(section.textContent).toContain("Mobile app")
     expect(section.textContent).toContain("Desktop companion")
