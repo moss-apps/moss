@@ -68,7 +68,7 @@ const redisUrl =
 const redisToken =
   process.env.MOSS_KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN
 
-const redis =
+export const redis =
   redisUrl && redisToken
     ? new Redis({ url: redisUrl, token: redisToken })
     : null
