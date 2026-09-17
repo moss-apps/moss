@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import { Link } from "react-router"
 import { motion } from "framer-motion"
 import AcidSquares from "@/components/AcidSquares"
 import { HeroCubes } from "@/components/HeroCubes"
@@ -94,14 +95,12 @@ export function Hero() {
             >
               Get Flick
             </a>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.mossapps.locker"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/downloads"
               className="px-6 py-2.5 rounded-md border border-glass-border text-ink font-medium text-sm hover:bg-glass-hover active:bg-white/10 transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             >
               Get Latch
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>

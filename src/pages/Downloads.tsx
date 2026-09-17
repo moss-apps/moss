@@ -22,6 +22,32 @@ const REPO_META: Record<Repo, { label: string; logo: string; color: string; gith
   },
 }
 
+const LATCH_VERSION = "0.18.0-beta.1"
+
+const LATCH_RELEASE_URL = `https://github.com/moss-apps/Latch/releases/tag/${LATCH_VERSION}`
+
+const LATCH_DOWNLOAD_BASE = `https://github.com/moss-apps/Latch/releases/download/${LATCH_VERSION}/`
+
+const LATCH_DOWNLOAD_GROUPS = [
+  {
+    title: "Mobile app",
+    description: "The Latch Android app.",
+    assets: [
+      { label: "Android APK", name: "latch_0.18.0-beta.1_official.apk" },
+    ],
+  },
+  {
+    title: "Desktop companion",
+    description:
+      "latchd hosts Latch Web for pairing and encrypted vault backups over Wi-Fi or USB.",
+    assets: [
+      { label: "Linux · x64", name: "latchd-linux-amd64" },
+      { label: "Linux · ARM64", name: "latchd-linux-arm64" },
+      { label: "Windows · x64", name: "latchd-windows-amd64.exe" },
+    ],
+  },
+]
+
 interface SeriesPoint {
   date: number
   value: number
@@ -327,7 +353,7 @@ export function Downloads() {
       <title>Downloads — Moss Laboratories</title>
       <meta
         name="description"
-        content="All-time cumulative downloads for Latch and Flick release assets, pulled live from GitHub."
+        content="Download Latch for Android and its desktop companion for Linux and Windows. View all-time download stats for Latch and Flick."
       />
       <PlasmaWave />
       <div className="relative z-10 max-w-7xl mx-auto">
@@ -353,6 +379,60 @@ export function Downloads() {
             pulled live from GitHub, summed across every version.
           </p>
         </div>
+
+        <section aria-labelledby="latch-download-title" className="mb-12 border-y border-white/10 py-8">
+          <div className="flex flex-wrap items-center gap-3 mb-3">
+            <img src={REPO_META.Latch.logo} alt="" className="w-8 h-8" />
+            <h2 id="latch-download-title" className="font-display text-2xl text-[#F5F5F5]">
+              Download Latch
+            </h2>
+            <span className="text-sm text-[#8A8A90]">{LATCH_VERSION} · Beta</span>
+          </div>
+          <p className="text-sm text-[#8A8A90] mb-6 max-w-xl leading-relaxed">
+            The Android app and the latchd desktop companion. Downloads are hosted
+            on GitHub.
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {LATCH_DOWNLOAD_GROUPS.map((group) => (
+              <div
+                key={group.title}
+                className="flex flex-col p-5"
+                style={{
+                  borderTop: "1px solid transparent",
+                  borderImage:
+                    "linear-gradient(to right, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.14) 20%, rgba(255,255,255,0.14) 80%, rgba(255,255,255,0.06) 100%) 1",
+                }}
+              >
+                <h3 className="font-display text-lg text-[#F5F5F5]">
+                  {group.title}
+                </h3>
+                <p className="mt-1 mb-4 text-xs text-[#8A8A90] leading-relaxed">
+                  {group.description}
+                </p>
+                <div className="mt-auto flex flex-wrap gap-3">
+                  {group.assets.map((asset) => (
+                    <a
+                      key={asset.name}
+                      href={LATCH_DOWNLOAD_BASE + asset.name}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md border border-white/15 text-sm font-medium text-[#F5F5F5] transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                    >
+                      <Download className="w-4 h-4" aria-hidden="true" />
+                      {asset.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <a
+            href={LATCH_RELEASE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 text-sm text-[#F5F5F5] underline underline-offset-4 hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          >
+            Release notes, checksums & setup instructions
+          </a>
+        </section>
 
         {/* Loading */}
         {isLoading && (
