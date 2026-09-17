@@ -88,8 +88,8 @@ pnpm preview    # Serve the production build locally
 
 ## Project Structure
 
-A single-page entry that mounts a `BrowserRouter` with three routes
-(`src/main.tsx`):
+A single-page entry that mounts a `BrowserRouter` with the route table in
+`src/main.tsx`:
 
 ```
 src/
@@ -97,11 +97,22 @@ src/
   index.css                   # Tailwind + custom brutalist/glass styles
   pages/
     Home.tsx                  # Landing — assembles all sections
-    Downloads.tsx             # App download links
+    Downloads.tsx             # App download links + live stats
     Changelog.tsx             # GitHub releases feed (react-markdown)
+    Announcements.tsx         # Announcement index
+    AnnouncementDetail.tsx    # Single announcement
+    Community.tsx             # Bundled docs (README, privacy, terms…)
+    AppPage.tsx               # Shared Flick/Latch product page (/flick, /latch)
+    Contact.tsx               # Contact channels + mailto composer
+    Search.tsx                # Client-side search across announcements, releases, docs
+    NotFound.tsx              # 404 status page
+    Admin.tsx                 # Announcement admin (password-gated)
   components/
     Layout.tsx                # Route shell: nav + <Outlet/> + footer + boot screen
-    Navigation.tsx            # Sticky nav + accent/theme picker
+    ErrorBoundary.tsx         # Top-level render error fallback (500 UI)
+    ScrollToTop.tsx           # Scroll restoration on route change
+    BackToTop.tsx             # Floating back-to-top button
+    Navigation.tsx            # Sticky nav + accent/theme picker + search entry
     Hero.tsx                  # Full-viewport hero
     Ecosystem.tsx             # Apps overview section
     AppShowcase.tsx           # Flick + Latch feature grid (live release data)
@@ -119,13 +130,19 @@ src/
   hooks/
     useGitHubRelease.ts       # Single release fetch (SWR)
     useGitHubReleases.ts      # Release list fetch (SWR)
+    useAnnouncements.ts       # Announcements fetch (Supabase REST, SWR)
     useIsMobile.ts            # Viewport breakpoint hook
   lib/
+    apps.ts                   # Flick/Latch catalog shared by Home + app pages
+    docs.ts                   # Community documents + slug resolution
+    routes.ts                 # Known-route matcher (shared with edge middleware)
+    announcements.ts          # Announcement types + helpers
     utils.ts                  # cn() class-merge helper
   shaders/
     dotField.frag             # GLSL fragment shader
   stores/
     useMossStore.ts           # Zustand store (accent color + prefs, persisted)
+middleware.ts                 # Vercel edge middleware — real 404 status for unknown routes
 public/
   favicon.svg
   assets/                     # Logos, banners, mockups
@@ -189,7 +206,7 @@ Source code is licensed under the **GNU Affero General Public License v3.0 or la
 
 ## Deployment
 
-Deployed on Vercel at [mosslabs.vercel.app](https://mosslabs.vercel.app) with SPA rewrite rules (all routes → `index.html` except `/assets/`). The `vercel.json` handles this. A push to the connected branch deploys automatically.
+Deployed on Vercel at [mosslabs.vercel.app](https://mosslabs.vercel.app) with SPA rewrite rules (all routes → `index.html` except `/assets/`). The `vercel.json` handles this. A root `middleware.ts` (Vercel Edge Middleware) returns a real **404** status for unknown routes while still serving the SPA shell, so crawlers see correct status codes. A push to the connected branch deploys automatically.
 
 ---
 
