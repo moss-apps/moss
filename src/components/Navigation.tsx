@@ -3,7 +3,7 @@ import { createPortal } from "react-dom"
 import { Link, useLocation } from "react-router"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMossStore, type AccentColor } from "@/stores/useMossStore"
-import { Menu, X, Zap, Gauge, RefreshCw } from "lucide-react"
+import { Menu, X, Zap, Gauge, RefreshCw, Search } from "lucide-react"
 
 const accentOptions: { key: AccentColor; label: string }[] = [
   { key: "teal", label: "Teal" },
@@ -88,6 +88,16 @@ export function Navigation() {
 
         {/* Controls */}
         <div className="flex items-center gap-2 shrink-0 ml-auto md:ml-0 md:flex-1 md:justify-end">
+          {/* Search */}
+          <Link
+            to="/search"
+            aria-label="Search"
+            title="Search"
+            className="p-1.5 text-[#8A8A90] hover:text-[#F5F5F5] transition-colors"
+          >
+            <Search className="w-4 h-4" />
+          </Link>
+
           {/* Performance toggle */}
           <button
             onClick={togglePerformanceMode}
@@ -212,6 +222,13 @@ export function Navigation() {
                   </a>
                 )
               })}
+              <Link
+                to="/search"
+                onClick={() => setOpen(false)}
+                className="block px-3 py-2 text-sm rounded-md hover:bg-white/5 text-[#8A8A90] hover:text-[#F5F5F5]"
+              >
+                Search
+              </Link>
               <div className="pt-3 flex flex-col gap-3">
                 <button
                   onClick={togglePerformanceMode}
