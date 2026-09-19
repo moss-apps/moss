@@ -9,7 +9,7 @@ import { motion, AnimatePresence, wrap } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMossStore } from "@/stores/useMossStore";
-import { useIsMobile } from "@/hooks/useIsMobile";
+import { useViewportSize } from "@/hooks/useViewportSize";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { MockupLoader } from "./MockupLoader";
 
@@ -48,6 +48,28 @@ const CALLOUT_POSITIONS = [
   { left: 4, top: 44 },
   { left: 4, top: 52 },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Compact position table — anchors the diagonal for narrow screens   */
+/* ------------------------------------------------------------------ */
+
+const COMPACT_POSITIONS = [
+  { left: 18.5, top: 13 },
+  { left: 26, top: 18 },
+  { left: 33.5, top: 23.5 },
+  { left: 41, top: 29 },
+  { left: 48.5, top: 34 },
+  { left: 56, top: 38.5 },
+];
+
+/** Below this width the section switches to the touch carousel */
+const SHOWCASE_MIN_WIDTH = 1024;
+/** Width at which the desktop composition reaches its full spread */
+const SHOWCASE_MAX_WIDTH = 1920;
+
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const smoothstep = (t: number) => t * t * (3 - 2 * t);
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /** Which side each callout sits on */
 const CALLOUT_SIDES = [
@@ -115,11 +137,12 @@ export function DiagonalMockupShowcase({
   const calloutRefs = useRef<(HTMLDivElement | null)[]>([]);
   const logoRef = useRef<HTMLDivElement | null>(null);
 
-  const isMobile = useIsMobile();
+  const { width: viewportWidth } = useViewportSize();
   const performanceMode = useMossStore((s) => s.performanceMode);
   const reducedMotion = useMossStore((s) => s.reducedMotion);
 
-  const disableChoreography = isMobile || performanceMode || reducedMotion;
+  const isCompact = viewportWidth < SHOWCASE_MIN_WIDTH;
+  const disableChoreography = isCompact || performanceMode || reducedMotion;
 
   /* GSAP pin + scrub (desktop only, motion enabled) */
   useLayoutEffect(() => {
@@ -234,7 +257,20 @@ export function DiagonalMockupShowcase({
     calloutRefs.current[i] = el;
   }, []);
 
-  const positions = POSITIONS;
+  const layoutT = smoothstep(
+    clamp01(
+      (viewportWidth - SHOWCASE_MIN_WIDTH) /
+        (SHOWCASE_MAX_WIDTH - SHOWCASE_MIN_WIDTH),
+    ),
+  );
+
+  const positions = POSITIONS.map((full, i) => {
+    const compact = COMPACT_POSITIONS[i];
+    return {
+      left: lerp(compact.left, full.left, layoutT),
+      top: lerp(compact.top, full.top, layoutT),
+    };
+  });
 
   /* ---------------------------------------------------------------- */
   /*  Mobile carousel helper state                                     */
@@ -247,13 +283,13 @@ export function DiagonalMockupShowcase({
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isCompact) return;
     mockups.forEach((src, i) => {
       const img = new Image();
       img.onload = () => setLoadedImages((prev) => ({ ...prev, [i]: true }));
       img.src = src;
     });
-  }, [isMobile, mockups]);
+  }, [isCompact, mockups]);
 
   const swipeThreshold = 50;
   const swipePower = (offset: number, velocity: number) =>
@@ -267,10 +303,10 @@ export function DiagonalMockupShowcase({
   /* ---------------------------------------------------------------- */
   /*  Mobile carousel render                                           */
   /* ---------------------------------------------------------------- */
-  if (isMobile) {
+  if (isCompact) {
     return (
-      <section id={id} className="relative py-20 md:py-24 px-4">
-        <div className="max-w-lg mx-auto">
+      <section id={id} className="relative py-20 md:py-24 px-4 sm:px-6">
+        <div className="max-w-lg md:max-w-xl mx-auto">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -290,7 +326,7 @@ export function DiagonalMockupShowcase({
               <img
                 src={logoSrc}
                 alt={appName}
-                className="h-70 metallic-paint opacity-30"
+                className="h-70 md:h-80 metallic-paint opacity-30"
               />
               {/* Gradient overlay: transparent at bottom, 70% black at top */}
               <div
@@ -327,7 +363,7 @@ export function DiagonalMockupShowcase({
                   <div className="text-sm font-sans font-medium text-[#8A8A90]">
                     {screenNames[carouselIndex]}
                   </div>
-                  <div className="relative w-full max-w-[220px]">
+                  <div className="relative w-full max-w-[220px] md:max-w-[260px]">
                     <div
                       className={`transition-opacity duration-300 ${
                         loadedImages[carouselIndex]
@@ -404,7 +440,7 @@ export function DiagonalMockupShowcase({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="mt-8 text-center max-w-[260px] mx-auto"
+              className="mt-8 text-center max-w-[260px] md:max-w-[320px] mx-auto"
             >
               <h4 className="font-display text-sm text-[#F5F5F5] mb-1.5">
                 // {String(carouselIndex + 1).padStart(2, "0")} —{" "}
@@ -454,19 +490,19 @@ export function DiagonalMockupShowcase({
       {/* Brutalist header — animates from center to corner */}
       <div
         ref={logoRef}
-        className="absolute top-6 left-6 md:top-8 md:left-8 z-20"
+        className="absolute top-[clamp(16px,3.5vh,32px)] left-[clamp(16px,2.5vw,32px)] z-20"
         style={{
           opacity: disableChoreography ? undefined : 0,
           willChange: disableChoreography ? undefined : "transform, opacity",
         }}
       >
-        <div className="text-sm font-sans font-medium text-[var(--accent)] mb-2">
+        <div className="text-[clamp(11px,0.8vw,14px)] font-sans font-medium text-[var(--accent)] mb-2">
           {headerLabel}
         </div>
         <img
           src={logoSrc}
           alt={appName}
-          className="h-10 md:h-12 metallic-paint"
+          className="h-[clamp(28px,min(3vw,4.5vh),48px)] metallic-paint"
         />
       </div>
 
@@ -478,7 +514,7 @@ export function DiagonalMockupShowcase({
           <div
             key={i}
             ref={(el) => setMockupRef(el, i)}
-            className="absolute w-[16vw] max-w-[260px] min-w-[140px]"
+            className="absolute w-[clamp(112px,min(15vw,24vh),260px)]"
             style={{
               left: `${pos.left}%`,
               top: `${pos.top}%`,
@@ -492,7 +528,7 @@ export function DiagonalMockupShowcase({
             }}
           >
             {/* Metadata label */}
-            <div className="text-sm font-sans font-medium text-[#8A8A90] mb-1 whitespace-nowrap">
+            <div className="text-[clamp(11px,0.75vw,14px)] font-sans font-medium text-[#8A8A90] mb-1 whitespace-nowrap">
               {screenNames[i]}
             </div>
             <img
@@ -538,7 +574,7 @@ export function DiagonalMockupShowcase({
           <div
             key={`callout-${i}`}
             ref={(el) => setCalloutRef(el, i)}
-            className={`absolute glass rounded-[2px] p-3 md:p-4 max-w-[200px] md:max-w-[240px] ${leaderClass}`}
+            className={`absolute glass rounded-[2px] p-[clamp(10px,1.1vw,16px)] max-w-[clamp(150px,15.5vw,240px)] ${leaderClass}`}
             style={{
               ...posStyle,
               zIndex: 30,
@@ -555,10 +591,10 @@ export function DiagonalMockupShowcase({
               }}
             />
             <div className="relative z-10">
-              <h4 className="text-sm font-sans font-medium text-[#F5F5F5] mb-1">
+              <h4 className="text-[clamp(12px,0.85vw,14px)] font-sans font-medium text-[#F5F5F5] mb-1">
                 {callout.title}
               </h4>
-              <p className="text-[10px] md:text-xs text-[#8A8A90] leading-relaxed">
+              <p className="text-[clamp(10px,0.72vw,12px)] text-[#8A8A90] leading-relaxed">
                 {callout.description}
               </p>
             </div>
@@ -567,8 +603,10 @@ export function DiagonalMockupShowcase({
       })}
 
       {/* Brutalist info block — anchored bottom-left of frame */}
-      <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-20">
-        <p className="text-sm font-sans font-medium text-[#8A8A90]">{infoText}</p>
+      <div className="absolute bottom-[clamp(16px,3.5vh,32px)] left-[clamp(16px,2.5vw,32px)] z-20">
+        <p className="text-[clamp(11px,0.8vw,14px)] font-sans font-medium text-[#8A8A90]">
+          {infoText}
+        </p>
       </div>
     </section>
   );
